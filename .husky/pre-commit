@@ -1,3 +1,0 @@
-yarn lint-format
-yarn type-check
-yarn lint:staged
