@@ -114,7 +114,7 @@
     "vite": "^6.1.1",
     "vite-plugin-svgr": "^4.3.0",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.0.6"
+    "vitest": "^4.1.11"
   },
   "optionalDependencies": {
     "chalk": "^5.4.1",
