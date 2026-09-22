@@ -1,19 +1,20 @@
 # Open Kiln
 
-**Verify, not just trust.** An interactive CSR campaign assessment demo for INSEE Ecocycle, built with Next.js and React.
+**Verify, not just trust.** An evidence-led CSR campaign concept for INSEE Ecocycle, built with Next.js and React.
 
-Explore fictional treatment records, inspect evidence and its limitations, and follow verification journeys for EHS teams and industrial park boards. The interface is in English and uses clearly labelled sample data throughout.
+Explore an operational evidence register, original public research and verification journeys for EHS teams and industrial park boards. The English interface distinguishes publisher-attributed research from illustrative operational records. This independently developed campaign concept is not an official INSEE customer portal.
 
 ## What you can explore
 
-- Search four sample records by manifest ID, generator name or treatment date.
-- Read treatment details, monitoring coverage and publication history in accessible dialogs.
-- Compare completed, processing and partial-evidence records.
-- Switch between EHS and industrial park governance pathways, including Q1/Q2 aggregate dashboards.
-- Search and filter 12 library resources: 10 sample documents and two attributed external references.
-- Try guided-visit, roundtable, evidence-request, update and follow-up forms. The success state explicitly says **“Demo complete. No request was sent.”**
+- Browse 24 operational examples across eight fictional organisations. Search by manifest ID, generator or treatment date; filter treatment/evidence status, sort and paginate.
+- Read treatment details, monitoring coverage, limitations and publication revisions in accessible dialogs.
+- Explore the receiving, co-processing and documentation stages in an interactive process schematic.
+- Compare Q1/Q2 park reporting with reconciled treatment totals, evidence-gap rates and an actionable review queue.
+- Search 16 library resources, including six external references from SINTEF, INSEE, EPA and GIZ. Open the ESG dashboard or prepare an evidence request directly from the library.
+- Read historical Vietnam OPTOCE findings in their original scope, separately from the illustrative register.
+- Prepare visit, roundtable, evidence, update and follow-up request summaries. Review is local; **no request is sent**. The official INSEE contact link is available for actual enquiries.
 
-This is a demonstration: no real customer data, regulatory certification, live monitoring, authentication, booking, email delivery or reporting integration is provided. Form entries stay in page memory and are discarded when the form closes.
+The public research is real and cited. Customer-level records, organisations, receiving facilities and park metrics are constructed examples; they never assert a real shipment or regulatory certification. There is no backend, authentication, live monitoring, booking, email delivery or export integration. Form entries remain in page memory and are discarded on close. See [data provenance](docs/data-provenance.md).
 
 ## Run locally
 
@@ -67,7 +68,7 @@ See [dependency versions and compatibility decisions](docs/toolchain.md). Vite r
 ```text
 src/
   app/                     # Layout, metadata, homepage and 404
-  components/ui/           # UI primitives used by the demo
+  components/ui/           # UI primitives used by the experience
   features/open-kiln/      # Campaign sections, client interactions, fixtures and tests
   lib/                     # Shared class-name utility
   styles/                  # Theme tokens and base styles
@@ -79,7 +80,7 @@ e2e/                       # Production browser regression tests
 docs/                      # Dependency verification and browser review guide
 ```
 
-Change record/resource content in `src/features/open-kiln/data.ts`, campaign copy in `OpenKilnPage.tsx`, and visual styles in `open-kiln.css`. `OpenKilnPage.tsx` composes static campaign content on the server. `Experience.tsx` owns client interaction state; `EvidenceOverlay.tsx` owns the accessible dialog shell, lazy content and loading/error recovery; `ExperienceSections.tsx` connects search, pathways and the library. Server-rendered content passes through the client provider as children. Keep static sections out of the client import graph when extending the page.
+Change operational examples in `treatment-records.ts`, editorial resources and governance snapshots in `data.ts`, public references in `references.ts`, campaign copy in `OpenKilnPage.tsx`, and styles in `open-kiln.css` / `experience.css`. These feature paths are relative to `src/features/open-kiln/`. `OpenKilnPage.tsx` composes static campaign content on the server. `Experience.tsx` owns client interaction state; `EvidenceOverlay.tsx` owns the accessible dialog shell, lazy content and loading/error recovery; `ExperienceSections.tsx` connects search, pathways and the library. Server-rendered content passes through the client provider as children. Keep static sections out of the client import graph when extending the page.
 
 ## Quality checks
 
@@ -106,13 +107,15 @@ The personal GitHub repository is connected to the Vercel project **open-kiln**.
 
 `vercel.json` declares the framework, immutable Corepack install and build command. It resets the output directory to the framework default. No application secrets or environment variables are needed. Preview deployments retain Vercel Authentication; the production domain is public.
 
-Work on a feature branch, open a pull request, pass both required checks and review the Vercel preview before merging to `main`. A merge triggers a production deployment. Never redeploy the old Vite commit under the new Next.js preset. See [deployment setup, activation status and rollback](docs/deployment.md) before the first migration release.
+Work on a feature branch, open a pull request, pass both required checks and review the Vercel preview before merging to `main`. A merge triggers a production deployment. Never redeploy the old Vite commit under the new Next.js preset. See [deployment setup, activation status and rollback](docs/deployment.md) when releasing a change.
 
 ## Documentation and references
 
+- [Experience verification and closed findings](docs/verification-2026-09-23.md)
+- [Data provenance and source register](docs/data-provenance.md)
 - [GitHub and Vercel delivery guide](docs/deployment.md)
 - [Dependency versions and compatibility](docs/toolchain.md)
-- [Sample data and browser review guide](docs/open-kiln-demo.md)
+- [Experience and browser review guide](docs/open-kiln-demo.md)
 - [Original landing-page investigation](docs/open-kiln-landing-page-brief.md) — historical requirements context; the README and toolchain guide describe the current implementation.
 
-External EPA and GIZ documents provide technical background; they do not verify any fictional treatment record. The kiln illustration and wordmark are rendered in code. Urbanist is distributed under the SIL Open Font License included with `@fontsource-variable/urbanist`.
+External SINTEF, INSEE, EPA and GIZ publications retain their original dates and scope; they do not verify any illustrative treatment record. The kiln illustration and wordmark are rendered in code. Urbanist is distributed under the SIL Open Font License included with `@fontsource-variable/urbanist`.

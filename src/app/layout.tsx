@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import type { ReactNode } from "react";
 import "@/styles/global.css";
 import "@/features/open-kiln/open-kiln.css";
+import "@/features/open-kiln/experience.css";
 
 const urbanist = localFont({
   src: "../../node_modules/@fontsource-variable/urbanist/files/urbanist-latin-wght-normal.woff2",
@@ -14,12 +15,12 @@ const urbanist = localFont({
 export const metadata: Metadata = {
   title: "Open Kiln — Verify, not just trust",
   description:
-    "Explore a CSR campaign concept with sample treatment records, transparent methodology and two evidence verification journeys.",
+    "Explore the evidence behind waste treatment: a searchable record register, published research and transparent verification pathways.",
   icons: { icon: "/open-kiln.svg" },
   openGraph: {
     title: "Open Kiln — Verify, not just trust",
     description:
-      "Explore the evidence behind the treatment journey. An interactive CSR campaign demo with clearly labelled sample data.",
+      "Explore the evidence behind the treatment journey. Open Kiln is a CSR campaign concept for informed environmental decisions.",
     type: "website",
     locale: "en_GB",
   },

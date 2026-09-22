@@ -10,32 +10,31 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
-import type { DemoRequest, TreatmentRecord } from "@/features/open-kiln/types";
+import type { RequestContext, TreatmentRecord } from "@/features/open-kiln/types";
 
-import { governance, records } from "@/features/open-kiln/data";
-import {
-  Action,
-  Journey,
-  SampleLabel,
-  SectionHeading,
-  StatusBadges,
-  TextAction,
-} from "@/features/open-kiln/Primitives";
+import { featuredRecord, governance, records } from "@/features/open-kiln/data";
+import { Action, Journey, DataLabel, SectionHeading, StatusBadges, TextAction } from "@/features/open-kiln/Primitives";
+import { formatDate } from "@/features/open-kiln/logic";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-export function GovernanceDashboard() {
+export function GovernanceDashboard({ onRequest }: { onRequest: (request: RequestContext) => void }) {
   const [quarter, setQuarter] = useState("Q2");
   const snapshot = governance.find((item) => item.quarter === quarter)!;
   const tonnes = snapshot.months.reduce((total, month) => total + month.tonnes, 0);
   const percentage = ((snapshot.completeRecords / snapshot.totalRecords) * 100).toFixed(1).replace(/\.0$/, "");
+  const incomplete = snapshot.totalRecords - snapshot.completeRecords;
+  const gapRate = (incomplete / snapshot.totalRecords) * 100;
+  const previous = governance[0];
+  const previousGapRate = ((previous.totalRecords - previous.completeRecords) / previous.totalRecords) * 100;
+  const change = gapRate - previousGapRate;
   return (
-    <div className="ok-dashboard" aria-label="Sample park governance dashboard">
+    <div className="ok-dashboard" aria-label="Park governance dashboard">
       <div className="ok-dashboard-head">
         <div>
           <span className="ok-eyebrow">GOVERNANCE PORTAL</span>
           <h3>One park. A clearer picture.</h3>
           <p>
-            Demo Industrial Park <span>·</span> <SampleLabel />
+            Southern industrial cluster <span>·</span> <DataLabel />
           </p>
         </div>
         <div>
@@ -112,16 +111,80 @@ export function GovernanceDashboard() {
         <div className="ok-risk-note">
           <span className="ok-small-label">EVIDENCE READINESS</span>
           <h4>{snapshot.totalRecords - snapshot.completeRecords} records need a closer look.</h4>
-          <p>Follow up on incomplete evidence before the next board review.</p>
+          <p>
+            {quarter === "Q2"
+              ? `Evidence gaps affect ${gapRate.toFixed(1)}% of records, up ${change.toFixed(1)} percentage points from Q1.`
+              : `Evidence gaps affect ${gapRate.toFixed(1)}% of records. This is the baseline period for comparison.`}
+          </p>
+          <div className="ok-gap-comparison" aria-label="Evidence gap rate by quarter">
+            {governance.slice(0, quarter === "Q1" ? 1 : 2).map((item) => {
+              const count = item.totalRecords - item.completeRecords;
+              const rate = (count / item.totalRecords) * 100;
+              return (
+                <div key={item.quarter}>
+                  <span>{item.quarter}</span>
+                  <span className="ok-gap-track">
+                    <i style={{ width: `${(rate / 20) * 100}%` }} />
+                  </span>
+                  <strong>{rate.toFixed(1)}%</strong>
+                  <small>
+                    {count}/{item.totalRecords}
+                  </small>
+                </div>
+              );
+            })}
+          </div>
           <div>
             <ShieldCheck size={16} />
             <span>Aggregated view. No tenant-level access.</span>
           </div>
         </div>
       </div>
+      <div className="ok-issues-header">
+        <div>
+          <span className="ok-small-label">REVIEW QUEUE</span>
+          <h4>Where the evidence needs attention.</h4>
+        </div>
+        <span className="ok-issue-total">{incomplete} open items</span>
+      </div>
+      <div className="ok-issue-list">
+        {snapshot.issues.map((issue, index) => (
+          <article className="ok-issue-item" key={issue.id}>
+            <span className="ok-issue-index">0{index + 1}</span>
+            <div>
+              <h5>{issue.title}</h5>
+              <p>{issue.action}</p>
+              <span>
+                {issue.owner} · Review by {formatDate(issue.dueDate)}
+              </span>
+            </div>
+            <strong>
+              {issue.count}
+              <small>records</small>
+            </strong>
+            <button
+              className="ok-text-action"
+              onClick={() =>
+                onRequest({
+                  kind: "evidence",
+                  title: "Follow up on evidence",
+                  context: `${snapshot.quarter} 2026 · ${issue.title} · ${issue.count} records. ${issue.action}`,
+                })
+              }
+            >
+              Follow up <ArrowUpRight size={16} />
+              <span className="ok-sr-only"> on {issue.title}</span>
+            </button>
+          </article>
+        ))}
+      </div>
+      <p className="ok-issues-note">
+        One primary issue per incomplete record; categories do not overlap. Review dates belong to the historical
+        quarter-end snapshot.
+      </p>
       <p className="ok-dashboard-note">
-        Synthetic park dataset, separate from the four EHS records. Evidence readiness describes document availability,
-        not a regulatory compliance assessment.
+        Illustrative quarter-end dataset, separate from the operational register. Evidence readiness describes document
+        availability, not a regulatory compliance assessment.
       </p>
     </div>
   );
@@ -135,7 +198,7 @@ export function Pathways({
 }: {
   onRecord: (record: TreatmentRecord) => void;
   onResource: (id: string) => void;
-  onRequest: (request: DemoRequest) => void;
+  onRequest: (request: RequestContext) => void;
   onOverview: () => void;
 }) {
   return (
@@ -182,10 +245,10 @@ export function Pathways({
                 <div className="ok-mini-record">
                   <div>
                     <FileText size={20} />
-                    <SampleLabel />
+                    <DataLabel />
                   </div>
-                  <span className="ok-mono">OK-DEMO-001</span>
-                  <h4>Demo Manufacturing A</h4>
+                  <span className="ok-mono">{featuredRecord.id}</span>
+                  <h4>{featuredRecord.generator}</h4>
                   <StatusBadges record={records[0]} />
                   <TextAction onClick={() => onRecord(records[0])}>Explore this record</TextAction>
                 </div>
@@ -241,7 +304,7 @@ export function Pathways({
                       onRequest({
                         kind: "updates",
                         title: "Monthly email updates",
-                        context: "Explore the proposed monthly evidence update subscription.",
+                        context: "Prepare your interest in monthly evidence and publication updates.",
                       })
                     }
                   >
@@ -283,11 +346,11 @@ export function Pathways({
                 label="Governance data journey"
                 steps={["Tenant records", "Consent aggregation", "Governance portal", "Board oversight"]}
               />
-              <GovernanceDashboard />
+              <GovernanceDashboard onRequest={onRequest} />
               <div className="ok-support">
                 <span className="ok-small-label">YOUR GOVERNANCE RESOURCES</span>
                 <div>
-                  <TextAction onClick={() => onResource("governance")}>Quarterly Governance Brief</TextAction>
+                  <TextAction onClick={() => onResource("governance")}>Quarterly Governance Brief · Q2</TextAction>
                   <TextAction onClick={() => onResource("esg-toolkit")}>ESG Toolkit</TextAction>
                   <TextAction onClick={() => onResource("compliance-toolkit")}>Compliance Toolkit</TextAction>
                   <TextAction onClick={() => onResource("policy")}>Policy Update Briefs</TextAction>

@@ -2,6 +2,8 @@
 
 Prepared 22 September 2026. This is a requirements and implementation brief; no application features were changed or deployed during this investigation.
 
+**Current status note — 23 September 2026:** The investigation below is preserved as historical context. Later user decisions selected Next.js, expanded the register to 24 records, incorporated attributed public research and replaced repeated demo branding with concise provenance. The rubric is outside the agreed acceptance scope. See the [current experience guide](open-kiln-demo.md), [data provenance](data-provenance.md) and [verification record](verification-2026-09-23.md).
+
 **Recommendation**
 
 Build a responsive Open Kiln campaign landing page with a small, working evidence-exploration experience. The page should introduce the promise “verify, not just trust,” let visitors explore treatment evidence, and lead two audiences into appropriate next steps. Keep the broader operational platform as a separately defined scope.

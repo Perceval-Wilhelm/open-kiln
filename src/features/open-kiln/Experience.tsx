@@ -3,12 +3,12 @@
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { createContext, use, useRef, useState, type ReactNode } from "react";
 import { EvidenceOverlay } from "@/features/open-kiln/EvidenceOverlay";
-import { resources } from "@/features/open-kiln/data";
+import { featuredRecord, resources } from "@/features/open-kiln/data";
 import { Action } from "@/features/open-kiln/Primitives";
-import type { DemoRequest, EvidenceCategory, ModalView } from "@/features/open-kiln/types";
+import type { RequestContext, EvidenceCategory, ModalView } from "@/features/open-kiln/types";
 
 function useExperienceState() {
-  const [sampleSignal, setSampleSignal] = useState(0);
+  const [browseSignal, setBrowseSignal] = useState(0);
   const [category, setCategory] = useState<EvidenceCategory | "All">("All");
   const [libraryVisit, setLibraryVisit] = useState(0);
   const [view, setView] = useState<ModalView | null>(null);
@@ -22,8 +22,8 @@ function useExperienceState() {
     const resource = resources.find((item) => item.id === id);
     if (resource) openModal({ kind: "resource", resource });
   }
-  function focusSearch(sample = false) {
-    if (sample) setSampleSignal((current) => current + 1);
+  function focusSearch(browse = false) {
+    if (browse) setBrowseSignal((current) => current + 1);
     document.getElementById("verify")?.scrollIntoView({
       behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
     });
@@ -37,8 +37,17 @@ function useExperienceState() {
       document.getElementById("library-query")?.focus({ preventScroll: true });
     });
   }
+  function showTransparency() {
+    const target = document.getElementById("transparency");
+    returnFocusRef.current = target;
+    setView(null);
+    requestAnimationFrame(() => {
+      target?.scrollIntoView({ behavior: "instant" });
+      target?.focus({ preventScroll: true });
+    });
+  }
   return {
-    sampleSignal,
+    browseSignal,
     category,
     setCategory,
     libraryVisit,
@@ -50,6 +59,7 @@ function useExperienceState() {
     openResource,
     focusSearch,
     selectCategory,
+    showTransparency,
   };
 }
 
@@ -65,6 +75,8 @@ export function ExperienceProvider({ children }: { children: ReactNode }) {
           view={experience.view}
           onClose={() => experience.setView(null)}
           returnFocus={experience.returnFocusRef}
+          onNavigate={experience.setView}
+          onTransparency={experience.showTransparency}
         />
       )}
     </ExperienceContext>
@@ -85,19 +97,19 @@ export function HeroActions() {
         Search & Verify <ArrowUpRight size={19} />
       </Action>
       <button className="ok-hero-secondary" onClick={() => focusSearch(true)}>
-        Explore a sample <ArrowRight size={17} />
+        Explore the register <ArrowRight size={17} />
       </button>
     </div>
   );
 }
 
-export function SampleRecordButton({ children }: { children: ReactNode }) {
-  const { focusSearch } = useExperience();
+export function FeaturedRecordButton({ children }: { children: ReactNode }) {
+  const { openModal } = useExperience();
   return (
     <button
-      className="ok-floating-record"
-      onClick={() => focusSearch(true)}
-      aria-label="Explore sample treatment record OK-DEMO-001"
+      className="ok-process-record"
+      onClick={() => openModal({ kind: "record", record: featuredRecord })}
+      aria-label={`Open treatment record ${featuredRecord.id}`}
     >
       {children}
     </button>
@@ -113,7 +125,7 @@ export function CategoryButton({ category, children }: { category: EvidenceCateg
   );
 }
 
-export function RequestButton({ request, children }: { request: DemoRequest; children: ReactNode }) {
+export function RequestButton({ request, children }: { request: RequestContext; children: ReactNode }) {
   const { openModal } = useExperience();
   return (
     <button className="ok-text-action" onClick={() => openModal({ kind: "request", request })}>

@@ -5,6 +5,8 @@ export type Milestone = { date: string; title: string; description: string };
 export type TreatmentRecord = {
   id: string;
   generator: string;
+  sector: string;
+  facility: string;
   wasteType: string;
   wasteId: string;
   quantity: number;
@@ -30,7 +32,7 @@ export type EvidenceResource = {
   publisher: string;
   date: string;
   version: string;
-  kind: "Sample document" | "External reference";
+  kind: "Practice guide" | "Illustrative brief" | "External reference";
   sections: Array<{ title: string; body: string }>;
   url?: string;
 };
@@ -42,17 +44,25 @@ export type GovernanceSnapshot = {
   completeRecords: number;
   totalRecords: number;
   months: Array<{ label: string; tonnes: number }>;
+  issues: Array<{
+    id: string;
+    title: string;
+    count: number;
+    owner: string;
+    action: string;
+    dueDate: string;
+  }>;
 };
 
-export type DemoRequest = {
+export type RequestContext = {
   kind: "visit" | "roundtable" | "evidence" | "updates" | "followup";
   title: string;
   context: string;
 };
 
-export type DemoFormValues = { name: string; organisation: string; email: string; message: string; date: string };
+export type RequestFormValues = { name: string; organisation: string; email: string; message: string; date: string };
 export type ModalView =
   | { kind: "record"; record: TreatmentRecord }
   | { kind: "resource"; resource: EvidenceResource }
-  | { kind: "request"; request: DemoRequest }
+  | { kind: "request"; request: RequestContext }
   | { kind: "overview" };

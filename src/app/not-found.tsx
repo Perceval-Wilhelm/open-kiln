@@ -3,9 +3,9 @@ import Link from "next/link";
 export default function NotFound() {
   return (
     <main className="ok-site ok-container ok-section">
-      <p>Open Kiln · Interactive demo</p>
+      <p>Open Kiln · Evidence, made accessible</p>
       <h1>We couldn’t find that page.</h1>
-      <p>Return to the evidence journey to explore our sample records.</p>
+      <p>Return to the evidence register, research and verification pathways.</p>
       <Link className="ok-button" href="/">
         Back to Open Kiln
       </Link>

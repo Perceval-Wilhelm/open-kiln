@@ -3,27 +3,36 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import type {
-  DemoFormValues,
-  DemoRequest,
+  RequestFormValues,
+  RequestContext,
   EvidenceResource,
   ModalView,
   TreatmentRecord,
 } from "@/features/open-kiln/types";
 
-import { records } from "@/features/open-kiln/data";
-import { formatDate, formatTimestamp, validateDemoRequest } from "@/features/open-kiln/logic";
-import { Action, SampleLabel, StatusBadges, Timeline } from "@/features/open-kiln/Primitives";
+import { records, resources } from "@/features/open-kiln/data";
+import { formatDate, formatTimestamp, validateRequest } from "@/features/open-kiln/logic";
+import { officialContact } from "@/features/open-kiln/references";
+import { Action, DataLabel, StatusBadges, Timeline } from "@/features/open-kiln/Primitives";
 import { DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 
-function RecordDetail({ record }: { record: TreatmentRecord }) {
+function RecordDetail({
+  record,
+  onNavigate,
+  onTransparency,
+}: {
+  record: TreatmentRecord;
+  onNavigate: (view: ModalView) => void;
+  onTransparency: () => void;
+}) {
   return (
     <>
       <DialogHeader>
-        <SampleLabel />
+        <DataLabel />
         <span className="ok-mono">{record.id}</span>
         <DialogTitle className="ok-dialog-title">{record.generator}</DialogTitle>
         <DialogDescription>
@@ -41,6 +50,8 @@ function RecordDetail({ record }: { record: TreatmentRecord }) {
           <dl className="ok-record-fields">
             {[
               ["Waste identity", record.wasteId],
+              ["Industry", record.sector],
+              ["Receiving location", record.facility],
               ["Waste type", record.wasteType],
               ["Quantity received", `${record.quantity} ${record.unit}`],
               ["Receipt date", formatDate(record.receiptDate)],
@@ -61,6 +72,9 @@ function RecordDetail({ record }: { record: TreatmentRecord }) {
             </p>
           </div>
           <p className="ok-publication">Published {formatTimestamp(record.publishedAt)}</p>
+          <button className="ok-text-action" onClick={onTransparency}>
+            Read our transparency statement <ArrowUpRight size={17} />
+          </button>
         </TabsContent>
         <TabsContent value="evidence">
           <div className="ok-reading">
@@ -90,6 +104,24 @@ function RecordDetail({ record }: { record: TreatmentRecord }) {
                 {record.monitoring ??
                   "The monitoring summary has not been published. This evidence gap remains visible even if a treatment completion milestone is present."}
               </p>
+            </section>
+            <section>
+              <h3>Related reading</h3>
+              <div className="ok-dialog-resource-links">
+                {["methodology", "monitoring", "giz"].map((id) => {
+                  const resource = resources.find((item) => item.id === id)!;
+                  return (
+                    <button
+                      className="ok-text-action"
+                      key={id}
+                      onClick={() => onNavigate({ kind: "resource", resource })}
+                    >
+                      {resource.title}
+                      <ArrowUpRight size={16} />
+                    </button>
+                  );
+                })}
+              </div>
             </section>
             <section className="ok-reading-limitations">
               <h3>Scope & limitations</h3>
@@ -151,12 +183,12 @@ function ResourceDetail({ resource }: { resource: EvidenceResource }) {
   );
 }
 
-export function DemoRequestForm({ request, onClose }: { request: DemoRequest; onClose: () => void }) {
+export function RequestForm({ request, onClose }: { request: RequestContext; onClose: () => void }) {
   const [complete, setComplete] = useState(false);
-  const form = useForm<DemoFormValues>({
+  const form = useForm<RequestFormValues>({
     defaultValues: { name: "", organisation: "", email: "", message: "", date: "" },
   });
-  const fields: Array<{ name: keyof DemoFormValues; label: string; type?: string; placeholder?: string }> =
+  const fields: Array<{ name: keyof RequestFormValues; label: string; type?: string; placeholder?: string }> =
     request.kind === "updates"
       ? [{ name: "email", label: "Email address", type: "email", placeholder: "you@example.com" }]
       : [
@@ -173,7 +205,7 @@ export function DemoRequestForm({ request, onClose }: { request: DemoRequest; on
   return (
     <>
       <DialogHeader>
-        <span className="ok-status">Demo form · Nothing is sent</span>
+        <span className="ok-status">Private request draft</span>
         <DialogTitle className="ok-dialog-title">{request.title}</DialogTitle>
         <DialogDescription>{request.context}</DialogDescription>
       </DialogHeader>
@@ -182,20 +214,68 @@ export function DemoRequestForm({ request, onClose }: { request: DemoRequest; on
           <span>
             <CircleCheck size={34} />
           </span>
-          <h3>Demo complete. No request was sent.</h3>
-          <p>This is a preview of the proposed experience. No booking, subscription or follow-up has been created.</p>
-          <Action onClick={onClose}>
-            Close preview <Check size={17} />
+          <h3>Your request summary is ready.</h3>
+          <p>
+            No request has been sent. Your details remain in this page until you close it. Contact INSEE through its
+            official website to arrange a visit or discuss a service.
+          </p>
+          <dl className="ok-request-summary">
+            <div>
+              <dt>Topic</dt>
+              <dd>{request.title}</dd>
+            </div>
+            <div>
+              <dt>Context</dt>
+              <dd>{request.context}</dd>
+            </div>
+            {request.kind !== "updates" && (
+              <div>
+                <dt>Name</dt>
+                <dd>{form.getValues("name")}</dd>
+              </div>
+            )}
+            <div>
+              <dt>Email</dt>
+              <dd>{form.getValues("email")}</dd>
+            </div>
+            {request.kind !== "updates" && (
+              <div>
+                <dt>Organisation</dt>
+                <dd>{form.getValues("organisation")}</dd>
+              </div>
+            )}
+            {request.kind === "visit" && (
+              <div>
+                <dt>Preferred date</dt>
+                <dd>{formatDate(form.getValues("date"))}</dd>
+              </div>
+            )}
+            {request.kind !== "updates" && form.getValues("message") && (
+              <div>
+                <dt>Your questions</dt>
+                <dd>{form.getValues("message")}</dd>
+              </div>
+            )}
+          </dl>
+          <a className="ok-button ok-external-button" href={officialContact} target="_blank" rel="noopener noreferrer">
+            Official INSEE contact <ArrowUpRight size={17} />
+            <span className="ok-sr-only"> (opens in a new tab)</span>
+          </a>
+          <Action secondary onClick={onClose}>
+            Close summary <Check size={17} />
           </Action>
+          <button className="ok-text-action" onClick={() => setComplete(false)}>
+            Edit draft
+          </button>
         </div>
       ) : (
         <Form {...form}>
           <form
             noValidate
-            className="ok-demo-form"
+            className="ok-request-form"
             onSubmit={form.handleSubmit((values) => {
-              const errors = validateDemoRequest(request.kind, values);
-              const entries = Object.entries(errors) as Array<[keyof DemoFormValues, string]>;
+              const errors = validateRequest(request.kind, values);
+              const entries = Object.entries(errors) as Array<[keyof RequestFormValues, string]>;
               if (entries.length) {
                 entries.forEach(([name, message]) => form.setError(name, { type: "manual", message }));
                 form.setFocus(entries[0][0]);
@@ -206,18 +286,18 @@ export function DemoRequestForm({ request, onClose }: { request: DemoRequest; on
           >
             <button
               type="button"
-              className="ok-fill-sample"
+              className="ok-fill-example"
               onClick={() =>
                 form.reset({
-                  name: "Alex Example",
-                  organisation: "Demo Manufacturing A",
+                  name: "Alex Nguyen",
+                  organisation: "Mekong Precision Works",
                   email: "alex@example.com",
                   date: "2026-10-20",
-                  message: "I would like to explore the sample evidence journey and its monitoring scope.",
+                  message: "I would like to explore the treatment evidence journey and its monitoring scope.",
                 })
               }
             >
-              Fill sample details <ArrowUpRight size={15} />
+              Use example details <ArrowUpRight size={15} />
             </button>
             {fields.map(({ name, label, type, placeholder }) => (
               <FormField
@@ -240,11 +320,11 @@ export function DemoRequestForm({ request, onClose }: { request: DemoRequest; on
               />
             ))}
             <p className="ok-small-note">
-              Use the sample details to explore. Entries stay in this page’s memory and are discarded when the form
+              This form prepares a private summary; it does not send a request. Entries are discarded when the form
               closes.
             </p>
             <Action type="submit">
-              Preview {request.kind === "updates" ? "subscription" : "request"} <ArrowUpRight size={17} />
+              Review {request.kind === "updates" ? "subscription" : "request"} <ArrowUpRight size={17} />
             </Action>
           </form>
         </Form>
@@ -253,19 +333,19 @@ export function DemoRequestForm({ request, onClose }: { request: DemoRequest; on
   );
 }
 
-function EhsOverview() {
+function EhsOverview({ onNavigate }: { onNavigate: (view: ModalView) => void }) {
   return (
     <>
       <DialogHeader>
-        <SampleLabel />
-        <DialogTitle className="ok-dialog-title">Your sample evidence overview</DialogTitle>
+        <DataLabel />
+        <DialogTitle className="ok-dialog-title">Your evidence overview</DialogTitle>
         <DialogDescription>
-          A summary of the four fictional EHS records, separate from the park governance dataset.
+          A snapshot of the illustrative operational register. Park reporting uses a separate aggregate dataset.
         </DialogDescription>
       </DialogHeader>
       <div className="ok-kpis">
         <div>
-          <span>Sample records</span>
+          <span>Treatment records</span>
           <strong>{records.length}</strong>
         </div>
         <div>
@@ -283,13 +363,17 @@ function EhsOverview() {
             <span className="ok-mono">{record.id}</span>
             <p>{record.generator}</p>
             <StatusBadges record={record} />
+            <button className="ok-text-action" onClick={() => onNavigate({ kind: "record", record })}>
+              Open record <ArrowUpRight size={16} />
+              <span className="ok-sr-only"> {record.id}</span>
+            </button>
           </div>
         ))}
       </div>
       <div className="ok-info-note">
         <ShieldCheck size={18} />
         <p>
-          This overview describes sample record availability. It does not measure environmental impact or certify
+          This overview describes illustrative record availability. It does not measure environmental impact or certify
           compliance.
         </p>
       </div>
@@ -297,13 +381,24 @@ function EhsOverview() {
   );
 }
 
-export function EvidenceContent({ view, onClose }: { view: ModalView; onClose: () => void }) {
-  if (view.kind === "record") return <RecordDetail key={view.record.id} record={view.record} />;
+export function EvidenceContent({
+  view,
+  onClose,
+  onNavigate,
+  onTransparency,
+}: {
+  view: ModalView;
+  onClose: () => void;
+  onNavigate: (view: ModalView) => void;
+  onTransparency: () => void;
+}) {
+  if (view.kind === "record")
+    return (
+      <RecordDetail key={view.record.id} record={view.record} onNavigate={onNavigate} onTransparency={onTransparency} />
+    );
   if (view.kind === "resource") return <ResourceDetail key={view.resource.id} resource={view.resource} />;
   if (view.kind === "request") {
-    return (
-      <DemoRequestForm key={`${view.request.kind}-${view.request.title}`} request={view.request} onClose={onClose} />
-    );
+    return <RequestForm key={`${view.request.kind}-${view.request.title}`} request={view.request} onClose={onClose} />;
   }
-  return <EhsOverview />;
+  return <EhsOverview onNavigate={onNavigate} />;
 }

@@ -1,100 +1,77 @@
-# Open Kiln demo handoff
+# Open Kiln experience and review guide
 
-Implemented from the approved plan on 23 September 2026. The application is an English-language, frontend-only assessment demo for the campaign concept “Open Kiln: verify, not just trust.”
+Updated 23 September 2026. The English-language campaign experience combines attributed public research with an illustrative operational register. See [data provenance](data-provenance.md) for exact boundaries and [delivery](deployment.md) for deployment status.
 
 ## Run locally
 
-Use the recommended Node.js 24.21.0 (supported minimum: 24.19.0 within 24.x), Corepack and the pinned Yarn 4.18.0. Dependencies use the `node-modules` linker. No environment variables, backend or credentials are required.
+Use Node.js 24.21.0 (supported 24.x minimum 24.19.0), Corepack and the pinned Yarn version. No secrets, API or backend are needed.
 
 ```sh
-nvm install
-nvm use
 corepack yarn install --immutable
 corepack yarn dev --hostname 127.0.0.1 --port 3000
 ```
 
-For a production preview:
+Production preview:
 
 ```sh
 corepack yarn build
 corepack yarn start --hostname 127.0.0.1 --port 3000
 ```
 
-Open [localhost:3000](http://localhost:3000). Use another free port when needed; do not stop unrelated processes. Next.js emits production output to `.next/`. See the [README](../README.md) for the Homebrew runtime alternative and Vercel setup.
+Use an unoccupied port; preserve unrelated servers. See the README for NVM/Homebrew runtime setup. Next.js output is `.next/`.
 
-## Review the experience
+## Review checklist
 
-1. Open the homepage and choose **Explore a sample**. The search input receives focus and returns `OK-DEMO-001`.
-2. Open **View evidence**. Review Overview, Evidence and History. Treatment milestones and publication history are separate; monitoring scope and limitations are explicit.
-3. Search with these examples:
+1. Inspect the hero and use Receive / Co-process / Document with mouse and arrow keys. The featured record opens directly; Explore the register focuses the search field and resets it to all records.
+2. Browse all 24 records across four pages. Change treatment/evidence filters and sort. Processing + complete evidence should give an honest empty result; Browse all records restores the list.
+3. Exercise exact ID lookup, generator substring lookup, date lookup, blank validation and unknown IDs:
 
-   | Search type    | Value             | Expected result                                         |
-   | -------------- | ----------------- | ------------------------------------------------------- |
-   | Manifest ID    | `ok-demo-001`     | One completed record, complete sample evidence          |
-   | Manifest ID    | `OK-DEMO-002`     | Processing, no completion date                          |
-   | Manifest ID    | `OK-DEMO-003`     | Completed, partial evidence, monitoring unavailable     |
-   | Manifest ID    | `OK-DEMO-004`     | Completed, complete evidence, two publication revisions |
-   | Generator name | `manufacturing a` | Two records                                             |
-   | Treatment date | `2026-09-18`      | Two records; processing record excluded                 |
-   | Manifest ID    | `UNKNOWN`         | Helpful empty result with a sample shortcut             |
-   | Any type       | Blank             | Required-input feedback and input focus                 |
+   | Input                        | Expected                                                 |
+   | ---------------------------- | -------------------------------------------------------- |
+   | `ok-2026-0142`               | One completed record with complete illustrative evidence |
+   | `OK-2026-0143`               | Processing; no completion date                           |
+   | `OK-2026-0144`               | Completed, partial evidence, monitoring unavailable      |
+   | `OK-2026-0145`               | Two publication revisions                                |
+   | Generator `MEKONG precision` | Four records                                             |
+   | Treatment date `2026-09-18`  | Two records                                              |
+   | Partial ID `OK-2026`         | No match; IDs require an exact match                     |
+   | Blank                        | Validation and input focus                               |
 
-4. Select a **What can you verify?** card. It opens the library at the matching category and clears stale library text. Library queries and record queries remain independent.
-5. Explore **EHS & Plant Managers**: process journey, sample record, evidence modules, ESG overview, PCB/OPTOCE material, evidence request and monthly updates.
-6. Select **Industrial Park Boards**. Switch Q2 to Q1. Verify participation, treatment totals, chart months and evidence denominators together:
+4. Read Overview, Evidence and History. Compare receipt and treatment dates; check methodology, monitoring scope and limitations. Open related guidance and the Transparency shortcut. That shortcut closes the dialog and focuses the statement.
+5. Select all four evidence categories. The matching Library filter opens with stale text cleared, without changing the register search.
+6. Read the public research strip. Its historical SINTEF figures are separate from the constructed records. Open original publisher links and confirm their scope.
+7. Follow EHS handover → process → Evidence Hub → customer verification. Check all five support actions.
+8. Switch to Boards. Q1/Q2 must update participation, quantities, monthly bars, evidence rates and issue counts together:
 
-   | Period  | Participation   | Treated waste | Complete evidence                   | Monthly tonnes         |
-   | ------- | --------------- | ------------- | ----------------------------------- | ---------------------- |
-   | Q1 2026 | 10 / 18 tenants | 100 tonnes    | 78 / 90 records, displayed as 86.7% | Jan 30, Feb 32, Mar 38 |
-   | Q2 2026 | 12 / 18 tenants | 120 tonnes    | 86 / 100 records, 86%               | Apr 36, May 38, Jun 46 |
+   | Quarter | Tenants | Tonnes | Evidence complete | Issue counts   | Months     |
+   | ------- | ------- | ------ | ----------------- | -------------- | ---------- |
+   | Q1      | 10/18   | 100    | 78/90 (86.7%)     | 6 + 4 + 2 = 12 | 30, 32, 38 |
+   | Q2      | 12/18   | 120    | 86/100 (86%)      | 7 + 3 + 4 = 14 | 36, 38, 46 |
 
-7. Read the sample governance brief, policy pack and toolkits. Both governance journeys include their annual review/oversight steps.
-8. Open visit, roundtable, evidence-request, update or follow-up forms. Submit blank or invalid email values to see errors. Choose **Fill sample details**, then submit to see **“Demo complete. No request was sent.”** Close and reopen: entered values are discarded.
-9. Explore all 12 library resources. Ten are sample documents; two are external references. Search `EPA:` to locate the EPA title specifically. Library search is a substring match across title, summary and publisher.
-10. Use Tab, Shift+Tab and Escape in dialogs and the mobile menu. Dialog focus stays inside until closed, then returns to the opener. The skip link and navigation anchors have focusable destinations.
-
-11. With browser developer tools, block the on-demand dialog script before opening the first dialog. The error panel offers **Close preview** and **Reload page**. Closing restores focus and leaves the page usable; restoring the connection and reloading makes the preview work again. The automated browser suite performs this fault injection on desktop and mobile.
-12. In request forms, check accessible descriptions before and after invalid submission. Inputs must reference existing error text only, with no dangling description IDs.
-
-## Sample-data boundaries
-
-- The four records use fictional organisations. A completed treatment and complete evidence are separate states. Viewing a record never creates certification, compliance approval or a verification-history event.
-- The park dashboard is a separate synthetic dataset. Its figures describe participating tenants only, with no tenant-level drill-down. Evidence readiness is not a legal compliance conclusion.
-- Forms use local React state and React Hook Form. They do not call an API, send email, create bookings or subscriptions, or write form entries to browser storage. Values are discarded on close/reload.
-- The wordmark, kiln illustration, resource covers and charts are rendered by code. The attached proposal and reference images are preserved as source material.
-- Urbanist is served locally through `next/font/local`, with system-font fallbacks. The application also links to external publisher PDFs when explicitly opened. No form data is attached to those links.
-- Reporting/export integration remains a proposed Year 2 capability. This upgrade does not deploy the repository or introduce live services.
-
-## Sources
-
-- [US EPA: e-Manifest PCB waste handlers fact sheet](https://www.epa.gov/system/files/documents/2024-09/e-manifest_pcb_waste_handlers_factsheet.pdf).
-- [GIZ / LafargeHolcim: Guidelines on Pre- and Co-processing of Waste in Cement Production](https://www.giz.de/en/downloads/giz-2020_en_guidelines-pre-coprocessing.pdf).
-
-These external sources provide technical context, not proof for fictional records. Their contents and availability are controlled by the publishers. The [original investigation](open-kiln-landing-page-brief.md) is historical requirements context; its original stack and baseline statements do not describe the current Next.js implementation.
+9. Confirm the 0.7 percentage-point rise in the evidence-gap rate and the visible denominators. Each issue opens a follow-up request with the right quarter, title and count. Verify the data and executive journeys, including annual review.
+10. Open the Library dashboard and data-request service cards. The dashboard lists all 24 records and opens their details. Search/filter the 16 resources by category, publisher type or text; Show more resources reveals the remaining documents. `EPA:` identifies the EPA reference, and `SINTEF` returns two publications.
+11. Try visit, both roundtables, evidence, updates and follow-up forms. Check blank/invalid-email validation, Use example details, and Review request/subscription. The summary includes the entered details and context, supports Edit draft, and states **No request has been sent**. Closing/reopening clears inputs. External official-contact links contain no form data.
+12. Test Tab/Shift+Tab, focus trap, Escape, returning focus, mobile menu, skip link and anchor offsets. Check form accessible descriptions with and without validation errors.
+13. Verify 375, 768 and 1440px layouts, native browser zoom 200%, reduced motion and no horizontal overflow. Inspect dialogs independently of the page. Check initial content with JavaScript disabled.
+14. Fault-inject the lazy dialog download: the page must remain usable, the error dialog must close, and Reload page after connection recovery must restore the content.
 
 ## Code map
 
-| Area                                        | Location                                                                     |
-| ------------------------------------------- | ---------------------------------------------------------------------------- |
-| Homepage, layout, metadata and 404          | `src/app/`                                                                   |
-| Server-rendered campaign sections           | `src/features/open-kiln/OpenKilnPage.tsx`                                    |
-| Client state, focus and lazy dialogs        | `Experience.tsx`, `ExperienceSections.tsx`, `EvidenceOverlay.tsx`            |
-| Search, pathways and library                | `Records.tsx`, `Pathways.tsx`, `Library.tsx`                                 |
-| Record, resource, overview and form dialogs | `Dialogs.tsx`                                                                |
-| Fixtures, contracts and pure functions      | `data.ts`, `types.ts`, `logic.ts`                                            |
-| Illustration and composed controls          | `KilnIllustration.tsx`, `Primitives.tsx`                                     |
-| Visual styles and theme                     | `open-kiln.css`, `src/styles/global.css`                                     |
-| Application tests                           | `src/features/open-kiln/*.test.ts*`, `vitest.config.ts`, `src/test/setup.ts` |
-| Runtime and lint verification               | `scripts/check-runtime.mjs`, `scripts/lint.test.mjs`                         |
+| Area                                      | Files in `src/features/open-kiln/`                                |
+| ----------------------------------------- | ----------------------------------------------------------------- |
+| Server-rendered page and research         | `OpenKilnPage.tsx`, `PublishedEvidence.tsx`                       |
+| Server drawing / client stage interaction | `KilnIllustration.tsx`, `ProcessExplorer.tsx`                     |
+| Shared state, dialog navigation and focus | `Experience.tsx`, `EvidenceOverlay.tsx`, `ExperienceSections.tsx` |
+| Register, audience previews and library   | `Records.tsx`, `Pathways.tsx`, `Library.tsx`                      |
+| Dialog content and private request review | `Dialogs.tsx`                                                     |
+| Data and provenance                       | `treatment-records.ts`, `data.ts`, `references.ts`                |
+| Contracts / pure logic                    | `types.ts`, `logic.ts`                                            |
+| Visual system                             | `open-kiln.css`, `experience.css`, `Primitives.tsx`               |
 
-Feature paths without a directory prefix above are relative to `src/features/open-kiln/`. Shared controls live in `src/components/ui/`. React 19 context access uses `use` and provider shorthand. Next.js owns application routing and production bundling; Vite is used only by the test runner.
+## Verification commands
 
-## Verification
+`corepack yarn check:all` runs formatting, zero-warning lint, route types, TypeScript, application tests, lint regression tests and the production build. `corepack yarn test:e2e` starts an isolated production server after a build and exercises desktop, tablet and mobile Chromium. Use `PLAYWRIGHT_PORT` if the default 4320 is occupied. `corepack yarn verify` runs both suites.
 
-Run `corepack yarn check:all` for formatting, lint, route types, TypeScript, 16 application tests, 14 lint regression tests and the production build. Tests cover search and evidence boundaries, independent library filters, governance aggregates, local form validation and mobile Escape/focus behavior.
+Tests use fictional input and assert no form write requests. The download-failure scenario intentionally fails a script request; normal-flow console warnings/errors are failures. See the [dated verification record](verification-2026-09-23.md) for executed checks and their scope. Artifacts belong in ignored `output/playwright/`, `test-results/` and `playwright-report/` directories.
 
-Install Chromium with `corepack yarn exec playwright install chromium`, then run `corepack yarn test:e2e` after building, or `corepack yarn verify` to include the build and all earlier checks. Playwright runs four scenarios at 1440 px and 375 px (eight tests): both journeys, local form/accessibility behavior, keyboard/responsive behavior and failed-dialog-download recovery. It starts an isolated production server and never submits form data. The fault-injection case deliberately creates a failed script request; normal-flow console warnings and errors fail the journey check.
-
-Use the review steps above against the production server after changing UI code. Inspect widths 375, 768 and 1440 px, browser errors, keyboard navigation, dialog focus/scrolling and reduced motion. For rendering changes, also check with JavaScript disabled. Automated tests alone do not establish screen-reader usability, browser compatibility or WCAG conformance.
-
-See [the dated toolchain verification report](toolchain.md) for the current compatibility decisions and checks actually performed. CI and public deployment results must be verified separately.
+The original investigation brief is retained as historical requirements context. The realistic register, source material and presentation changes supersede its four-record fixture and repeated demo-label choices. Integrated exports, authenticated customer data and real message delivery remain outside this frontend scope.

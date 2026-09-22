@@ -22,6 +22,8 @@ import { LibrarySection, PathwaysSection, RecordSearchSection } from "@/features
 import { KilnIllustration } from "@/features/open-kiln/KilnIllustration";
 import { navigation } from "@/features/open-kiln/navigation";
 import { SectionHeading } from "@/features/open-kiln/Primitives";
+import { PublishedEvidence } from "@/features/open-kiln/PublishedEvidence";
+import { officialContact } from "@/features/open-kiln/references";
 import { SiteHeader } from "@/features/open-kiln/SiteHeader";
 
 // Server composition keeps campaign copy and the illustration out of the client module graph.
@@ -36,7 +38,7 @@ export function OpenKilnPage() {
           <div className="ok-container">
             <span>A CSR campaign concept for INSEE Ecocycle</span>
             <span>
-              <i aria-hidden="true" /> Interactive demo · Sample data
+              <i aria-hidden="true" /> Evidence, made accessible
             </span>
           </div>
         </div>
@@ -61,19 +63,21 @@ export function OpenKilnPage() {
                 <HeroActions />
                 <div className="ok-hero-caption">
                   <ShieldCheck size={17} />
-                  <span>Ecocycle publishes the record. You check the evidence.</span>
+                  <span>From the treatment milestone to the supporting document.</span>
                 </div>
               </div>
               <KilnIllustration />
             </div>
             <div className="ok-container ok-trust-strip">
-              {["Customer-checkable records", "Methodology transparency", "Audit-ready evidence"].map((text, i) => (
-                <div key={text}>
-                  <span className="ok-trust-number">0{i + 1}</span>
-                  <span>{text}</span>
-                  <Check size={17} />
-                </div>
-              ))}
+              {["Customer-checkable records", "Methodology transparency", "Evidence for informed reviews"].map(
+                (text, i) => (
+                  <div key={text}>
+                    <span className="ok-trust-number">0{i + 1}</span>
+                    <span>{text}</span>
+                    <Check size={17} />
+                  </div>
+                ),
+              )}
             </div>
           </section>
           <RecordSearchSection />
@@ -127,6 +131,7 @@ export function OpenKilnPage() {
               </div>
             </div>
           </section>
+          <PublishedEvidence />
           <PathwaysSection />
           <LibrarySection />
           <section className="ok-section ok-engagement" id="connect">
@@ -136,7 +141,7 @@ export function OpenKilnPage() {
                 eyebrow="FROM EVIDENCE TO CONVERSATION"
                 title="See the process. Join the conversation."
               >
-                Take your questions beyond the screen. Explore the proposed ways to engage.
+                Take your questions beyond the screen. Prepare for a site visit or a focused conversation.
               </SectionHeading>
               <div className="ok-engagement-grid">
                 {[
@@ -148,7 +153,7 @@ export function OpenKilnPage() {
                     action: "Book a verification visit",
                     kind: "visit" as const,
                     agenda:
-                      "Sample agenda: follow the treatment journey, discuss monitoring scope and ask about supporting records.",
+                      "Proposed agenda: follow the treatment journey, discuss monitoring scope and ask about supporting records.",
                   },
                   {
                     icon: MessageSquareText,
@@ -158,7 +163,7 @@ export function OpenKilnPage() {
                     action: "Explore the EHS roundtable",
                     kind: "roundtable" as const,
                     agenda:
-                      "Sample agenda: review treatment evidence → discuss monitoring limitations → agree follow-up evidence actions.",
+                      "Proposed agenda: review treatment evidence → discuss monitoring limitations → agree follow-up evidence actions.",
                   },
                   {
                     icon: Building2,
@@ -168,7 +173,7 @@ export function OpenKilnPage() {
                     action: "Explore governance roundtable",
                     kind: "roundtable" as const,
                     agenda:
-                      "Sample agenda: park performance review → governance risk dialogue → collaborative action planning.",
+                      "Proposed agenda: park performance review → governance risk dialogue → collaborative action planning.",
                   },
                 ].map(({ icon: Icon, label, title, text, action, kind, agenda }) => (
                   <article className="ok-engagement-card" key={title}>
@@ -177,7 +182,7 @@ export function OpenKilnPage() {
                     <h3>{title}</h3>
                     <p>{text}</p>
                     <details>
-                      <summary>View sample agenda</summary>
+                      <summary>View proposed agenda</summary>
                       <p>{agenda}</p>
                     </details>
                     <RequestButton request={{ kind, title: action, context: text }}>
@@ -202,12 +207,13 @@ export function OpenKilnPage() {
                   something you can check.
                 </h2>
                 <p>
-                  Open Kiln is designed to make treatment evidence timestamped, methodology-linked and traceable to its
-                  record. Customers inspect the evidence themselves; Ecocycle publishes the record.
+                  Open Kiln connects treatment milestones with their sources, publication dates and revisions. A
+                  complete evidence set means its documents are available; it is not a certificate of regulatory
+                  compliance.
                 </p>
-                <p className="ok-transparency-demo">
-                  This concept uses fictional records. External references are labelled separately and do not verify a
-                  treatment outcome.
+                <p className="ok-transparency-scope">
+                  Public research is attributed to its original publisher. Operational records and park figures are
+                  illustrative; they do not describe actual customers or shipments.
                 </p>
               </div>
               <div className="ok-roadmap">
@@ -220,7 +226,7 @@ export function OpenKilnPage() {
                 <div>
                   <span>YEAR 02 · PROPOSED</span>
                   <h3>Connect the reporting.</h3>
-                  <p>Downloadable reporting integration, beyond this demonstration.</p>
+                  <p>Integrated reporting, document exports and connected evidence workflows.</p>
                 </div>
               </div>
             </div>
@@ -248,12 +254,19 @@ export function OpenKilnPage() {
               ))}
             </div>
             <div>
-              <span className="ok-small-label">ABOUT THIS DEMO</span>
+              <span className="ok-small-label">SOURCES & CONTACT</span>
               <p>
-                Fictional data. Simulated requests.
+                Independent campaign concept.
                 <br />
-                No customer data or live services.
+                Not an official customer portal.
               </p>
+              <a className="ok-text-action" href={officialContact} target="_blank" rel="noopener noreferrer">
+                Official INSEE contact <ArrowUpRight size={15} />
+                <span className="ok-sr-only"> (opens in a new tab)</span>
+              </a>
+              <ResourceButton id="privacy">
+                Privacy & data handling <ArrowUpRight size={15} />
+              </ResourceButton>
               <ResourceButton id="epa">
                 EPA reference <ArrowUpRight size={15} />
               </ResourceButton>
@@ -263,7 +276,7 @@ export function OpenKilnPage() {
             </div>
           </div>
           <div className="ok-container ok-footer-bottom">
-            <span>Open Kiln · Assessment demo</span>
+            <span>Open Kiln · Evidence opens the conversation</span>
             <a href="#top">Back to top ↑</a>
           </div>
         </footer>

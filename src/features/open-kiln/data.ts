@@ -1,9 +1,4 @@
-import type {
-  EvidenceCategory,
-  EvidenceResource,
-  GovernanceSnapshot,
-  TreatmentRecord,
-} from "@/features/open-kiln/types";
+import type { EvidenceCategory, EvidenceResource, GovernanceSnapshot } from "@/features/open-kiln/types";
 
 export const categories: Array<EvidenceCategory> = [
   "Manifest",
@@ -13,174 +8,31 @@ export const categories: Array<EvidenceCategory> = [
   "Governance",
 ];
 
+export { records, featuredRecord } from "@/features/open-kiln/treatment-records";
+
 const methodology =
-  "This demonstration follows a documented co-processing journey: receipt and identification, suitability review, controlled feeding, treatment completion and publication of supporting records.";
+  "Receipt and identification, suitability review, controlled feeding, treatment completion and publication form a traceable co-processing evidence journey. Record-specific acceptance and operating conditions require their own supporting documents.";
 const limitations =
-  "Illustrative evidence only. No laboratory results or plant measurements were collected for this demo. A treatment milestone does not establish emissions performance, regulatory compliance or independent certification.";
+  "Operational records in this register are constructed examples. No laboratory results or plant measurements are represented. A treatment milestone does not establish emissions performance, legal compliance or independent certification.";
 
-export const records: Array<TreatmentRecord> = [
-  {
-    id: "OK-DEMO-001",
-    generator: "Demo Manufacturing A",
-    wasteType: "Industrial solvent residue",
-    wasteId: "SAMPLE-SR-01",
-    quantity: 2.4,
-    unit: "tonnes",
-    receiptDate: "2026-09-16",
-    treatmentDate: "2026-09-18",
-    status: "Completed",
-    evidenceStatus: "Complete",
-    publishedAt: "2026-09-19T09:00:00+07:00",
-    version: 1,
-    methodology,
-    limitations,
-    monitoring:
-      "Sample monitoring summary covers the treatment window on 18 September, receipt reconciliation and operational checkpoints. Numerical emissions measurements are not supplied. Complete means all example evidence sections are present.",
-    milestones: [
-      {
-        date: "2026-09-16",
-        title: "Waste received",
-        description: "2.4 tonnes reconciled against the sample handover record.",
-      },
-      {
-        date: "2026-09-17",
-        title: "Treatment preparation",
-        description: "Waste identity and suitability review recorded.",
-      },
-      {
-        date: "2026-09-18",
-        title: "Treatment completed",
-        description: "Completion milestone entered in the demonstration record.",
-      },
-    ],
-    publications: [
-      {
-        date: "2026-09-19",
-        title: "Version 1 published",
-        description: "Manifest, methodology and sample monitoring summary linked to this record.",
-      },
-    ],
-  },
-  {
-    id: "OK-DEMO-002",
-    generator: "Demo Manufacturing A",
-    wasteType: "Contaminated absorbents",
-    wasteId: "SAMPLE-CA-02",
-    quantity: 1.8,
-    unit: "tonnes",
-    receiptDate: "2026-09-20",
-    treatmentDate: null,
-    status: "Processing",
-    evidenceStatus: "Partial",
-    publishedAt: "2026-09-21T10:30:00+07:00",
-    version: 1,
-    methodology,
-    limitations,
-    monitoring: null,
-    milestones: [
-      {
-        date: "2026-09-20",
-        title: "Waste received",
-        description: "1.8 tonnes logged at the sample receiving facility.",
-      },
-      {
-        date: "2026-09-21",
-        title: "Processing",
-        description: "Preparation is recorded. A completion milestone has not been published.",
-      },
-    ],
-    publications: [
-      {
-        date: "2026-09-21",
-        title: "Partial record published",
-        description: "Receipt and methodology are available; treatment completion and monitoring remain pending.",
-      },
-    ],
-  },
-  {
-    id: "OK-DEMO-003",
-    generator: "Demo Electronics B",
-    wasteType: "Production cleaning residue",
-    wasteId: "SAMPLE-CR-03",
-    quantity: 3.1,
-    unit: "tonnes",
-    receiptDate: "2026-09-17",
-    treatmentDate: "2026-09-19",
-    status: "Completed",
-    evidenceStatus: "Partial",
-    publishedAt: "2026-09-20T14:00:00+07:00",
-    version: 1,
-    methodology,
-    limitations,
-    monitoring: null,
-    milestones: [
-      { date: "2026-09-17", title: "Waste received", description: "3.1 tonnes documented in the sample manifest." },
-      {
-        date: "2026-09-19",
-        title: "Treatment completed",
-        description: "The completion record is present. Supporting monitoring information is still missing.",
-      },
-    ],
-    publications: [
-      {
-        date: "2026-09-20",
-        title: "Version 1 published",
-        description: "Manifest and methodology published with a visible monitoring evidence gap.",
-      },
-    ],
-  },
-  {
-    id: "OK-DEMO-004",
-    generator: "Demo Packaging C",
-    wasteType: "Contaminated packaging",
-    wasteId: "SAMPLE-CP-04",
-    quantity: 0.9,
-    unit: "tonnes",
-    receiptDate: "2026-09-15",
-    treatmentDate: "2026-09-18",
-    status: "Completed",
-    evidenceStatus: "Complete",
-    publishedAt: "2026-09-21T11:00:00+07:00",
-    version: 2,
-    methodology,
-    limitations,
-    monitoring:
-      "Sample operational checkpoints and the treatment-window summary are attached. Version 2 clarifies the monitoring scope; it does not alter the recorded quantity or completion date. No live measurement feed is connected.",
-    milestones: [
-      { date: "2026-09-15", title: "Waste received", description: "0.9 tonnes reconciled with the handover record." },
-      {
-        date: "2026-09-18",
-        title: "Treatment completed",
-        description: "Completion milestone entered in the sample record.",
-      },
-    ],
-    publications: [
-      { date: "2026-09-19", title: "Version 1 published", description: "Initial evidence set published." },
-      {
-        date: "2026-09-21",
-        title: "Version 2 published",
-        description:
-          "Monitoring scope clarified. Quantity and treatment date unchanged; earlier publication remains in the history.",
-      },
-    ],
-  },
-];
+const editorialPublisher = "Open Kiln editorial";
+import { publicResources } from "@/features/open-kiln/references";
 
-const samplePublisher = "Open Kiln demo editorial team";
 export const resources: Array<EvidenceResource> = [
+  ...publicResources,
   {
     id: "manifest",
     title: "Inside a treatment manifest",
     category: "Manifest",
     summary: "Follow waste identity, handover quantity and treatment completion in one record.",
-    publisher: samplePublisher,
+    publisher: editorialPublisher,
     date: "2026-09-19",
     version: "1.0",
-    kind: "Sample document",
+    kind: "Practice guide",
     sections: [
       {
         title: "A record you can follow",
-        body: "The sample OK-DEMO-001 links Demo Manufacturing A, waste ID SAMPLE-SR-01, a quantity of 2.4 tonnes, receipt on 16 September and treatment completion on 18 September 2026.",
+        body: "The illustrative record OK-2026-0142 links Mekong Precision Works, waste ID WR-2609-0142, a quantity of 2.4 tonnes, receipt on 16 September and treatment completion on 18 September 2026.",
       },
       {
         title: "What to check",
@@ -197,16 +49,16 @@ export const resources: Array<EvidenceResource> = [
     title: "How the evidence is produced",
     category: "Methodology & Monitoring",
     summary: "Understand the treatment journey, measurement scope and its boundaries.",
-    publisher: samplePublisher,
+    publisher: editorialPublisher,
     date: "2026-09-19",
     version: "1.0",
-    kind: "Sample document",
+    kind: "Practice guide",
     sections: [
       { title: "The proposed method", body: methodology },
       { title: "Know the boundaries", body: limitations },
       {
         title: "Traceability",
-        body: "Each sample treatment record carries its own publication timestamp and version. Background technical guidance is labelled separately from record-specific evidence.",
+        body: "Each illustrative treatment record carries its own publication timestamp and version. Background technical guidance is labelled separately from record-specific evidence.",
       },
     ],
   },
@@ -215,10 +67,10 @@ export const resources: Array<EvidenceResource> = [
     title: "Reading a monitoring summary",
     category: "Methodology & Monitoring",
     summary: "See what monitoring covers, what is missing and which questions to ask.",
-    publisher: samplePublisher,
+    publisher: editorialPublisher,
     date: "2026-09-21",
     version: "2.0",
-    kind: "Sample document",
+    kind: "Practice guide",
     sections: [
       {
         title: "Coverage comes first",
@@ -226,11 +78,11 @@ export const resources: Array<EvidenceResource> = [
       },
       {
         title: "Missing evidence stays visible",
-        body: "OK-DEMO-003 has a completed treatment milestone but no monitoring summary. Its evidence status remains Partial. OK-DEMO-002 is still processing and also has no monitoring summary.",
+        body: "OK-2026-0144 has a completed treatment milestone but no monitoring summary. Its evidence status remains Partial. OK-2026-0143 is still processing and also has no monitoring summary.",
       },
       {
         title: "Version history",
-        body: "OK-DEMO-004 demonstrates a second publication that clarifies monitoring scope while preserving its original treatment milestones.",
+        body: "OK-2026-0145 demonstrates a second publication that clarifies monitoring scope while preserving its original treatment milestones.",
       },
     ],
   },
@@ -239,10 +91,10 @@ export const resources: Array<EvidenceResource> = [
     title: "PCB evidence: questions to ask",
     category: "PCB & OPTOCE",
     summary: "A guide to separating technical references from treatment-specific proof.",
-    publisher: samplePublisher,
+    publisher: editorialPublisher,
     date: "2026-09-19",
     version: "1.0",
-    kind: "Sample document",
+    kind: "Practice guide",
     sections: [
       {
         title: "Check the document's role",
@@ -254,31 +106,32 @@ export const resources: Array<EvidenceResource> = [
       },
       {
         title: "Reference boundary",
-        body: "The EPA resource in this library describes the United States e-Manifest context. It is not an INSEE Vietnam licence. No sample shipment in this demo claims to be a PCB treatment.",
+        body: "The EPA resource in this library describes the United States e-Manifest context. It is not an INSEE Vietnam licence. None of the illustrative shipments is represented as PCB treatment.",
       },
     ],
   },
   {
     id: "optoce",
-    title: "OPTOCE reference guide",
+    title: "OPTOCE: the research programme",
     category: "PCB & OPTOCE",
-    summary: "Explore the questions behind a circular-economy project reference.",
-    publisher: samplePublisher,
-    date: "2026-09-19",
-    version: "1.0",
-    kind: "Sample document",
+    summary: "SINTEF’s programme exploring energy recovery from non-recyclable plastics, including work in Vietnam.",
+    publisher: "SINTEF",
+    date: "2026-09-23",
+    version: "Project page · accessed 23 Sep 2026",
+    kind: "External reference",
+    url: "https://www.sintef.no/en/projects/2019/optoce/",
     sections: [
       {
-        title: "A supporting reference",
-        body: "The campaign proposal includes OPTOCE material in its technical evidence library. This demo provides a review framework; the source attachment did not include an original OPTOCE fact sheet.",
+        title: "What the programme investigates",
+        body: "OPTOCE stands for Ocean Plastic Turned into an Opportunity in Circular Economy. SINTEF describes partnerships that collect and prepare non-recyclable plastic for energy recovery in local industry, while directing recyclable fractions to recycling.",
       },
       {
-        title: "Before applying a project finding",
-        body: "Identify the original publisher, project location, waste stream, methodology, observation period and limitations. Keep project-level findings separate from a customer's individual treatment evidence.",
+        title: "Geographic scope",
+        body: "The project page names China, India, Thailand, Vietnam and Myanmar as its initial partner countries. Its findings provide research context, not evidence for a particular customer shipment.",
       },
       {
-        title: "Publication status",
-        body: "No OPTOCE performance figures or official approvals are asserted in this preview. Requesting supporting evidence opens a demonstration form only.",
+        title: "Follow the original source",
+        body: "The linked project page provides programme information and research contacts. The separate Vietnam pilot article in this library reports historical results with a defined observation period.",
       },
     ],
   },
@@ -287,18 +140,18 @@ export const resources: Array<EvidenceResource> = [
     title: "An evidence trail, not a black box",
     category: "History",
     summary: "Distinguish treatment milestones from publication and revision history.",
-    publisher: samplePublisher,
+    publisher: editorialPublisher,
     date: "2026-09-21",
     version: "2.0",
-    kind: "Sample document",
+    kind: "Practice guide",
     sections: [
       {
         title: "Two connected timelines",
         body: "Treatment milestones describe when waste was received and processed. Publication history describes when supporting evidence was made available or revised. These dates need not be the same.",
       },
       {
-        title: "Sample revision",
-        body: "OK-DEMO-004 was received on 15 September and completed on 18 September. Evidence version 1 was published on 19 September; version 2 clarified monitoring scope on 21 September.",
+        title: "Publication revision",
+        body: "OK-2026-0145 was received on 15 September and completed on 18 September. Evidence version 1 was published on 19 September; version 2 clarified monitoring scope on 21 September.",
       },
       {
         title: "Your review",
@@ -310,11 +163,11 @@ export const resources: Array<EvidenceResource> = [
     id: "governance",
     title: "Quarterly governance brief",
     category: "Governance",
-    summary: "A sample Q2 2026 board brief covering participation, treatment and evidence gaps.",
-    publisher: samplePublisher,
+    summary: "An illustrative Q2 2026 board brief covering participation, treatment and evidence gaps.",
+    publisher: editorialPublisher,
     date: "2026-07-08",
     version: "Q2 2026",
-    kind: "Sample document",
+    kind: "Illustrative brief",
     sections: [
       {
         title: "Q2 at a glance",
@@ -322,11 +175,11 @@ export const resources: Array<EvidenceResource> = [
       },
       {
         title: "Priorities for discussion",
-        body: "Review the 14 records with incomplete evidence, clarify publication responsibilities and agree follow-up actions. The dashboard provides no tenant-level access. All figures are synthetic.",
+        body: "Seven records need monitoring summaries, three need receipt reconciliation, and four await publication approval. Each record is assigned one primary issue; the categories total 14. Assign an owner and review progress at the next board meeting. The dashboard provides no tenant-level access. All figures are synthetic.",
       },
       {
         title: "Reporting boundary",
-        body: "This is a prewritten sample brief. Downloadable reporting integration belongs to the proposed Year 2 roadmap. Evidence completeness is not a regulatory compliance score.",
+        body: "This is a prewritten illustrative brief. Integrated report exports belong to the proposed Year 2 roadmap. Evidence completeness is not a regulatory compliance score.",
       },
     ],
   },
@@ -334,11 +187,11 @@ export const resources: Array<EvidenceResource> = [
     id: "policy",
     title: "Policy update pack",
     category: "Governance",
-    summary: "A sample structure for reviewing regulatory developments with a board.",
-    publisher: samplePublisher,
+    summary: "A structured approach to source, scope and follow-up for policy reviews.",
+    publisher: editorialPublisher,
     date: "2026-09-19",
     version: "1.0",
-    kind: "Sample document",
+    kind: "Practice guide",
     sections: [
       {
         title: "Review structure",
@@ -349,8 +202,8 @@ export const resources: Array<EvidenceResource> = [
         body: "Confirm which developments are relevant to participating tenants and which evidence needs updating. Use approved source material before changing an operational process.",
       },
       {
-        title: "Demo scope",
-        body: "This sample contains no live regulatory updates and makes no claim that a specific law or permit applies to a tenant.",
+        title: "Scope of this guide",
+        body: "This guide contains no live regulatory updates and makes no claim that a specific law or permit applies to a tenant.",
       },
     ],
   },
@@ -359,10 +212,10 @@ export const resources: Array<EvidenceResource> = [
     title: "ESG discussion toolkit",
     category: "Governance",
     summary: "Turn aggregated evidence into focused questions and follow-up actions.",
-    publisher: samplePublisher,
+    publisher: editorialPublisher,
     date: "2026-09-19",
     version: "1.0",
-    kind: "Sample document",
+    kind: "Practice guide",
     sections: [
       {
         title: "Start with scope",
@@ -379,10 +232,10 @@ export const resources: Array<EvidenceResource> = [
     title: "Evidence readiness checklist",
     category: "Governance",
     summary: "Prepare a structured evidence review without turning it into a compliance verdict.",
-    publisher: samplePublisher,
+    publisher: editorialPublisher,
     date: "2026-09-19",
     version: "1.0",
-    kind: "Sample document",
+    kind: "Practice guide",
     sections: [
       {
         title: "Review checklist",
@@ -411,7 +264,7 @@ export const resources: Array<EvidenceResource> = [
       },
       {
         title: "How to use it",
-        body: "Use it for background context, with its jurisdiction and publisher visible. It does not establish an INSEE Vietnam permit or prove a sample treatment outcome. Check the publisher for revisions.",
+        body: "Use it for background context, with its jurisdiction and publisher visible. It does not establish an INSEE Vietnam permit or prove an individual treatment outcome. Check the publisher for revisions.",
       },
     ],
   },
@@ -424,7 +277,7 @@ export const resources: Array<EvidenceResource> = [
     date: "2020-01-01",
     version: "2020 edition",
     kind: "External reference",
-    url: "https://www.giz.de/en/downloads/giz-2020_en_guidelines-pre-coprocessing.pdf",
+    url: "https://www.giz.de/sites/default/files/media/pkb-document/2025-07/giz-2020-en-guidelines-pre-coprocessing.pdf",
     sections: [
       {
         title: "Source and scope",
@@ -445,6 +298,32 @@ export const governance: Array<GovernanceSnapshot> = [
     totalTenants: 18,
     completeRecords: 78,
     totalRecords: 90,
+    issues: [
+      {
+        id: "monitoring",
+        title: "Monitoring summary outstanding",
+        count: 6,
+        owner: "Environmental reporting",
+        action: "Publish the treatment-window summary and identify any coverage gaps.",
+        dueDate: "2026-04-15",
+      },
+      {
+        id: "reconciliation",
+        title: "Receipt reconciliation needed",
+        count: 4,
+        owner: "Operations records",
+        action: "Reconcile the receiving quantity with the handover entry and document corrections.",
+        dueDate: "2026-04-12",
+      },
+      {
+        id: "publication",
+        title: "Publication review pending",
+        count: 2,
+        owner: "Evidence publisher",
+        action: "Complete the version review and publish the approved evidence set.",
+        dueDate: "2026-04-18",
+      },
+    ],
     months: [
       { label: "Jan", tonnes: 30 },
       { label: "Feb", tonnes: 32 },
@@ -457,6 +336,32 @@ export const governance: Array<GovernanceSnapshot> = [
     totalTenants: 18,
     completeRecords: 86,
     totalRecords: 100,
+    issues: [
+      {
+        id: "monitoring",
+        title: "Monitoring summary outstanding",
+        count: 7,
+        owner: "Environmental reporting",
+        action: "Publish the treatment-window summary and identify any coverage gaps.",
+        dueDate: "2026-07-15",
+      },
+      {
+        id: "reconciliation",
+        title: "Receipt reconciliation needed",
+        count: 3,
+        owner: "Operations records",
+        action: "Reconcile the receiving quantity with the handover entry and document corrections.",
+        dueDate: "2026-07-12",
+      },
+      {
+        id: "publication",
+        title: "Publication review pending",
+        count: 4,
+        owner: "Evidence publisher",
+        action: "Complete the version review and publish the approved evidence set.",
+        dueDate: "2026-07-18",
+      },
+    ],
     months: [
       { label: "Apr", tonnes: 36 },
       { label: "May", tonnes: 38 },

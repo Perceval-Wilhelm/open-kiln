@@ -2,7 +2,7 @@
   "name": "open-kiln",
   "private": true,
   "version": "1.0.0",
-  "description": "Open Kiln CSR campaign assessment demo with fictional treatment evidence.",
+  "description": "Open Kiln CSR campaign concept with a traceable evidence register and attributed public research.",
   "type": "module",
   "packageManager": "yarn@4.18.0",
   "engines": {
