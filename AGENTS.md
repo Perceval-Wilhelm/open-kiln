@@ -1,6 +1,6 @@
 # Open Kiln contributor guide
 
-Open Kiln is an English-language CSR campaign assessment demo for INSEE Ecocycle. All treatment records and park metrics are fictional. Forms only simulate completion.
+Open Kiln is an English-language CSR campaign concept for INSEE Ecocycle. Public research is attributed to original publishers; treatment records, organisations, facilities and park metrics are illustrative. Forms prepare private summaries without sending requests.
 
 ## Architecture
 
@@ -10,7 +10,8 @@ Open Kiln is an English-language CSR campaign assessment demo for INSEE Ecocycle
 - `Experience.tsx` owns client interaction state. Server-rendered content is passed as children, rather than imported into the client provider.
 - `EvidenceOverlay.tsx` owns the always-available Radix dialog shell, focus restoration and loading/error boundaries. It lazily loads content from `Dialogs.tsx`; a rejected import requires a page reload. Preserve the close action in both fallback states.
 - `ExperienceSections.tsx` connects record search, audience pathways and the library to that state.
-- `data.ts`, `types.ts` and `logic.ts` hold fixtures, contracts and pure functions.
+- `treatment-records.ts` defines 24 varied operational examples; `data.ts` holds editorial resources and governance snapshots; `references.ts` holds independently attributed public sources. `types.ts` and `logic.ts` define contracts and pure functions.
+- `KilnIllustration.tsx` renders the process SVG on the server, passed as children into the interactive `ProcessExplorer.tsx`. Keep the SVG out of the client import graph.
 - `src/components/ui/` contains the shadcn/Radix primitives actually used. Prefer composition; update them when compatibility or accessibility requires it.
 - Use `@/*` for imports from `src/`. Keep unrelated template infrastructure out of the project.
 
@@ -36,7 +37,8 @@ For UI changes, verify both audience journeys in a real browser, desktop/mobile 
 - Processing records have no completion date. Preserve publication revisions and monitoring limitations.
 - Governance figures are an independent aggregate dataset with explicit denominators. Do not imply regulatory certification or tenant-level access.
 - Forms must not send requests or persist personal data. Closing a form discards its contents.
-- Preserve sample labels and publisher attribution for external references.
+- Avoid repeated demo labels and artificial DEMO IDs. Keep concise illustrative-data provenance beside records, dashboard and transparency; never present constructed records as real customer evidence. Preserve the original publisher, publication period and scope of public sources.
+- Governance issue counts must reconcile to incomplete records, with mutually exclusive primary issue categories. Compare rates using each quarter’s denominator.
 - No backend, authentication, analytics, real booking or email delivery without a new product requirement.
 
 ## Dependencies and delivery

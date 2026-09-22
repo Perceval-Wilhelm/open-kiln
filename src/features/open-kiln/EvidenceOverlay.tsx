@@ -25,11 +25,16 @@ export function EvidenceOverlay({
   view,
   onClose,
   returnFocus,
+  onNavigate,
+  onTransparency,
 }: {
   view: ModalView;
   onClose: () => void;
   returnFocus: RefObject<HTMLElement | null>;
+  onNavigate: (view: ModalView) => void;
+  onTransparency: () => void;
 }) {
+  const contentKey = view.kind === "record" ? view.record.id : view.kind === "resource" ? view.resource.id : view.kind;
   return (
     <Dialog
       open
@@ -44,36 +49,38 @@ export function EvidenceOverlay({
           if (returnFocus.current?.isConnected) returnFocus.current.focus();
         }}
       >
-        <DialogErrorBoundary
-          fallback={
-            <>
-              <DialogHeader>
-                <DialogTitle className="ok-dialog-title">This preview couldn’t load.</DialogTitle>
-                <DialogDescription>
-                  Check your connection, then reload the page to try again. No request was sent.
-                </DialogDescription>
-              </DialogHeader>
-              <div className="ok-dialog-actions">
-                {/* React caches rejected lazy imports; a page reload starts a fresh download. */}
-                <Action onClick={() => window.location.reload()}>Reload page</Action>
-                <Action secondary onClick={onClose}>
-                  Close preview
-                </Action>
-              </div>
-            </>
-          }
-        >
-          <Suspense
+        <div className="ok-dialog-body" key={contentKey}>
+          <DialogErrorBoundary
             fallback={
-              <DialogHeader>
-                <DialogTitle className="ok-dialog-title">Opening evidence preview…</DialogTitle>
-                <DialogDescription>Your preview is loading. You can close it at any time.</DialogDescription>
-              </DialogHeader>
+              <>
+                <DialogHeader>
+                  <DialogTitle className="ok-dialog-title">This content couldn’t load.</DialogTitle>
+                  <DialogDescription>
+                    Check your connection, then reload the page to try again. No request was sent.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="ok-dialog-actions">
+                  {/* React caches rejected lazy imports; a page reload starts a fresh download. */}
+                  <Action onClick={() => window.location.reload()}>Reload page</Action>
+                  <Action secondary onClick={onClose}>
+                    Close
+                  </Action>
+                </div>
+              </>
             }
           >
-            <EvidenceContent view={view} onClose={onClose} />
-          </Suspense>
-        </DialogErrorBoundary>
+            <Suspense
+              fallback={
+                <DialogHeader>
+                  <DialogTitle className="ok-dialog-title">Opening evidence…</DialogTitle>
+                  <DialogDescription>Your evidence is loading. You can close it at any time.</DialogDescription>
+                </DialogHeader>
+              }
+            >
+              <EvidenceContent view={view} onClose={onClose} onNavigate={onNavigate} onTransparency={onTransparency} />
+            </Suspense>
+          </DialogErrorBoundary>
+        </div>
       </DialogContent>
     </Dialog>
   );

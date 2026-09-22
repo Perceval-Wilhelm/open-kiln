@@ -1,6 +1,6 @@
 import type {
-  DemoFormValues,
-  DemoRequest,
+  RequestFormValues,
+  RequestContext,
   EvidenceCategory,
   EvidenceResource,
   SearchKind,
@@ -40,8 +40,8 @@ export function formatTimestamp(value: string) {
   return `${new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "Asia/Ho_Chi_Minh" }).format(new Date(value))} (UTC+7)`;
 }
 
-export function validateDemoRequest(kind: DemoRequest["kind"], values: DemoFormValues) {
-  const errors: Partial<Record<keyof DemoFormValues, string>> = {};
+export function validateRequest(kind: RequestContext["kind"], values: RequestFormValues) {
+  const errors: Partial<Record<keyof RequestFormValues, string>> = {};
   if (kind !== "updates") {
     if (!values.name.trim()) errors.name = "Enter your name.";
     if (!values.organisation.trim()) errors.organisation = "Enter your organisation.";

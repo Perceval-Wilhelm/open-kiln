@@ -6,11 +6,11 @@ import { Pathways } from "@/features/open-kiln/Pathways";
 import { RecordSearch } from "@/features/open-kiln/Records";
 
 export function RecordSearchSection() {
-  const { inputRef, sampleSignal, openModal } = useExperience();
+  const { inputRef, browseSignal, openModal } = useExperience();
   return (
     <RecordSearch
       inputRef={inputRef}
-      sampleSignal={sampleSignal}
+      browseSignal={browseSignal}
       onRecord={(record) => openModal({ kind: "record", record })}
     />
   );
@@ -36,6 +36,8 @@ export function LibrarySection() {
       category={category}
       onCategory={setCategory}
       onResource={(resource) => openModal({ kind: "resource", resource })}
+      onOverview={() => openModal({ kind: "overview" })}
+      onRequest={(request) => openModal({ kind: "request", request })}
     />
   );
 }

@@ -11,15 +11,11 @@ Configuration reviewed on **23 September 2026**. Open Kiln is a frontend demonst
 
 ## Activation status
 
-The GitHub repository settings below are active, and the Vercel project preset has been changed from Vite to Next.js. The existing production deployment still serves the initial Vite commit `add04cf`; changing project settings does not replace it.
+The Next.js migration in [PR #4](https://github.com/Perceval-Wilhelm/open-kiln/pull/4) was merged on 23 September 2026. The verified production baseline is commit `041b21d7393d9748cb41131ea41d1d332eeb858e`, with [production deployment `dpl_EU5PUDj6qHiGCZWqJhbC2jtA3edB`](https://vercel.com/perceval-wilhelms-projects/open-kiln/EU5PUDj6qHiGCZWqJhbC2jtA3edB) Ready and serving the public domain.
 
-The Next.js migration, browser tests, workflow and Dependabot configuration are published in [PR #4](https://github.com/Perceval-Wilhelm/open-kiln/pull/4). Production remains unchanged until that PR is approved and merged.
+Both **Open Kiln quality** and **Open Kiln browser** passed on [the main-branch run](https://github.com/Perceval-Wilhelm/open-kiln/actions/runs/35780133655). Both deployment checks are configured as **Blocking** for Production. The migration has completed; these are no longer pending activation steps.
 
-**Vercel deployment checks are active:** **Open Kiln quality** and **Open Kiln browser** were imported from the successful GitHub Actions run on commit `a77d6de`. Both use **Blocking** behavior for Production. GitHub also requires these checks to merge to `main`. The first production promotion is intentionally not exercised during preview verification.
-
-The [preview build for app commit `0d35611`](https://vercel.com/perceval-wilhelms-projects/open-kiln/J7TxntufdBZPNoSUsgq3m8dAjm7t) is **Ready**, and [both GitHub jobs passed](https://github.com/Perceval-Wilhelm/open-kiln/actions/runs/35778850538). An authenticated browser smoke test confirmed sample search, evidence details, Q1/Q2 governance values and simulated form completion on the deployed site. This confirms preview readiness; production promotion remains a separate approval.
-
-Do not redeploy the old Vite commit using the new Next.js settings. Review the migration preview before releasing.
+This is a dated deployment record, not a claim that subsequent local changes are deployed. Experience refinements must pass the routine PR/preview/production flow below. Do not redeploy an old Vite source commit using the Next.js settings.
 
 ## GitHub protections
 
@@ -34,7 +30,7 @@ The active [main ruleset](https://github.com/Perceval-Wilhelm/open-kiln/rules/23
 
 GitHub Actions has a read-only default token, cannot create approving PR reviews, and requires actions to be pinned to full commit SHAs. The workflow also declares `contents: read` and disables persisted checkout credentials. It uses no Vercel token: Vercel's existing Git integration builds the previews and production site.
 
-Dependency vulnerability alerts, automated security fixes, secret scanning and push protection are enabled. Weekly version-update PRs are defined in `.github/dependabot.yml` and begin only after that file reaches the default branch. There is no auto-merge. TypeScript and `@types/node` major updates need deliberate compatibility review; see [toolchain decisions](toolchain.md).
+Dependency vulnerability alerts, automated security fixes, secret scanning and push protection are enabled. Weekly version-update PRs are active through `.github/dependabot.yml` on the default branch. There is no auto-merge. TypeScript and `@types/node` major updates need deliberate compatibility review; see [toolchain decisions](toolchain.md).
 
 ## CI behavior
 
@@ -43,7 +39,7 @@ Dependency vulnerability alerts, automated security fixes, secret scanning and p
 | Check             | Verification                                                                                                                                                             |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Open Kiln quality | Immutable install, high/critical dependency audit, formatting, zero-warning lint, route types, TypeScript, application tests, lint regression tests and production build |
-| Open Kiln browser | A fresh production build and Chromium checks at desktop/mobile sizes; includes simulated dialog-download failure and recovery                                            |
+| Open Kiln browser | A fresh production build and Chromium checks at desktop/tablet/mobile sizes; includes simulated dialog-download failure and recovery                                     |
 
 Each job has a 15-minute limit. Browser failure reports, screenshots and traces are retained for seven days. Tests use fictional input only. Browser artifacts remain ignored locally.
 
@@ -79,7 +75,7 @@ Vercel's first migration preview exposed two platform differences: Node 24.x cur
 4. Review the complete diff, including deletions, new files and the lockfile. Keep original assessment attachments and local generated artifacts out of the release.
 5. Commit and push the feature branch, then open a PR. Check the two named GitHub jobs and the Vercel preview build.
 6. Review the preview while signed into the owning Vercel account: search, evidence, both audience journeys, forms, mobile layout and keyboard focus. Confirm the build identifies Next.js and Node 24.x.
-7. Confirm that both deployment checks remain configured as Production Blocking. Their first production promotion is a separate release verification step.
+7. Confirm that both deployment checks remain configured as Production Blocking. Confirm the production deployment passes those checks before its alias is promoted.
 8. Merge only after release approval. Vercel builds `main` and assigns the production domain after its deployment checks pass. Confirm the deployment is Ready and that the public domain serves the expected commit.
 9. Check build/runtime logs and repeat the normal-flow smoke test on production. Do not send real personal data through the demo forms.
 

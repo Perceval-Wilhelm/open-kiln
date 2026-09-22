@@ -28,6 +28,7 @@ export default defineConfig({
     video: "off",
   },
   projects: [
+    { name: "tablet-chromium", use: { browserName: "chromium", viewport: { width: 768, height: 1024 } } },
     { name: "desktop-chromium", use: { browserName: "chromium", viewport: { width: 1440, height: 1000 } } },
     {
       name: "mobile-chromium",

@@ -41,11 +41,11 @@ export function TextAction({ children, onClick }: { children: ReactNode; onClick
   );
 }
 
-export function SampleLabel({ light = false }: { light?: boolean }) {
+export function DataLabel({ light = false }: { light?: boolean }) {
   return (
-    <span className={`ok-sample ${light ? "ok-sample-light" : ""}`}>
+    <span className={`ok-data-label ${light ? "ok-data-label-light" : ""}`}>
       <span aria-hidden="true" />
-      Sample data
+      Illustrative data
     </span>
   );
 }

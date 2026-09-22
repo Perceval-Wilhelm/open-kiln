@@ -93,7 +93,7 @@ Sources: [ESLint support schedule](https://eslint.org/version-support/), [ESLint
 - Next.js automatic agent-rule generation is disabled because the repository maintains its own contributor guide.
 - The supplied campaign HTML and images remain source material and are excluded from code formatting/linting.
 
-## Verification results
+## Upgrade verification results (historical)
 
 The following checks ran against `/Users/thinhbui/Public/open-kiln` on Node 24.21.0 after applying the upgrade:
 
@@ -123,4 +123,6 @@ A complete `corepack yarn verify` run also passed on the official Node **24.19.0
 
 The added Playwright suite also passed **eight production-browser tests** (four scenarios at desktop/mobile sizes), including script-download failure, close/focus recovery and a successful page reload. A sandboxed launch initially failed at the macOS browser permission boundary; the permitted browser run completed successfully. Playwright color variables are normalized to avoid a conflicting-environment warning without suppressing Node warnings.
 
-This is focused Chromium regression coverage. Safari, Firefox, native browser zoom, screen-reader testing and public deployment were not rerun in this upgrade. Remote GitHub Actions and Vercel results remain separate checks. GitHub protection/security settings and the Vercel Next.js preset were configured; the migration and delivery definitions are published in PR #4. Production remains on the initial deployment; both remote CI jobs and the Vercel preview for app commit `0d35611` passed, with an authenticated browser smoke test. See the linked results in the deployment guide. Dependabot version updates activate after merging its configuration to the default branch. See [deployment activation status](deployment.md).
+The upgrade verification above covered Chromium, not Safari, Firefox or a screen reader. Its initial eight browser scenarios predate the expanded experience and native zoom checks; see the [current experience verification](verification-2026-09-23.md).
+
+At the upgrade checkpoint, the migration was published in PR #4 and production still served the initial deployment. That checkpoint is historical: the Next.js migration has since merged and deployed. See the dated [deployment activation record](deployment.md) for the verified production commit and the distinction between production and subsequent local work.
