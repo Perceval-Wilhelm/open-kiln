@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+
+    "baseUrl": "./",
+    "paths": {
+      "~icons": ["./src/assets/icons"],
+      "~router": ["./src/router"],
+      "~shared/*": ["./src/shared/*"],
+      "~config/*": ["./src/configs/*"],
+      "~api/*": ["./src/api/*"],
+      "~styles/*": ["./src/styles/*"],
+      "~plugins/*": ["./plugins/*"],
+      "~scripts/*": ["./scripts/*"],
+      "~lib/*": ["./src/lib/*"],
+      "~views/*": ["./src/views/*"],
+      "~/*": ["./src/modules/*", "./src/*"]
+    },
+    "types": ["vitest/globals"]
+  },
+  "include": ["src", "packages", "scripts", "@types", "plugins", "vite.config.ts", ".storybook"]
+}
