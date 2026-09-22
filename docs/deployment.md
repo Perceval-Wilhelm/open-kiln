@@ -17,7 +17,9 @@ The Next.js migration, browser tests, workflow and Dependabot configuration are 
 
 **Vercel deployment checks are active:** **Open Kiln quality** and **Open Kiln browser** were imported from the successful GitHub Actions run on commit `a77d6de`. Both use **Blocking** behavior for Production. GitHub also requires these checks to merge to `main`. The first production promotion is intentionally not exercised during preview verification.
 
-Do not redeploy the old Vite commit using the new Next.js settings. Publish and verify the migration branch first.
+The [preview build for app commit `0d35611`](https://vercel.com/perceval-wilhelms-projects/open-kiln/J7TxntufdBZPNoSUsgq3m8dAjm7t) is **Ready**, and [both GitHub jobs passed](https://github.com/Perceval-Wilhelm/open-kiln/actions/runs/35778850538). An authenticated browser smoke test confirmed sample search, evidence details, Q1/Q2 governance values and simulated form completion on the deployed site. This confirms preview readiness; production promotion remains a separate approval.
+
+Do not redeploy the old Vite commit using the new Next.js settings. Review the migration preview before releasing.
 
 ## GitHub protections
 

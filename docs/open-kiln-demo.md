@@ -43,10 +43,10 @@ Open [localhost:3000](http://localhost:3000). Use another free port when needed;
 5. Explore **EHS & Plant Managers**: process journey, sample record, evidence modules, ESG overview, PCB/OPTOCE material, evidence request and monthly updates.
 6. Select **Industrial Park Boards**. Switch Q2 to Q1. Verify participation, treatment totals, chart months and evidence denominators together:
 
-   | Period  | Participation   | Treated waste | Complete evidence               | Monthly tonnes         |
-   | ------- | --------------- | ------------- | ------------------------------- | ---------------------- |
-   | Q1 2026 | 10 / 18 tenants | 100 tonnes    | 78 / 90 records, rounded to 87% | Jan 30, Feb 32, Mar 38 |
-   | Q2 2026 | 12 / 18 tenants | 120 tonnes    | 86 / 100 records, 86%           | Apr 36, May 38, Jun 46 |
+   | Period  | Participation   | Treated waste | Complete evidence                   | Monthly tonnes         |
+   | ------- | --------------- | ------------- | ----------------------------------- | ---------------------- |
+   | Q1 2026 | 10 / 18 tenants | 100 tonnes    | 78 / 90 records, displayed as 86.7% | Jan 30, Feb 32, Mar 38 |
+   | Q2 2026 | 12 / 18 tenants | 120 tonnes    | 86 / 100 records, 86%               | Apr 36, May 38, Jun 46 |
 
 7. Read the sample governance brief, policy pack and toolkits. Both governance journeys include their annual review/oversight steps.
 8. Open visit, roundtable, evidence-request, update or follow-up forms. Submit blank or invalid email values to see errors. Choose **Fill sample details**, then submit to see **“Demo complete. No request was sent.”** Close and reopen: entered values are discarded.
