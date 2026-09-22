@@ -1,0 +1,15 @@
+.next/
+node_modules/
+.yarn/
+out/
+dist/
+next-env.d.ts
+yarn.lock
+playwright-report/
+test-results/
+output/
+coverage/
+docs/open-kiln-landing-page-brief.md
+
+# Preserve the supplied campaign source documents.
+Assessment 3_ CSR Campaign Proposal/
