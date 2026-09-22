@@ -17,7 +17,7 @@ This is a demonstration: no real customer data, regulatory certification, live m
 
 ## Run locally
 
-Requirements: **Node.js 24.21.0 or newer within the 24.x LTS line**, and [Corepack](https://github.com/nodejs/corepack). The exact Yarn version is pinned in `package.json`. Dependencies use the `node-modules` linker.
+Recommended: **Node.js 24.21.0** from `.nvmrc` (supported range: **24.19.0 or newer within 24.x**), and [Corepack](https://github.com/nodejs/corepack). The exact Yarn version is pinned in `package.json`. Dependencies use the `node-modules` linker.
 
 ```sh
 git clone https://github.com/Perceval-Wilhelm/open-kiln.git
@@ -35,7 +35,7 @@ export PATH="$(brew --prefix node@24)/bin:$PATH"
 node --version
 ```
 
-This requires an existing `node@24` installation. `dev`, `build`, `start` and the combined checks fail early with a clear message when the selected runtime is unsupported. Node 26 is the newer Current line, but this project uses the latest Node 24 LTS release supported by Vercel. See the compatibility notes below.
+This requires an existing `node@24` installation. `dev`, `build`, `start` and the combined checks fail early with a clear message when the selected runtime is unsupported. Node 26 is the newer Current line, but local development uses the latest verified Node 24 LTS patch. Vercel manages its own patch rollout and currently builds with 24.19.0; both patches are covered by validation. See the compatibility notes below.
 
 Open [localhost:3000](http://localhost:3000). To use another port, run `corepack yarn dev --port 3001`.
 

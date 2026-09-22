@@ -42,7 +42,8 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version-file: .nvmrc
+          # Verify the patch currently supplied by Vercel; quality tests use .nvmrc.
+          node-version: 24.19.0
       - run: corepack enable
       - run: corepack yarn install --immutable
       - run: corepack yarn exec playwright install --with-deps chromium

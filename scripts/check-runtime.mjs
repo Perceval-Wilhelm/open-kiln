@@ -1,6 +1,8 @@
 import { readFileSync } from "node:fs";
 
-const required = readFileSync(new URL("../.nvmrc", import.meta.url), "utf8").trim();
+const { engines } = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
+const required = /^>=(\d+\.\d+\.\d+) <\d+$/.exec(engines.node)?.[1];
+if (!required) throw new Error("Expected a bounded Node LTS range in package.json engines.node.");
 const minimum = required.split(".").map(Number);
 const current = process.versions.node.split(".").map(Number);
 const isSupported =

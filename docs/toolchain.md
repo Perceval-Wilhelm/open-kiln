@@ -64,9 +64,9 @@ Sources: [typescript-eslint dependency support](https://typescript-eslint.io/use
 
 ### Node.js 24.21.0 and @types/node 24.13.6
 
-**26.10.0** is the latest Node Current release; **24.21.0** is the latest Node 24 LTS release. Vercel currently lists Node 24, 22 and 20, with 24 as its newest supported runtime. Open Kiln therefore uses Node **24.21.0**, and `@types/node` **24.13.6**, the newest types in the matching major. Installing the globally newest types (26.6.2) would advertise APIs outside the deployment runtime.
+**26.10.0** is the latest Node Current release; **24.21.0** is the latest Node 24 LTS release. Vercel currently lists Node 24, 22 and 20, with 24 as its newest supported runtime. Open Kiln recommends Node **24.21.0** for local development and uses `@types/node` **24.13.6**, the newest types in the matching major. Installing the globally newest types (26.6.2) would advertise APIs outside the deployment runtime.
 
-`.nvmrc` pins the verified release, `engines` requires `>=24.21.0 <25`, and the runtime guard fails clearly if development, builds, startup or combined checks use the wrong runtime. The guard permits newer 24.x patches. CI reads `.nvmrc`; select 24.x in Vercel and verify the actual build log when deploying. No global Node installation is changed by this repository.
+`.nvmrc` pins the recommended local release. A real Vercel preview confirmed that its Node 24 build image currently supplies **24.19.0**, so `engines` and the runtime guard support `>=24.19.0 <25`. The quality CI job uses 24.21.0 and the browser job uses 24.19.0. The guard permits newer 24.x patches. Select 24.x in Vercel and verify its actual patch in build logs; managed runtimes can lag the upstream release. Both Vercel commands use `corepack yarn` because a bare `yarn build` selected Yarn 1 on the first preview. No global Node installation is changed by this repository.
 
 Sources: [Node.js releases](https://nodejs.org/en/about/previous-releases), [Node release index](https://nodejs.org/dist/index.json) and [Vercel supported Node versions](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions).
 
@@ -119,6 +119,8 @@ Production browser verification used Chromium at `http://127.0.0.1:4318/`:
 - No console/page errors, failed requests or non-GET/HEAD requests were observed during the instrumented mobile/form/layout run.
 - With JavaScript disabled, the hero and transparency section are present in server-rendered content. Interactive controls require JavaScript.
 
+A complete `corepack yarn verify` run also passed on the official Node **24.19.0** binary after reproducing Vercel's managed runtime. Both Node 24.19.0 and 24.21.0 pass the runtime guard; Node 26 remains rejected.
+
 The added Playwright suite also passed **eight production-browser tests** (four scenarios at desktop/mobile sizes), including script-download failure, close/focus recovery and a successful page reload. A sandboxed launch initially failed at the macOS browser permission boundary; the permitted browser run completed successfully. Playwright color variables are normalized to avoid a conflicting-environment warning without suppressing Node warnings.
 
-This is focused Chromium regression coverage. Safari, Firefox, native browser zoom, screen-reader testing and public deployment were not rerun in this upgrade. Remote GitHub Actions and Vercel results remain separate checks. GitHub protection/security settings and the Vercel Next.js preset were configured; no commit, push or new deployment was performed. The workflow and Dependabot definitions still need publishing. See [deployment activation status](deployment.md).
+This is focused Chromium regression coverage. Safari, Firefox, native browser zoom, screen-reader testing and public deployment were not rerun in this upgrade. Remote GitHub Actions and Vercel results remain separate checks. GitHub protection/security settings and the Vercel Next.js preset were configured; the migration and delivery definitions are published in PR #4. Production remains on the initial deployment; remote CI and preview results must be verified separately. Dependabot version updates activate after merging its configuration to the default branch. See [deployment activation status](deployment.md).

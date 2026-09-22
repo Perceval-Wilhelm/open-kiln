@@ -13,9 +13,9 @@ Configuration reviewed on **23 September 2026**. Open Kiln is a frontend demonst
 
 The GitHub repository settings below are active, and the Vercel project preset has been changed from Vite to Next.js. The existing production deployment still serves the initial Vite commit `add04cf`; changing project settings does not replace it.
 
-The Next.js migration, browser tests, workflow and Dependabot configuration are currently local changes. They must be committed and published through a feature-branch pull request before remote checks can be verified. No new production deployment was made during this configuration pass.
+The Next.js migration, browser tests, workflow and Dependabot configuration are published in [PR #4](https://github.com/Perceval-Wilhelm/open-kiln/pull/4). Production remains unchanged until that PR is approved and merged.
 
-**Vercel deployment checks are not yet active.** Vercel cannot import the two GitHub check names until they have run on a published commit. After the first PR run, use its commit SHA to import **Open Kiln quality** and **Open Kiln browser** under Project Settings → Build and Deployment → Deployment Checks. Confirm both are required before the first production release. GitHub already requires these checks to merge to `main`.
+**Vercel deployment checks are active:** **Open Kiln quality** and **Open Kiln browser** were imported from the successful GitHub Actions run on commit `a77d6de`. Both use **Blocking** behavior for Production. GitHub also requires these checks to merge to `main`. The first production promotion is intentionally not exercised during preview verification.
 
 Do not redeploy the old Vite commit using the new Next.js settings. Publish and verify the migration branch first.
 
@@ -53,7 +53,7 @@ Each job has a 15-minute limit. Browser failure reports, screenshots and traces 
 | Root directory                    | Repository root                                                      |
 | Node.js                           | 24.x; CI/local `.nvmrc` pins the verified patch                      |
 | Install command                   | `corepack yarn install --immutable`, from `vercel.json`              |
-| Build command                     | `yarn build`, from `vercel.json`                                     |
+| Build command                     | `corepack yarn build`, from `vercel.json`                            |
 | Output directory                  | Framework default; `outputDirectory: null`; no `dist` override       |
 | Dashboard command overrides       | Disabled                                                             |
 | Production branch / domain        | `main` / `open-kiln.vercel.app`                                      |
@@ -61,11 +61,13 @@ Each job has a 15-minute limit. Browser failure reports, screenshots and traces 
 | Deployment protection             | Vercel Authentication, Standard Protection; production domain public |
 | Source maps                       | Protected                                                            |
 | Application environment variables | None required                                                        |
-| Deployment checks                 | Pending import after the first published CI run                      |
+| Deployment checks                 | Open Kiln quality + Open Kiln browser; Production Blocking           |
 
 The existing basic build machine and disabled on-demand concurrent builds are sufficient for this demo. No paid upgrade was enabled. The repository's `.vercelignore` excludes original proposal attachments and generated/test output from CLI uploads; it does not replace reviewing the Git diff before publishing.
 
 Avoid duplicating source-controlled build settings in the dashboard. When changing runtime versions, update `.nvmrc`, `engines`, the runtime guard and compatible Node type declarations together; verify that Vercel supports the target major first.
+
+Vercel's first migration preview exposed two platform differences: Node 24.x currently resolves to **24.19.0**, and bare `yarn build` selected Yarn 1. The supported runtime floor is therefore 24.19.0, while `.nvmrc` retains the newer local release 24.21.0. Both install and build explicitly invoke Corepack. The quality CI job uses `.nvmrc`; the browser job uses the observed Vercel patch.
 
 ## Routine release
 
@@ -75,7 +77,7 @@ Avoid duplicating source-controlled build settings in the dashboard. When changi
 4. Review the complete diff, including deletions, new files and the lockfile. Keep original assessment attachments and local generated artifacts out of the release.
 5. Commit and push the feature branch, then open a PR. Check the two named GitHub jobs and the Vercel preview build.
 6. Review the preview while signed into the owning Vercel account: search, evidence, both audience journeys, forms, mobile layout and keyboard focus. Confirm the build identifies Next.js and Node 24.x.
-7. For the first migration PR, import the Vercel deployment checks as described above and verify their behavior. Do not claim a deployment gate is active just because a local YAML file exists.
+7. Confirm that both deployment checks remain configured as Production Blocking. Their first production promotion is a separate release verification step.
 8. Merge only after release approval. Vercel builds `main` and assigns the production domain after its deployment checks pass. Confirm the deployment is Ready and that the public domain serves the expected commit.
 9. Check build/runtime logs and repeat the normal-flow smoke test on production. Do not send real personal data through the demo forms.
 

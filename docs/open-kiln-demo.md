@@ -4,7 +4,7 @@ Implemented from the approved plan on 23 September 2026. The application is an E
 
 ## Run locally
 
-Use Node.js 24.21.0 (or a newer 24.x release), Corepack and the pinned Yarn 4.18.0. Dependencies use the `node-modules` linker. No environment variables, backend or credentials are required.
+Use the recommended Node.js 24.21.0 (supported minimum: 24.19.0 within 24.x), Corepack and the pinned Yarn 4.18.0. Dependencies use the `node-modules` linker. No environment variables, backend or credentials are required.
 
 ```sh
 nvm install
