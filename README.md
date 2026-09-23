@@ -4,6 +4,25 @@
 
 Explore an operational evidence register, original public research and verification journeys for EHS teams and industrial park boards. The English interface distinguishes publisher-attributed research from illustrative operational records. This independently developed campaign concept is not an official INSEE customer portal.
 
+[Explore the website](https://open-kiln.vercel.app) · [Browser review guide](docs/open-kiln-demo.md) · [Data provenance](docs/data-provenance.md)
+
+![Open Kiln homepage with the campaign message and interactive co-processing schematic](docs/images/homepage.jpg)
+
+<details>
+<summary>Explore more screenshots</summary>
+
+**Treatment record** — review the shipment, evidence availability and publication history in one place.
+
+![Treatment record OK-2026-0142 showing its overview, status and evidence tabs](docs/images/treatment-record.jpg)
+
+**Industrial park dashboard** — compare reporting periods, treated waste and evidence readiness across participating tenants.
+
+![Industrial park dashboard for Q2 2026 showing 12 participating tenants, 120 tonnes and 86 percent complete evidence](docs/images/governance-dashboard.jpg)
+
+</details>
+
+Screenshots captured from the public website on 23 September 2026. Operational records and park figures are illustrative. Images are stored in `docs/images/` for GitHub documentation, outside the application's public assets.
+
 ## What you can explore
 
 - Browse 24 operational examples across eight fictional organisations. Search by manifest ID, generator or treatment date; filter treatment/evidence status, sort and paginate.
@@ -77,7 +96,7 @@ public/open-kiln.svg        # Project favicon
 scripts/                   # Runtime guard and lint regression tests
 e2e/                       # Production browser regression tests
 .github/                   # Quality workflows and dependency updates
-docs/                      # Dependency verification and browser review guide
+docs/                      # Guides, provenance, verification and README screenshots
 ```
 
 Change operational examples in `treatment-records.ts`, editorial resources and governance snapshots in `data.ts`, public references in `references.ts`, campaign copy in `OpenKilnPage.tsx`, and styles in `open-kiln.css` / `experience.css`. These feature paths are relative to `src/features/open-kiln/`. `OpenKilnPage.tsx` composes static campaign content on the server. `Experience.tsx` owns client interaction state; `EvidenceOverlay.tsx` owns the accessible dialog shell, lazy content and loading/error recovery; `ExperienceSections.tsx` connects search, pathways and the library. Server-rendered content passes through the client provider as children. Keep static sections out of the client import graph when extending the page.
