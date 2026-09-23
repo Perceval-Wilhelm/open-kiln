@@ -76,7 +76,7 @@ export const publicResources: Array<EvidenceResource> = [
     summary: "How this campaign concept handles the information you enter and the references you open.",
     publisher: "Open Kiln editorial",
     date: "2026-09-23",
-    version: "1.0",
+    version: "1.1",
     kind: "Practice guide",
     sections: [
       {
@@ -85,7 +85,11 @@ export const publicResources: Array<EvidenceResource> = [
       },
       {
         title: "Website delivery",
-        body: "The site is served by Vercel. Normal website requests may be processed in hosting access and security logs; this page does not add application analytics. Form draft contents are not included in those requests.",
+        body: "The site is served by Vercel. Normal website requests may be processed in hosting access and security logs; hosting logs are separate from the website usage statistics described below. Form draft contents are not included in those requests.",
+      },
+      {
+        title: "Website usage and performance",
+        body: "On the production website, Vercel Web Analytics counts visits and Speed Insights measures page performance. The integration does not send form contents, record searches or custom interaction events. Query strings and URL fragments are removed from page URLs before reporting. This monitoring is disabled in local and preview builds. Vercel processes the associated request metadata under its own privacy policy.",
       },
       {
         title: "External websites",
