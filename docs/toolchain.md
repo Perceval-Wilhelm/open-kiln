@@ -6,7 +6,7 @@ Verified on **23 September 2026** against npm package metadata, official documen
 
 Use the newest stable releases that work together, pin direct dependency versions and retain the lockfile. Do not force unsupported peers or replace stable dependencies with prereleases. Recheck installation, lint coverage, application tests and the production build for each upgrade.
 
-**37 of 39 direct dependencies match their current npm `latest` tag.** The two intentional exceptions are TypeScript and Node type declarations. None of the selected direct versions is marked deprecated in the registry.
+**The original 39-dependency baseline had 37 packages matching its npm `latest` tags.** The two intentional exceptions are TypeScript and Node type declarations. None of the selected direct versions is marked deprecated in the registry.
 
 | Dependency                      | Selected version | Status                             |
 | ------------------------------- | ---------------- | ---------------------------------- |
@@ -51,6 +51,10 @@ Use the newest stable releases that work together, pin direct dependency version
 | `vitest`                        | 5.0.1            | Latest stable                      |
 
 Yarn is pinned to **4.18.0** via `packageManager`. Transitive packages were refreshed within their declared ranges. Yarn's default 24-hour age gate initially selected five older releases; the reviewed upgrade used `YARN_NPM_MINIMAL_AGE_GATE=0` for that resolution only. The normal project configuration retains the default age gate. Immutable installs reproduce the verified lockfile; transitive packages can still legitimately use an older major required by their parent.
+
+## Hobby monitoring SDKs
+
+Added `@vercel/analytics` **2.0.1** and `@vercel/speed-insights` **2.0.0**, the stable npm `latest` releases checked on 23 September 2026. Both declare Next.js `>=13` and React `^18 || ^19 || ^19.0.0-rc`, covering this project's Next.js 16 and React 19. Versions are exact and the lockfile pins both SDKs. There are now 41 direct dependencies. No existing dependency was upgraded for monitoring.
 
 ## Compatibility exceptions
 

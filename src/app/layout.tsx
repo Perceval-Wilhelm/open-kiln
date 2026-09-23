@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import type { ReactNode } from "react";
+import { SiteMonitoring } from "@/components/site-monitoring";
 import "@/styles/global.css";
 import "@/features/open-kiln/open-kiln.css";
 import "@/features/open-kiln/experience.css";
@@ -30,7 +31,10 @@ export const viewport: Viewport = { themeColor: "#176341" };
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={urbanist.variable}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <SiteMonitoring enabled={process.env.VERCEL_ENV === "production" && process.env.NODE_ENV === "production"} />
+      </body>
     </html>
   );
 }

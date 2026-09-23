@@ -39,7 +39,8 @@ For UI changes, verify both audience journeys in a real browser, desktop/mobile 
 - Forms must not send requests or persist personal data. Closing a form discards its contents.
 - Avoid repeated demo labels and artificial DEMO IDs. Keep concise illustrative-data provenance beside records, dashboard and transparency; never present constructed records as real customer evidence. Preserve the original publisher, publication period and scope of public sources.
 - Governance issue counts must reconcile to incomplete records, with mutually exclusive primary issue categories. Compare rates using each quarter’s denominator.
-- No backend, authentication, analytics, real booking or email delivery without a new product requirement.
+- Vercel Hobby Web Analytics and Speed Insights are enabled in production builds only. Keep their shared URL redaction and custom-event rejection; never add form contents or record searches to telemetry. Local/preview builds must not mount the SDKs.
+- No backend, authentication, paid monitoring add-ons, custom interaction tracking, real booking or email delivery without a new product requirement.
 
 ## Dependencies and delivery
 
