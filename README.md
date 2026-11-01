@@ -4,6 +4,8 @@
 
 Explore an operational evidence register, original public research and verification journeys for EHS teams and industrial park boards. The English interface distinguishes publisher-attributed research from illustrative operational records. This independently developed campaign concept is not an official INSEE customer portal.
 
+The Coc Coc agency team created Open Kiln for RMIT University's Organisational Communication course as a Work Integrated Learning project for INSEE Vietnam. The campaign won first place at the final pitch on 23 September 2026.
+
 [Explore the website](https://open-kiln.vercel.app) · [Browser review guide](docs/open-kiln-demo.md) · [Data provenance](docs/data-provenance.md)
 
 ![Open Kiln homepage with the campaign message and interactive co-processing schematic](docs/images/homepage.jpg)
@@ -27,10 +29,11 @@ Screenshots captured from a production build on 1 November 2026. Operational rec
 
 - Browse 24 operational examples across eight fictional organisations. Search by manifest ID, generator or treatment date; filter treatment/evidence status, sort and paginate.
 - Read treatment details, monitoring coverage, limitations and publication revisions in accessible dialogs.
-- Explore the receiving, co-processing and documentation stages in an interactive process schematic.
+- Explore the receiving, co-processing and documentation stages in an animated process schematic. Waste is fed through the main burner, kiln gases rise through a cyclone preheater, raw meal descends to the kiln, and clinker leaves through a cooler. Motion respects reduced-motion settings and pauses off screen.
 - Compare Q1/Q2 park reporting with reconciled treatment totals, evidence-gap rates and an actionable review queue.
 - Search 16 library resources, including six external references from SINTEF, INSEE, EPA and GIZ. Open the ESG dashboard or prepare an evidence request directly from the library.
 - Read historical Vietnam OPTOCE findings in their original scope, separately from the illustrative register.
+- Meet the team behind the campaign in the final-pitch recognition section.
 - Prepare visit, roundtable, evidence, update and follow-up request summaries. Review is local; **no request is sent**. The official INSEE contact link is available for actual enquiries.
 
 The public research is real and cited. Customer-level records, organisations, receiving facilities and park metrics are constructed examples; they never assert a real shipment or regulatory certification. There is no backend, authentication, live waste-treatment monitoring, booking, email delivery or export integration. Form entries remain in page memory and are discarded on close. See [data provenance](docs/data-provenance.md).
@@ -123,7 +126,7 @@ See the [review guide](docs/open-kiln-demo.md) for manual checks and the [delive
 
 ## Deploy on Vercel
 
-The personal GitHub repository is connected to the Vercel project **open-kiln**. Its production domain is [open-kiln.vercel.app](https://open-kiln.vercel.app). Project settings use **Next.js**, repository root and no legacy output or command overrides. `engines` in `package.json` selects Node.js **26.x**, which takes precedence over the dashboard's Node.js setting.
+The personal GitHub repository is connected to the Vercel project **open-kiln**. Its production domain is [open-kiln.vercel.app](https://open-kiln.vercel.app). Project settings use **Next.js**, repository root and no legacy output or command overrides. The dashboard's Node.js setting is **26.x**, matching `engines` in `package.json`, which would take precedence if they differed.
 
 `vercel.json` declares the framework, immutable Corepack install and build command. It resets the output directory to the framework default. No application secrets or environment variables are needed. Preview deployments retain Vercel Authentication; the production domain is public.
 
@@ -131,7 +134,7 @@ Work on a feature branch, open a pull request, pass both required checks and rev
 
 ## Vercel monitoring
 
-The source includes `@vercel/analytics` and `@vercel/speed-insights` for the free Hobby tier. `SiteMonitoring` mounts both SDKs only when Vercel builds for production; local development, local production previews and Vercel preview deployments do not send these events. Vercel supplies `VERCEL_ENV` automatically. Platform observability and logs are available separately. Limits were checked against Vercel documentation on **23 September 2026** and can change.
+The source includes `@vercel/analytics` and `@vercel/speed-insights` for the free Hobby tier. `SiteMonitoring` mounts both SDKs only when Vercel builds for production; local development, local production previews and Vercel preview deployments do not send these events. Vercel supplies `VERCEL_ENV` automatically. Platform observability and logs are available separately. Limits were checked against Vercel documentation on **1 November 2026** and can change.
 
 | Feature                                                                     | Hobby availability                                                           | What it provides                                                                                                                                                     |
 | --------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -142,7 +145,7 @@ The source includes `@vercel/analytics` and `@vercel/speed-insights` for the fre
 
 For this single-page experience, Web Analytics counts page views; it does not track record searches, audience switches or request reviews as conversion events. Speed Insights reports real-user performance using the free tier. Both SDKs use a before-send filter that removes URL query strings, fragments and credentials and rejects custom events. Form values are never passed to these SDKs. See [data handling](docs/data-provenance.md#requests-and-privacy).
 
-To use the included monitoring, deploy this source through the normal production release flow, visit the public site, then open the project’s [Analytics](https://vercel.com/perceval-wilhelms-projects/open-kiln/analytics), [Speed Insights](https://vercel.com/perceval-wilhelms-projects/open-kiln/speed-insights) or [Observability](https://vercel.com/perceval-wilhelms-projects/open-kiln/observability) tab. Analytics is already enabled at project level; its setup screen means it is waiting for deployed instrumentation and visits. Speed Insights free setup requires its component and a deployment. Leave paid upgrades and Plus options off. Data begins after this version is deployed and visited, not when these local files change. Follow the official [Analytics setup](https://vercel.com/docs/analytics/quickstart) and [Speed Insights setup](https://vercel.com/docs/speed-insights/quickstart) if the dashboard still shows onboarding.
+Both SDKs are live in production; on 1 November 2026 Speed Insights reported a Real Experience Score of 100. Review the data in the project’s [Analytics](https://vercel.com/perceval-wilhelms-projects/open-kiln/analytics), [Speed Insights](https://vercel.com/perceval-wilhelms-projects/open-kiln/speed-insights) and [Observability](https://vercel.com/perceval-wilhelms-projects/open-kiln/observability) tabs. Leave paid upgrades and Plus options off. Preview and local builds never report, so check changes there through the browser tests instead.
 
 ## Documentation and references
 
