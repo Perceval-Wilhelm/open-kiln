@@ -2,12 +2,45 @@
 .ok-hero {
   padding-top: 64px;
 }
+/* Night hero: the headline spans the page; copy and the schematic share the row beneath it. */
 .ok-hero-grid {
-  grid-template-columns: 0.95fr 1.05fr;
-  gap: 56px;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  grid-template-rows: auto auto auto auto auto 1fr;
+  column-gap: 64px;
+  row-gap: 0;
+  align-items: start;
+}
+.ok-hero-copy {
+  display: contents;
+}
+.ok-hero-copy > * {
+  grid-column: 1;
+}
+.ok-hero-copy > .ok-eyebrow,
+.ok-hero h1 {
+  grid-column: 1 / -1;
+}
+/* Copy starts level with the schematic so the primary action stays above the fold; a spacer row takes the rest. */
+.ok-hero-copy > p {
+  grid-row: 3;
+}
+.ok-hero-actions {
+  grid-row: 4;
+}
+.ok-hero-caption {
+  grid-row: 5;
+}
+.ok-hero .ok-process-explorer {
+  grid-column: 2;
+  grid-row: 3 / -1;
 }
 .ok-hero h1 {
-  font-size: clamp(52px, 5.3vw, 72px);
+  font-size: clamp(54px, 8.6vw, 128px);
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+  font-weight: 750;
+  margin: 30px 0 44px;
 }
 .ok-hero-copy > p {
   font-size: 18px;
@@ -68,12 +101,12 @@
   font-size: 13px;
 }
 .ok-search-initial {
-  color: #52645b;
+  color: #b0c3ac;
   font-size: 14px;
 }
 .ok-search-help {
   font-size: 13px;
-  color: #52645b;
+  color: #b0c3ac;
   align-items: center;
 }
 .ok-search-kind label,
@@ -91,17 +124,17 @@
   min-width: 0;
   border-radius: 20px;
   overflow: hidden;
-  border: 1px solid #bfcfc0;
-  background: #fff;
-  box-shadow: 0 22px 65px -35px #233e3860;
+  border: 1px solid #335344;
+  background: #132b20;
+  box-shadow: 0 22px 65px -35px #00000060;
 }
 .ok-process-masthead {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 19px 24px;
-  background: #183a2c;
-  color: #eff4de;
+  background: #0b1913;
+  color: #d6eab8;
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.13em;
@@ -113,7 +146,7 @@
 }
 .ok-process-masthead > span:last-child {
   font-family: monospace;
-  color: #d8e5bc;
+  color: #d6eab7;
 }
 .ok-process-tabs {
   gap: 0;
@@ -121,17 +154,17 @@
 .ok-process-tablist {
   width: 100%;
   height: auto;
-  background: #f4f6ee;
+  background: #12271d;
   padding: 0;
   border-radius: 0;
-  border-bottom: 1px solid #dce5d4;
+  border-bottom: 1px solid #2a4438;
 }
 .ok-process-tablist > button {
   gap: 9px;
   font-size: 13px;
   min-height: 49px;
   padding: 12px 8px;
-  color: #52645b;
+  color: #b0c3ac;
   border-radius: 0;
   box-shadow: none;
 }
@@ -140,12 +173,12 @@
   font-size: 11px;
 }
 .ok-process-tablist > button[data-state="active"] {
-  background: #fff;
-  color: #176341;
-  box-shadow: inset 0 -2px #176341;
+  background: #132b20;
+  color: #b3d97b;
+  box-shadow: inset 0 -2px #00000060;
 }
 .ok-process-canvas {
-  background: radial-gradient(ellipse at 50% 60%, #ecf1e3 0, #f7f8f2 70%);
+  background: radial-gradient(ellipse at 50% 60%, #0e2018 0, #132b20 70%);
   position: relative;
   padding: 10px 0 30px;
 }
@@ -160,13 +193,13 @@
   font-family: monospace;
   font-size: 10px;
   letter-spacing: 0.1em;
-  color: #53694e;
+  color: #c2d1bf;
 }
 .ok-process-description {
   margin: 0;
   padding: 22px 25px 24px;
   min-height: 173px;
-  border-top: 1px solid #e0e6da;
+  border-top: 1px solid #284236;
 }
 .ok-site .ok-process-description h2 {
   font-size: 21px;
@@ -182,7 +215,7 @@
   gap: 8px;
   align-items: center;
   font-size: 12px;
-  color: #176341;
+  color: #b3d97b;
   margin-top: 13px;
 }
 .ok-process-record {
@@ -192,11 +225,11 @@
   text-align: left;
   gap: 14px;
   padding: 17px 24px;
-  background: #eef3e5;
-  border-top: 1px solid #dbe5d0;
+  background: #0f2119;
+  border-top: 1px solid #2b4539;
 }
 .ok-process-record:hover {
-  background: #e3edcf;
+  background: #0d1c15;
 }
 .ok-process-record > span:nth-child(2) {
   display: flex;
@@ -209,25 +242,25 @@
   font-weight: 650;
 }
 .ok-process-record .ok-document-icon {
-  background: #fff;
+  background: #132b20;
 }
 .ok-register-total {
   display: flex;
   align-items: center;
   gap: 13px;
   padding-left: 22px;
-  border-left: 1px solid #c7d5c6;
+  border-left: 1px solid #304f40;
   flex: 0 0 195px;
 }
 .ok-register-total strong {
   font-size: 43px;
   line-height: 1;
-  color: #176341;
+  color: #b3d97b;
   font-weight: 550;
   letter-spacing: -0.06em;
 }
 .ok-register-total > span {
-  color: #52645b;
+  color: #b0c3ac;
   font-size: 13px;
   max-width: 95px;
   line-height: 1.5;
@@ -247,11 +280,11 @@
 }
 .ok-register-filters > svg {
   margin-right: 5px;
-  color: #52645b;
+  color: #b0c3ac;
 }
 .ok-register-filters select,
 .ok-register-sort select {
-  background: #fff;
+  background: #132b20;
   font-size: 13px;
   border-radius: 8px;
 }
@@ -260,7 +293,7 @@
   align-items: center;
   gap: 10px;
   font-size: 13px;
-  color: #52645b;
+  color: #b0c3ac;
 }
 .ok-register-results-head {
   display: flex;
@@ -279,9 +312,9 @@
   gap: 18px;
 }
 .ok-register-card {
-  border: 1px solid #d5dfd3;
+  border: 1px solid #2b473a;
   border-radius: 13px;
-  background: #fff;
+  background: #132b20;
   padding: 22px 22px 0;
   min-width: 0;
   overflow: hidden;
@@ -290,8 +323,8 @@
     border-color 0.18s;
 }
 .ok-register-card:hover {
-  border-color: #9db5a0;
-  box-shadow: 0 9px 24px -14px #244b3640;
+  border-color: #4c7c65;
+  box-shadow: 0 9px 24px -14px #00000040;
 }
 .ok-register-card-head {
   display: flex;
@@ -302,9 +335,9 @@
 .ok-register-card-head > span:last-child {
   font-size: 11px;
   padding: 1px 7px;
-  border: 1px solid #e1e7dc;
+  border: 1px solid #274035;
   border-radius: 4px;
-  color: #52645b;
+  color: #b0c3ac;
 }
 .ok-register-card h3 {
   font-size: 21px;
@@ -330,7 +363,7 @@
 }
 .ok-register-card dt {
   font-size: 12px;
-  color: #52645b;
+  color: #b0c3ac;
   margin-bottom: 5px;
 }
 .ok-register-card dd {
@@ -350,13 +383,13 @@
   margin-inline: -22px;
   padding: 16px 22px;
   min-height: 52px;
-  border-top: 1px solid #e1e7dc;
+  border-top: 1px solid #274035;
   font-size: 13px;
-  color: #176341;
+  color: #b3d97b;
   font-weight: 650;
 }
 .ok-register-open:hover {
-  background: #f0f5e8;
+  background: #10241b;
 }
 .ok-register-pagination {
   display: flex;
@@ -364,7 +397,7 @@
   align-items: center;
   margin-top: 24px;
   font-size: 13px;
-  color: #52645b;
+  color: #b0c3ac;
 }
 .ok-register-pagination > div {
   display: flex;
@@ -376,13 +409,13 @@
   place-items: center;
   width: 44px;
   height: 44px;
-  border: 1px solid #c8d6c7;
-  background: #fff;
+  border: 1px solid #2f4d3f;
+  background: #132b20;
   border-radius: 8px;
-  color: #176341;
+  color: #b3d97b;
 }
 .ok-register-pagination button:hover:not(:disabled) {
-  background: #e8f0dc;
+  background: #0d1c15;
 }
 .ok-published-evidence {
   padding: 8px 0 88px;
@@ -405,17 +438,17 @@
 }
 .ok-published-grid article {
   padding: 28px;
-  border: 1px solid #d5dfd0;
+  border: 1px solid #2c483b;
   border-radius: 14px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 17px;
-  background: #fff;
+  background: #132b20;
 }
 .ok-published-grid .ok-research-feature {
-  background: #eaf0dc;
-  border-color: #ccdabc;
+  background: #0d1c15;
+  border-color: #5c8532;
 }
 .ok-published-grid h3 {
   font-size: 22px;
@@ -427,7 +460,7 @@
 .ok-published-grid .ok-small-label {
   font-size: 10px;
   line-height: 1.7;
-  color: #52645b;
+  color: #b0c3ac;
 }
 .ok-published-grid .ok-text-action {
   margin-top: auto;
@@ -445,7 +478,7 @@
   flex: 1;
 }
 .ok-research-figures strong {
-  color: #176341;
+  color: #b3d97b;
   font-size: 43px;
   font-weight: 550;
   line-height: 1;
@@ -472,23 +505,23 @@
   gap: 20px;
   text-align: left;
   padding: 24px;
-  border: 1px solid #c6d4be;
+  border: 1px solid #325243;
   border-radius: 12px;
-  background: #edf3e5;
+  background: #0f2119;
 }
 .ok-library-services > button:hover {
-  background: #e2edcf;
-  border-color: #99b488;
+  background: #0d1c15;
+  border-color: #416a57;
 }
 .ok-service-icon {
   display: grid;
   place-items: center;
-  background: #fff;
+  background: #132b20;
   width: 48px;
   height: 52px;
   flex: 0 0 auto;
   border-radius: 9px;
-  color: #176341;
+  color: #b3d97b;
 }
 .ok-library-services > button > span:nth-child(2) {
   flex: 1;
@@ -500,7 +533,7 @@
 .ok-library-services small {
   font-size: 10px;
   letter-spacing: 0.1em;
-  color: #52645b;
+  color: #b0c3ac;
 }
 .ok-library-services strong {
   font-size: 20px;
@@ -509,7 +542,7 @@
 }
 .ok-library-services > button > span > span {
   font-size: 13px;
-  color: #52645b;
+  color: #b0c3ac;
   line-height: 1.6;
 }
 .ok-library-source-filter {
@@ -518,12 +551,12 @@
   gap: 14px;
   margin-top: 22px;
   font-size: 13px;
-  color: #52645b;
+  color: #b0c3ac;
 }
 .ok-library-source-filter select {
   width: auto;
   font-size: 13px;
-  background: #fff;
+  background: #132b20;
 }
 .ok-resource-cover {
   height: 145px;
@@ -547,14 +580,14 @@
   justify-content: center;
   gap: 14px;
   padding: 10px 20px;
-  border: 1px solid #b7cbb4;
+  border: 1px solid #365848;
   border-radius: 9px;
-  color: #176341;
+  color: #b3d97b;
   font-size: 14px;
 }
 .ok-show-resources > span {
   font-size: 12px;
-  color: #52645b;
+  color: #b0c3ac;
 }
 .ok-dashboard-head,
 .ok-kpis > div {
@@ -599,14 +632,14 @@
   flex: 1;
   height: 7px;
   border-radius: 5px;
-  background: #e3e8d8;
+  background: #0d1c15;
   overflow: hidden;
 }
 .ok-gap-track i {
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: #70864b;
+  background: #8fc15c;
 }
 .ok-gap-comparison strong {
   font-size: 12px;
@@ -615,7 +648,7 @@
 }
 .ok-gap-comparison small {
   font-size: 11px;
-  color: #52645b;
+  color: #b0c3ac;
   min-width: 35px;
 }
 .ok-issues-header {
@@ -624,7 +657,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 27px 25px 20px;
-  border-top: 1px solid #dbe3d6;
+  border-top: 1px solid #2a4438;
 }
 .ok-issues-header h4 {
   font-size: 21px;
@@ -633,8 +666,8 @@
 .ok-issue-total {
   font-size: 12px;
   padding: 6px 10px;
-  background: #f6edda;
-  color: #785415;
+  background: #163124;
+  color: #f2c46b;
   border-radius: 5px;
   white-space: nowrap;
 }
@@ -647,12 +680,12 @@
   align-items: center;
   gap: 16px;
   padding: 19px 0;
-  border-top: 1px solid #e2e8de;
+  border-top: 1px solid #274034;
 }
 .ok-issue-index {
   font-size: 11px;
   font-family: monospace;
-  color: #52645b;
+  color: #b0c3ac;
   align-self: start;
   margin-top: 3px;
 }
@@ -668,12 +701,12 @@
 .ok-issue-item > div > span {
   display: block;
   font-size: 11px;
-  color: #52645b;
+  color: #b0c3ac;
   margin-top: 9px;
 }
 .ok-issue-item > strong {
   font-size: 27px;
-  color: #176341;
+  color: #b3d97b;
   font-weight: 550;
   display: flex;
   flex-direction: column;
@@ -681,7 +714,7 @@
   line-height: 1.2;
 }
 .ok-issue-item > strong > small {
-  color: #52645b;
+  color: #b0c3ac;
   font-weight: 400;
   font-size: 11px;
   margin-top: 5px;
@@ -697,13 +730,13 @@
   line-height: 1.7;
 }
 .ok-dashboard-note {
-  background: #f5f7f0;
-  border-top: 1px solid #e2e8de;
+  background: #12291e;
+  border-top: 1px solid #274034;
 }
 .ok-request-summary {
   text-align: left;
-  background: #f4f7ed;
-  border: 1px solid #dce5d2;
+  background: #12271d;
+  border: 1px solid #2a4538;
   border-radius: 12px;
   padding: 6px 20px;
   margin-bottom: 24px;
@@ -716,10 +749,10 @@
   font-size: 14px;
 }
 .ok-request-summary > div + div {
-  border-top: 1px solid #dce5d2;
+  border-top: 1px solid #2a4538;
 }
 .ok-request-summary dt {
-  color: #52645b;
+  color: #b0c3ac;
 }
 .ok-request-summary dd {
   overflow-wrap: anywhere;
@@ -783,12 +816,18 @@
   }
   .ok-hero-grid {
     grid-template-columns: 1fr;
-    gap: 38px;
+    grid-template-rows: none;
+  }
+  .ok-hero-copy > *,
+  .ok-hero-copy > p,
+  .ok-hero .ok-process-explorer {
+    grid-column: 1;
+    grid-row: auto;
   }
   .ok-process-explorer {
     max-width: 640px;
     width: 100%;
-    margin-inline: auto;
+    margin: 38px auto 0;
   }
   .ok-process-description {
     min-height: 168px;
@@ -822,7 +861,8 @@
 }
 @media (max-width: 540px) {
   .ok-hero h1 {
-    font-size: 46px;
+    font-size: clamp(46px, 15vw, 64px);
+    margin-bottom: 30px;
   }
   .ok-hero-copy > p {
     font-size: 17px;

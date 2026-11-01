@@ -323,7 +323,7 @@ function AwardSeal() {
         </linearGradient>
       </defs>
       <circle cx="60" cy="60" r="58" fill="url(#ok-seal-gold)" />
-      <circle cx="60" cy="60" r="52" fill="none" stroke="#152d24" strokeOpacity=".3" strokeDasharray="1 3" />
+      <circle cx="60" cy="60" r="52" fill="none" stroke="#ffc46b" strokeOpacity=".45" strokeDasharray="1 3" />
       <g className="ok-award-seal-ring">
         <text fontSize="8.6" letterSpacing="1.2">
           <textPath href="#ok-seal-path" textLength="258" lengthAdjust="spacing">
@@ -331,7 +331,7 @@ function AwardSeal() {
           </textPath>
         </text>
       </g>
-      <circle cx="60" cy="60" r="30" fill="#152d24" />
+      <circle cx="60" cy="60" r="30" fill="#10241b" />
       <text className="ok-award-seal-rank" x="60" y="62" textAnchor="middle" fontSize="22">
         1st
       </text>
