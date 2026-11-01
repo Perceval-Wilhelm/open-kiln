@@ -67,7 +67,7 @@ Avoid duplicating source-controlled build settings in the dashboard. When changi
 
 Vercel's first migration preview exposed two platform differences: its Node patch can lag the upstream release, and bare `yarn build` selected Yarn 1. Both install and build therefore invoke Corepack explicitly. The quality CI job uses `.nvmrc`; the browser job uses the observed Vercel patch.
 
-On 1 November 2026 the runtime moved from Node 24 to Node 26, the active LTS line and Vercel's default. Node 25 and newer no longer bundle Corepack, so `vercel.json` and both CI jobs fetch a pinned `corepack@0.36.0` through npm. The first Node 26 preview installed with Yarn 4.18.1 and passed the runtime guard at its 26.13.0 floor, which is the newest 26.x release, so `engines`, `.nvmrc` and the browser job all use 26.13.0. `engines` overrides the dashboard's earlier 24.x selection; Vercel reports this as a build warning. Switch the dashboard to 26.x to silence it.
+On 1 November 2026 the runtime moved from Node 24 to Node 26, the active LTS line and Vercel's default. Node 25 and newer no longer bundle Corepack, so `vercel.json` and both CI jobs fetch a pinned `corepack@0.36.0` through npm. The first Node 26 preview installed with Yarn 4.18.1 and passed the runtime guard at its 26.13.0 floor, which is the newest 26.x release, so `engines`, `.nvmrc` and the browser job all use 26.13.0. The dashboard's Node.js setting was switched from 24.x to 26.x the same day, so it matches `engines` and builds no longer warn about an override.
 
 ## Routine release
 

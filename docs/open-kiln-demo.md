@@ -22,7 +22,7 @@ Use an unoccupied port; preserve unrelated servers. See the README for NVM/Homeb
 
 ## Review checklist
 
-1. Inspect the hero and use Receive / Co-process / Document with mouse and arrow keys. The featured record opens directly; Explore the register focuses the search field and resets it to all records.
+1. Inspect the hero and use Receive / Co-process / Document with mouse and arrow keys. The selected stage lights up its legend label and part of the schematic. The featured record opens directly; Explore the register focuses the search field and resets it to all records.
 2. Browse all 24 records across four pages. Change treatment/evidence filters and sort. Processing + complete evidence should give an honest empty result; Browse all records restores the list.
 3. Exercise exact ID lookup, generator substring lookup, date lookup, blank validation and unknown IDs:
 
@@ -54,6 +54,8 @@ Use an unoccupied port; preserve unrelated servers. See the README for NVM/Homeb
 12. Test Tab/Shift+Tab, focus trap, Escape, returning focus, mobile menu, skip link and anchor offsets. Check form accessible descriptions with and without validation errors.
 13. Verify 375, 768 and 1440px layouts, native browser zoom 200%, reduced motion and no horizontal overflow. Inspect dialogs independently of the page. Check initial content with JavaScript disabled.
 14. Fault-inject the lazy dialog download: the page must remain usable, the error dialog must close, and Reload page after connection recovery must restore the content.
+15. In the recognition section, the team photo loads with its alt text and caption, and the award seal stays inside the viewport at every width.
+16. Check the share card: `og:image` resolves to the 1200 × 630 PNG with alt text, and `twitter:card` is `summary_large_image`. After a production release, refresh the preview in the Facebook Sharing Debugger.
 
 ## Code map
 
