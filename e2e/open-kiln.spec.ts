@@ -52,6 +52,9 @@ test("search, evidence, library and both audience journeys", async ({ page }) =>
   await expect(dashboard.getByRole("table")).toContainText("Jan30Feb32Mar38");
   await page.getByRole("tab", { name: /EHS & Plant Managers/ }).click();
   await expect(page.getByRole("list", { name: "EHS treatment journey" })).toBeVisible();
+  await page.locator("#library").evaluate((section) => section.scrollIntoView());
+  // The header link stays current even while the mobile menu is collapsed.
+  await expect(page.locator('#main-navigation a[href="#library"]')).toHaveAttribute("aria-current", "location");
   const teamPhoto = page.getByRole("img", { name: /certificate of recognition/ });
   await teamPhoto.scrollIntoViewIfNeeded();
   await expect
@@ -226,11 +229,13 @@ test("process stages and evidence-issue follow-up keep their context", async ({ 
   const stages = page.getByRole("tablist", { name: "Explore the co-processing stages" });
   await stages.getByRole("tab", { name: "01 Receive", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Identity before treatment.", exact: true })).toBeVisible();
+  await expect(page.locator(".ok-process-canvas")).toHaveAttribute("data-stage", "receive");
   await stages.getByRole("tab", { name: "01 Receive", exact: true }).press("ArrowRight");
   await expect(stages.getByRole("tab", { name: "02 Co-process", exact: true })).toHaveAttribute(
     "aria-selected",
     "true",
   );
+  await expect(page.locator(".ok-process-canvas")).toHaveAttribute("data-stage", "treat");
   await page.getByRole("tab", { name: /Industrial Park Boards/ }).click();
   const dashboard = page.getByLabel("Park governance dashboard");
   await expect(dashboard).toContainText("up 0.7 percentage points from Q1");
@@ -294,6 +299,8 @@ test("reduced motion and server-rendered content", async ({ page, browser }) => 
 });
 
 test("visual review artifacts, text contrast and viewport fit", async ({ page }, testInfo) => {
+  // Judge contrast at rest: entrance and scroll reveals fade text in and are skipped mid-animation.
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await page.screenshot({ path: `output/playwright/${testInfo.project.name}-hero.png` });
   for (const audience of [/EHS & Plant Managers/, /Industrial Park Boards/]) {

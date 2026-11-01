@@ -5,6 +5,7 @@ import { SiteMonitoring } from "@/components/site-monitoring";
 import "@/styles/global.css";
 import "@/features/open-kiln/open-kiln.css";
 import "@/features/open-kiln/experience.css";
+import "@/features/open-kiln/motion.css";
 
 const urbanist = localFont({
   src: "../../node_modules/@fontsource-variable/urbanist/files/urbanist-latin-wght-normal.woff2",

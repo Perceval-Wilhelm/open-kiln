@@ -1,0 +1,398 @@
+/* Atmosphere, interaction and motion layer.
+   The global reduced-motion rule only shortens timed animations. Scroll-linked and looping
+   animations ignore or repeat through it, so every animation here stays inside `no-preference`. */
+
+/* Atmosphere: decorative layers live on pseudo-elements so section backgrounds stay solid. */
+.ok-hero {
+  position: relative;
+  isolation: isolate;
+}
+.ok-hero::before,
+.ok-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+.ok-hero::before {
+  background:
+    radial-gradient(42% 52% at 76% 34%, #dcebbfa0 0%, transparent 70%),
+    radial-gradient(38% 46% at 6% 80%, #e2ebdcd0 0%, transparent 70%);
+}
+.ok-hero::after {
+  background-image: radial-gradient(#176341 0.9px, transparent 1.3px);
+  background-size: 24px 24px;
+  opacity: 0.12;
+  mask-image: radial-gradient(60% 70% at 72% 38%, #000 0%, transparent 75%);
+}
+.ok-hero-highlight {
+  position: relative;
+  z-index: 0;
+  white-space: nowrap;
+}
+.ok-hero-highlight::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: -0.04em;
+  right: -0.06em;
+  bottom: 0.06em;
+  height: 0.3em;
+  border-radius: 0.12em;
+  background: #d9eaa6;
+  transform-origin: left;
+}
+.ok-transparency {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.ok-transparency::before,
+.ok-transparency::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  bottom: -40px;
+  border: 1.5px solid #ffffff14;
+  border-bottom: 0;
+  border-radius: 999px 999px 0 0;
+  pointer-events: none;
+}
+.ok-transparency::before {
+  right: -70px;
+  width: 380px;
+  height: 470px;
+}
+.ok-transparency::after {
+  right: 10px;
+  width: 220px;
+  height: 310px;
+  border-color: #c8df9626;
+}
+
+/* Interaction: cards lift, arrows lead. Transitions are shortened by the reduced-motion rule. */
+.ok-site
+  :is(
+    .ok-category-card,
+    .ok-resource-card,
+    .ok-register-card,
+    .ok-engagement-card,
+    .ok-published-grid article,
+    .ok-library-services > button
+  ) {
+  transition:
+    transform 0.35s var(--ok-ease),
+    box-shadow 0.35s var(--ok-ease),
+    border-color 0.25s,
+    background-color 0.25s;
+}
+.ok-site
+  :is(
+    .ok-register-card,
+    .ok-engagement-card,
+    .ok-published-grid article,
+    .ok-library-services > button,
+    .ok-category-card,
+    .ok-resource-card
+  ):is(:hover, :focus-within) {
+  transform: translateY(-4px);
+  border-color: #9db5a0;
+  box-shadow: 0 24px 44px -30px #1f3d2e70;
+}
+.ok-site :is(.ok-category-card, .ok-engagement-card)::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 24px;
+  width: 48px;
+  height: 3px;
+  border-radius: 0 0 3px 3px;
+  background: #176341;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--ok-ease);
+}
+.ok-site .ok-category-card {
+  position: relative;
+}
+.ok-site :is(.ok-category-card, .ok-engagement-card):is(:hover, :focus-within)::before {
+  transform: scaleX(1);
+}
+.ok-site svg:is(.lucide-arrow-up-right, .lucide-arrow-right) {
+  transition: translate 0.3s var(--ok-ease);
+}
+.ok-site :is(a, button):hover > svg.lucide-arrow-up-right,
+.ok-site :is(.ok-category-card, .ok-resource-card):hover svg.lucide-arrow-up-right {
+  translate: 2px -2px;
+}
+.ok-site :is(a, button):hover svg.lucide-arrow-right {
+  translate: 3px 0;
+}
+.ok-button:not(.ok-button-secondary) {
+  transition:
+    translate 0.3s var(--ok-ease),
+    box-shadow 0.3s var(--ok-ease),
+    background-color 0.2s;
+}
+.ok-button:not(.ok-button-secondary):hover {
+  translate: 0 -2px;
+  box-shadow: 0 14px 26px -14px #176341b0;
+}
+
+/* The process tabs highlight their part of the schematic. */
+.ok-process-drawing :is(.ok-drawing-receive, .ok-drawing-treat, .ok-drawing-document) {
+  transition: opacity 0.45s var(--ok-ease);
+}
+.ok-process-canvas[data-stage="receive"] :is(.ok-drawing-treat, .ok-drawing-document),
+.ok-process-canvas[data-stage="treat"] :is(.ok-drawing-receive, .ok-drawing-document),
+.ok-process-canvas[data-stage="document"] :is(.ok-drawing-receive, .ok-drawing-treat) {
+  opacity: 0.5;
+}
+.ok-kiln-nodes circle {
+  transition: fill 0.3s;
+}
+.ok-process-canvas[data-stage="receive"] .ok-kiln-nodes [data-stage="receive"],
+.ok-process-canvas[data-stage="treat"] .ok-kiln-nodes [data-stage="treat"],
+.ok-process-canvas[data-stage="document"] .ok-kiln-nodes [data-stage="document"] {
+  fill: #176341;
+}
+.ok-kiln-pings circle {
+  opacity: 0;
+}
+.ok-kiln-ember {
+  opacity: 0.7;
+}
+.ok-kiln-smoke {
+  opacity: 0.55;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ok-hero-copy > * {
+    animation: ok-rise 0.9s var(--ok-ease) both;
+  }
+  .ok-hero-copy > :nth-child(2) {
+    animation-delay: 0.08s;
+  }
+  .ok-hero-copy > :nth-child(3) {
+    animation-delay: 0.16s;
+  }
+  .ok-hero-copy > :nth-child(4) {
+    animation-delay: 0.24s;
+  }
+  .ok-hero-copy > :nth-child(5) {
+    animation-delay: 0.32s;
+  }
+  .ok-hero .ok-process-explorer {
+    animation: ok-rise 1.1s 0.2s var(--ok-ease) both;
+  }
+  .ok-trust-strip > div {
+    animation: ok-rise 0.8s 0.45s var(--ok-ease) both;
+  }
+  .ok-trust-strip > div:nth-child(2) {
+    animation-delay: 0.55s;
+  }
+  .ok-trust-strip > div:nth-child(3) {
+    animation-delay: 0.65s;
+  }
+  .ok-hero-highlight::after {
+    animation: ok-sweep 0.9s 0.7s var(--ok-ease) both;
+  }
+  .ok-announcement i {
+    animation: ok-pulse 2.4s ease-in-out infinite;
+  }
+
+  .ok-kiln-flame {
+    transform-box: fill-box;
+    transform-origin: 0% 50%;
+    animation: ok-flame 1.4s ease-in-out infinite alternate;
+  }
+  .ok-kiln-ember {
+    animation: ok-ember 1.8s ease-in-out infinite alternate;
+  }
+  .ok-kiln-flow {
+    animation: ok-flow 1.3s linear infinite;
+  }
+  .ok-kiln-conveyor {
+    animation: ok-convey 1.1s linear infinite;
+  }
+  .ok-kiln-signal {
+    stroke-dasharray: 24;
+    animation: ok-trace 2.4s ease-in-out infinite;
+  }
+  .ok-kiln-smoke path {
+    transform-box: fill-box;
+    animation: ok-smoke 3.6s ease-out infinite both;
+  }
+  .ok-kiln-smoke path:nth-child(2) {
+    animation-delay: 1.2s;
+  }
+  .ok-kiln-smoke path:nth-child(3) {
+    animation-delay: 2.4s;
+  }
+  .ok-process-canvas[data-stage="receive"] .ok-kiln-pings [data-stage="receive"],
+  .ok-process-canvas[data-stage="treat"] .ok-kiln-pings [data-stage="treat"],
+  .ok-process-canvas[data-stage="document"] .ok-kiln-pings [data-stage="document"] {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: ok-ping 2.2s var(--ok-ease) infinite;
+  }
+  .ok-award-seal-ring {
+    transform-box: view-box;
+    transform-origin: 50% 50%;
+    animation: ok-spin 36s linear infinite;
+  }
+}
+
+/* Scroll-linked progress and reveals; browsers without view timelines show content at rest. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .ok-header::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -1px;
+      height: 2px;
+      background: linear-gradient(90deg, #176341, #8fbf5a);
+      transform-origin: 0 50%;
+      animation: ok-progress linear both;
+      animation-timeline: scroll(root block);
+    }
+    .ok-site
+      :is(
+        .ok-section-heading,
+        .ok-heading-aside,
+        .ok-published-heading,
+        .ok-category-card,
+        .ok-register-card,
+        .ok-published-grid article,
+        .ok-library-services > button,
+        .ok-resource-card,
+        .ok-engagement-card,
+        .ok-transparency .ok-container > *,
+        .ok-recognition figure
+      ) {
+      animation: ok-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 28%;
+    }
+    .ok-site
+      :is(
+        .ok-category-card,
+        .ok-register-card,
+        .ok-published-grid article,
+        .ok-resource-card,
+        .ok-engagement-card
+      ):nth-child(3n + 2) {
+      animation-range: entry 6% cover 33%;
+    }
+    .ok-site
+      :is(
+        .ok-category-card,
+        .ok-register-card,
+        .ok-published-grid article,
+        .ok-resource-card,
+        .ok-engagement-card
+      ):nth-child(3n) {
+      animation-range: entry 12% cover 38%;
+    }
+  }
+}
+
+@keyframes ok-rise {
+  from {
+    opacity: 0;
+    translate: 0 22px;
+  }
+}
+@keyframes ok-reveal {
+  from {
+    opacity: 0;
+    translate: 0 36px;
+  }
+}
+@keyframes ok-sweep {
+  from {
+    transform: scaleX(0);
+  }
+}
+@keyframes ok-pulse {
+  50% {
+    opacity: 0.35;
+    scale: 1.6;
+  }
+}
+@keyframes ok-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes ok-flame {
+  from {
+    opacity: 0.75;
+    scale: 0.88 0.96;
+  }
+  to {
+    opacity: 1;
+    scale: 1.05 1.04;
+  }
+}
+@keyframes ok-ember {
+  from {
+    opacity: 0.45;
+  }
+  to {
+    opacity: 0.95;
+  }
+}
+@keyframes ok-flow {
+  to {
+    stroke-dashoffset: -10.1;
+  }
+}
+@keyframes ok-convey {
+  to {
+    stroke-dashoffset: -8.1;
+  }
+}
+@keyframes ok-trace {
+  from {
+    stroke-dashoffset: 24;
+  }
+  60%,
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes ok-smoke {
+  0% {
+    opacity: 0;
+    translate: 0 4px;
+  }
+  30% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+    translate: 0 -10px;
+  }
+}
+@keyframes ok-ping {
+  from {
+    opacity: 0.7;
+    scale: 1;
+  }
+  to {
+    opacity: 0;
+    scale: 3.2;
+  }
+}
+@keyframes ok-spin {
+  to {
+    rotate: 360deg;
+  }
+}

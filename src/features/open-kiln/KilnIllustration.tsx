@@ -43,6 +43,15 @@ export function KilnIllustration() {
             <path d="M62 202v48m34-48v48M59 240h40M78 203v16h48" fill="none" strokeWidth="3" />
             <rect x="39" y="248" width="74" height="6" rx="2" fill="#c2d3c5" />
             <path d="M99 228l64-34 5 9-64 34Z" fill="#9db8a7" />
+            <path
+              className="ok-kiln-conveyor"
+              d="M102 232.5L165 199"
+              fill="none"
+              stroke="#f4f7ec"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeDasharray="0.1 8"
+            />
             <path d="M113 231v19m29-35v35" fill="none" />
             <path d="M63 138v-11h22v11" fill="none" />
             <path d="M56 164h44m-40 7h36m-30 8h24" fill="none" opacity=".5" />
@@ -73,7 +82,23 @@ export function KilnIllustration() {
               <rect x="142" y="180" width="241" height="54" rx="7" fill="url(#kiln-steel)" />
               <ellipse cx="145" cy="207" rx="12" ry="27" fill="#5d816b" />
               <ellipse cx="145" cy="207" rx="7" ry="19" fill="#273f32" />
-              <path d="M145 202c27-14 62-10 96 1-28 12-60 14-96 12Z" fill="url(#kiln-heat)" stroke="none" />
+              <ellipse className="ok-kiln-ember" cx="145" cy="207" rx="4.5" ry="13" fill="#f0a64b" stroke="none" />
+              <path
+                className="ok-kiln-flame"
+                d="M145 202c27-14 62-10 96 1-28 12-60 14-96 12Z"
+                fill="url(#kiln-heat)"
+                stroke="none"
+              />
+              <path
+                className="ok-kiln-flow"
+                d="M368 225H160"
+                fill="none"
+                stroke="#a8692e"
+                strokeWidth="2.4"
+                strokeLinecap="round"
+                strokeDasharray="0.1 10"
+                strokeOpacity=".6"
+              />
               <rect x="191" y="176" width="12" height="62" rx="3" fill="#709880" />
               <rect x="299" y="176" width="12" height="62" rx="3" fill="#709880" />
               <path
@@ -104,6 +129,13 @@ export function KilnIllustration() {
             <rect x="560" y="249" width="34" height="5" rx="2" fill="#a3bca9" />
             <rect x="466" y="224" width="22" height="28" rx="2" fill="#e8eee0" />
             <rect x="470" y="229" width="14" height="8" rx="1" fill="#547f67" />
+            <path
+              className="ok-kiln-signal"
+              d="M471 233.5h2.5l1.5-2.5 2 4.5 2-3.5 1.5 1.5h2"
+              fill="none"
+              stroke="#d9ebb0"
+              strokeWidth=".8"
+            />
             <path d="M470 242h6m3 0h5m-14 4h14" strokeWidth=".8" />
           </g>
         </g>
@@ -111,10 +143,20 @@ export function KilnIllustration() {
           <path d="M45 117v-14h83m0 0-4-3m4 3-4 3M167 155h129m0 0-4-3m4 3-4 3M499 111h78m0 0-4-3m4 3-4 3" />
           <path d="M27 281h586m-586-4v8m586-8v8" />
         </g>
-        <g fill="#f7f9ef" stroke="#176341" strokeWidth="1.4">
-          <circle cx="80" cy="118" r="5" />
-          <circle cx="271" cy="154" r="5" />
-          <circle cx="577" cy="112" r="5" />
+        <g className="ok-kiln-smoke" fill="none" stroke="#a9bcae" strokeWidth="1.5" strokeLinecap="round">
+          <path d="M396 29c-4-5 4-9 0-14" />
+          <path d="M424 29c-4-5 4-9 0-14" />
+          <path d="M576 61c-4-5 4-9 0-14" />
+        </g>
+        <g className="ok-kiln-pings" fill="none" stroke="#176341" strokeWidth="1.2">
+          <circle data-stage="receive" cx="80" cy="118" r="5" />
+          <circle data-stage="treat" cx="271" cy="154" r="5" />
+          <circle data-stage="document" cx="577" cy="112" r="5" />
+        </g>
+        <g className="ok-kiln-nodes" fill="#f7f9ef" stroke="#176341" strokeWidth="1.4">
+          <circle data-stage="receive" cx="80" cy="118" r="5" />
+          <circle data-stage="treat" cx="271" cy="154" r="5" />
+          <circle data-stage="document" cx="577" cy="112" r="5" />
         </g>
       </svg>
     </ProcessExplorer>

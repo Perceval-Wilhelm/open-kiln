@@ -55,7 +55,9 @@ export function OpenKilnPage() {
                 <h1>
                   Verify,
                   <br />
-                  <span>not just trust.</span>
+                  <span>
+                    not just <span className="ok-hero-highlight">trust.</span>
+                  </span>
                 </h1>
                 <p>
                   What happens to your waste shouldn’t be a question mark. Explore the evidence behind every step of its
@@ -232,7 +234,7 @@ export function OpenKilnPage() {
               </div>
             </div>
           </section>
-          <section className="ok-section ok-recognition" id="recognition">
+          <section className="ok-section ok-recognition" id="recognition" tabIndex={-1}>
             <div className="ok-container">
               <SectionHeading number="06" eyebrow="BEHIND OPEN KILN" title="Winner of the final pitch.">
                 Open Kiln was created by the Coc Coc agency team for RMIT University’s Organisational Communication
@@ -240,13 +242,16 @@ export function OpenKilnPage() {
                 final pitch.
               </SectionHeading>
               <figure>
-                <Image
-                  src="/images/final-pitch-team.jpg"
-                  alt="Six people pose in front of an RMIT University screen while one holds the Open Kiln certificate of recognition."
-                  width={3720}
-                  height={2480}
-                  sizes="(max-width: 800px) 100vw, 680px"
-                />
+                <div className="ok-recognition-photo">
+                  <Image
+                    src="/images/final-pitch-team.jpg"
+                    alt="Six people pose in front of an RMIT University screen while one holds the Open Kiln certificate of recognition."
+                    width={3720}
+                    height={2480}
+                    sizes="(max-width: 800px) 100vw, 680px"
+                  />
+                  <AwardSeal />
+                </div>
                 <figcaption>The Coc Coc team celebrates first place at RMIT University, 23 September 2026.</figcaption>
               </figure>
             </div>
@@ -302,5 +307,37 @@ export function OpenKilnPage() {
         </footer>
       </div>
     </ExperienceProvider>
+  );
+}
+
+// Decorative only: the section heading and copy already state the award.
+function AwardSeal() {
+  return (
+    <svg className="ok-award-seal" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+      <defs>
+        <path id="ok-seal-path" d="M60 18a42 42 0 1 1 0 84a42 42 0 1 1 0-84" />
+        <linearGradient id="ok-seal-gold" x1="0" y1="0" x2="1" y2="1">
+          <stop stopColor="#f4dc8f" />
+          <stop offset=".55" stopColor="#d9b049" />
+          <stop offset="1" stopColor="#b98a2a" />
+        </linearGradient>
+      </defs>
+      <circle cx="60" cy="60" r="58" fill="url(#ok-seal-gold)" />
+      <circle cx="60" cy="60" r="52" fill="none" stroke="#152d24" strokeOpacity=".3" strokeDasharray="1 3" />
+      <g className="ok-award-seal-ring">
+        <text fontSize="8.6" letterSpacing="1.2">
+          <textPath href="#ok-seal-path" textLength="258" lengthAdjust="spacing">
+            WINNER · FINAL PITCH · RMIT 2026 ·
+          </textPath>
+        </text>
+      </g>
+      <circle cx="60" cy="60" r="30" fill="#152d24" />
+      <text className="ok-award-seal-rank" x="60" y="62" textAnchor="middle" fontSize="22">
+        1st
+      </text>
+      <text className="ok-award-seal-rank" x="60" y="76" textAnchor="middle" fontSize="7.5" letterSpacing="1.5">
+        PLACE
+      </text>
+    </svg>
   );
 }
