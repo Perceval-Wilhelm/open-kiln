@@ -1,0 +1,25 @@
+Copyright (c) 2026 the Coc Coc agency team, creators of Open Kiln.
+All rights reserved.
+
+This repository is public so that its source and campaign work can be viewed
+as a course project and portfolio piece. No licence is granted to copy, modify,
+distribute or reuse any part of it, including the source code, the campaign
+concept and copy, the Open Kiln name and wordmark, the illustrations,
+screenshots and other images, except where the law allows it or GitHub's Terms
+of Service permit viewing and forking on GitHub. Ask the team for written
+permission for any other use.
+
+The final-pitch team photograph shows identifiable people. It may not be
+reused in any form.
+
+This notice does not cover third-party material, which remains under its own
+terms:
+
+- INSEE and INSEE Ecocycle are names and trademarks of their owner. Open Kiln
+  is an independent campaign concept, not an official INSEE product.
+- Cited publications by SINTEF, INSEE Ecocycle Vietnam, the US Environmental
+  Protection Agency and GIZ / LafargeHolcim belong to their publishers. The
+  site links to them and does not redistribute them.
+- The Urbanist typeface is distributed under the SIL Open Font License 1.1
+  through @fontsource-variable/urbanist.
+- Open-source dependencies listed in package.json keep their own licences.

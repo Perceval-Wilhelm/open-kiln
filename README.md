@@ -159,3 +159,7 @@ Both SDKs are live in production; on 1 November 2026 Speed Insights reported a R
 - [Original landing-page investigation](docs/open-kiln-landing-page-brief.md) — historical requirements context; the README and toolchain guide describe the current implementation.
 
 External SINTEF, INSEE, EPA and GIZ publications retain their original dates and scope; they do not verify any illustrative treatment record. The kiln illustration and wordmark are rendered in code. Urbanist is distributed under the SIL Open Font License included with `@fontsource-variable/urbanist`.
+
+## License
+
+All rights reserved. The repository is public for viewing as a course project and portfolio piece. No licence is granted to reuse its code, campaign content, name, imagery or the team photograph without the team's written permission. INSEE names, cited publications, the Urbanist typeface and open-source dependencies keep their own terms. See [LICENSE](LICENSE).
