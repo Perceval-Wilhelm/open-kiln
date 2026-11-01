@@ -248,6 +248,22 @@ test("process stages and evidence-issue follow-up keep their context", async ({ 
   await expect(dashboard.locator(".ok-issue-item").first()).toContainText("6");
 });
 
+test("social share card points to a published 1200 × 630 image", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-chromium", "Metadata is the same at every viewport.");
+  await page.goto("/");
+  const image = page.locator('meta[property="og:image"]');
+  await expect(image).toHaveAttribute("content", /^https:\/\/open-kiln\.vercel\.app\/opengraph-image\.png/);
+  await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute("content", "1200");
+  await expect(page.locator('meta[property="og:image:height"]')).toHaveAttribute("content", "630");
+  await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute("content", /Verify, not just trust/);
+  await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute("content", "summary_large_image");
+  // The absolute URL targets production; fetch the same path from the server under test.
+  const { pathname, search } = new URL((await image.getAttribute("content"))!);
+  const response = await page.request.get(pathname + search);
+  expect(response.ok()).toBe(true);
+  expect(response.headers()["content-type"]).toBe("image/png");
+});
+
 test("looping decoration pauses while off screen", async ({ page }) => {
   await page.goto("/");
   const canvas = page.locator(".ok-process-canvas");
