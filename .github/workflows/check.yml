@@ -26,7 +26,8 @@ jobs:
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version-file: .nvmrc
-      - run: corepack enable
+      # Node 25+ no longer bundles Corepack; Vercel runs the same pinned release.
+      - run: npm install --global corepack@0.36.0
       - run: corepack yarn install --immutable
       - run: corepack yarn npm audit --all --recursive --severity high
       - run: corepack yarn check:all
@@ -43,8 +44,9 @@ jobs:
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           # Verify the patch currently supplied by Vercel; quality tests use .nvmrc.
-          node-version: 24.19.0
-      - run: corepack enable
+          node-version: 26.13.0
+      # Node 25+ no longer bundles Corepack; Vercel runs the same pinned release.
+      - run: npm install --global corepack@0.36.0
       - run: corepack yarn install --immutable
       - run: corepack yarn exec playwright install --with-deps chromium
       - run: corepack yarn build

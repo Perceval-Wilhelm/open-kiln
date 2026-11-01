@@ -12,6 +12,8 @@ if (!isSupported) {
   console.error(
     `Open Kiln requires Node.js ${required} or newer in the ${minimum[0]}.x LTS line; this command is using ${process.versions.node}.`,
   );
-  console.error("Run nvm install && nvm use, or select your installed Node 24 runtime as described in README.md.");
+  console.error(
+    `Run nvm install && nvm use, or select your installed Node ${minimum[0]} runtime as described in README.md.`,
+  );
   process.exitCode = 1;
 }

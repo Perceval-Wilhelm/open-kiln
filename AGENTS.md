@@ -18,7 +18,7 @@ Open Kiln is an English-language CSR campaign concept for INSEE Ecocycle. Public
 
 ## Development
 
-Use the recommended Node.js 24.21.0 from `.nvmrc` (the supported 24.x floor is 24.19.0 for Vercel) and the Yarn version pinned in `package.json` through Corepack.
+Use the recommended Node.js 26.13.0 from `.nvmrc` (the supported 26.x floor matches Vercel's 26.13.0) and the Yarn version pinned in `package.json` through Corepack. Node 25 and newer no longer bundle Corepack; install `corepack@0.36.0` once with npm.
 
 ```sh
 corepack yarn install --immutable
@@ -49,7 +49,7 @@ For UI changes, verify both audience journeys in a real browser, desktop/mobile 
 - Prefer the newest stable version compatible with the complete toolchain. Check peer requirements and the Node engine; see `docs/toolchain.md` for current exceptions.
 - ESLint uses the Next.js plugin directly with maintained React, official Hooks, accessibility and import plugins. Preserve coverage with `test:tooling` when changing this configuration.
 - Do not bypass incompatibilities with forced installs or broad resolutions.
-- Keep Vercel configured as Next.js with its default output directory. The legacy Vite `dist` override must not be used. Invoke both install and build through `corepack yarn` so Vercel does not fall back to Yarn 1.
+- Keep Vercel configured as Next.js with its default output directory. The legacy Vite `dist` override must not be used. Invoke both install and build through Corepack so Vercel does not fall back to Yarn 1. `vercel.json` and CI run the same pinned `corepack@0.36.0` through npm; update them together.
 - See `docs/deployment.md` before changing GitHub or Vercel settings. Keep action references pinned to full commit SHAs and preserve the required check names. Workflow changes must retain read-only default permissions and must not add credentials for the Git-based deployment flow.
 - Dependabot proposes updates; it does not auto-merge. TypeScript and Node types require compatibility review for major changes.
 - Use Conventional Commits. Never change Git identity or add co-author/tool attribution. Commit and push only when authorized.

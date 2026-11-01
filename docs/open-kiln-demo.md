@@ -4,7 +4,7 @@ Updated 23 September 2026. The English-language campaign experience combines att
 
 ## Run locally
 
-Use Node.js 24.21.0 (supported 24.x minimum 24.19.0), Corepack and the pinned Yarn version. No secrets, API or backend are needed.
+Use Node.js 26.13.0 (supported 26.x minimum 26.13.0), Corepack 0.36.0 (`npm install --global corepack@0.36.0`; Node 25+ no longer bundles it) and the pinned Yarn version. No secrets, API or backend are needed.
 
 ```sh
 corepack yarn install --immutable

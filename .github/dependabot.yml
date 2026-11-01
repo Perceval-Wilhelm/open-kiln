@@ -22,7 +22,7 @@ updates:
       - dependency-name: typescript
         update-types:
           - version-update:semver-major
-      # Keep type declarations aligned with the Vercel Node 24 runtime.
+      # Keep type declarations aligned with the Vercel Node 26 runtime.
       - dependency-name: "@types/node"
         update-types:
           - version-update:semver-major
