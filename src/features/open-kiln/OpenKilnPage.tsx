@@ -11,6 +11,7 @@ import {
   MessageSquareText,
   ShieldCheck,
 } from "lucide-react";
+import Image from "next/image";
 import {
   CategoryButton,
   ExperienceProvider,
@@ -229,6 +230,25 @@ export function OpenKilnPage() {
                   <p>Integrated reporting, document exports and connected evidence workflows.</p>
                 </div>
               </div>
+            </div>
+          </section>
+          <section className="ok-section ok-recognition" id="recognition">
+            <div className="ok-container">
+              <SectionHeading number="06" eyebrow="BEHIND OPEN KILN" title="Winner of the final pitch.">
+                Open Kiln was created by the Coc Coc agency team for RMIT University’s Organisational Communication
+                course, as a Work Integrated Learning project for INSEE Vietnam. The campaign won first place at the
+                final pitch.
+              </SectionHeading>
+              <figure>
+                <Image
+                  src="/images/final-pitch-team.jpg"
+                  alt="Six people pose in front of an RMIT University screen while one holds the Open Kiln certificate of recognition."
+                  width={3720}
+                  height={2480}
+                  sizes="(max-width: 800px) 100vw, 680px"
+                />
+                <figcaption>The Coc Coc team celebrates first place at RMIT University, 23 September 2026.</figcaption>
+              </figure>
             </div>
           </section>
         </main>
