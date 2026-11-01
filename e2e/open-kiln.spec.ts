@@ -376,3 +376,17 @@ test("visual review artifacts, text contrast and viewport fit", async ({ page },
     .locator("#verify")
     .screenshot({ path: `output/playwright/${testInfo.project.name}-register.png`, style: regionStyle });
 });
+
+test("no horizontal overflow at any width", async ({ page }, testInfo) => {
+  // The projects only render three widths; breakpoint gaps between them need a sweep.
+  test.skip(testInfo.project.name !== "desktop-chromium", "One sweep covers every width.");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  const overflowing: string[] = [];
+  for (let width = 320; width <= 1440; width += 10) {
+    await page.setViewportSize({ width, height: 900 });
+    const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+    if (scrollWidth > width) overflowing.push(`${width}px → ${scrollWidth}px`);
+  }
+  expect(overflowing).toEqual([]);
+});

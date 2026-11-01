@@ -1210,10 +1210,11 @@
   height: auto;
   border-radius: 10px;
 }
+/* The tilted frame adds ~5px of overhang: offsets stay inside each breakpoint's page gutter. */
 .ok-award-seal {
   position: absolute;
   top: -38px;
-  right: -30px;
+  right: -22px;
   width: 116px;
   height: 116px;
   color: #152d24;
@@ -1588,6 +1589,9 @@
   .ok-header-cta {
     display: none;
   }
+  .ok-award-seal {
+    right: -12px;
+  }
   .ok-hero-grid {
     gap: 28px;
   }
@@ -1739,6 +1743,40 @@
     flex: 1 1 200px;
   }
 }
+/* Five links stop fitting beside the wordmark below ~690px, so the menu collapses first. */
+@media (max-width: 720px) {
+  .ok-header > div {
+    justify-content: space-between;
+  }
+  .ok-menu-toggle {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+  }
+  .ok-nav {
+    display: none;
+  }
+  .ok-nav.is-open {
+    display: flex;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #f6f7f2;
+    padding: 16px 20px;
+    border-bottom: 1px solid #d6dfd6;
+    flex-direction: column;
+    gap: 0;
+    box-shadow: 0 12px 20px #152d2410;
+  }
+  .ok-nav a {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+  }
+}
 @media (max-width: 600px) {
   .ok-container {
     width: calc(100% - 40px);
@@ -1756,35 +1794,6 @@
   }
   .ok-header > div {
     height: 68px;
-    justify-content: space-between;
-  }
-  .ok-menu-toggle {
-    display: grid;
-    place-items: center;
-    width: 44px;
-    height: 44px;
-  }
-  .ok-nav {
-    display: none;
-  }
-  .ok-nav.is-open {
-    display: flex;
-    position: absolute;
-    top: 68px;
-    left: 0;
-    right: 0;
-    background: #f6f7f2;
-    padding: 16px 20px;
-    border-bottom: 1px solid #d6dfd6;
-    flex-direction: column;
-    gap: 0;
-    box-shadow: 0 12px 20px #152d2410;
-  }
-  .ok-nav a {
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-    font-size: 14px;
   }
   .ok-hero {
     padding-top: 35px;
