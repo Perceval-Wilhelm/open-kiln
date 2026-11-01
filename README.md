@@ -90,7 +90,7 @@ See [dependency versions and compatibility decisions](docs/toolchain.md). Vite r
 
 ```text
 src/
-  app/                     # Layout, metadata, homepage and 404
+  app/                     # Layout, metadata, social share image, homepage and 404
   components/ui/           # UI primitives used by the experience
   features/open-kiln/      # Campaign sections, client interactions, fixtures and tests
   lib/                     # Shared class-name utility
@@ -102,6 +102,8 @@ e2e/                       # Production browser regression tests
 .github/                   # Quality workflows and dependency updates
 docs/                      # Guides, provenance, verification and README screenshots
 ```
+
+The social share image `src/app/opengraph-image.png` (1200 × 630, with alt text beside it) is a static render of the hero headline and kiln schematic; regenerate it when the hero's brand or copy changes.
 
 Change operational examples in `treatment-records.ts`, editorial resources and governance snapshots in `data.ts`, public references in `references.ts`, campaign copy in `OpenKilnPage.tsx`, and styles in `open-kiln.css` / `experience.css`. These feature paths are relative to `src/features/open-kiln/`. `OpenKilnPage.tsx` composes static campaign content on the server. `Experience.tsx` owns client interaction state; `EvidenceOverlay.tsx` owns the accessible dialog shell, lazy content and loading/error recovery; `ExperienceSections.tsx` connects search, pathways and the library. Server-rendered content passes through the client provider as children. Keep static sections out of the client import graph when extending the page.
 
