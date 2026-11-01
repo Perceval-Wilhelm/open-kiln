@@ -21,7 +21,7 @@ Explore an operational evidence register, original public research and verificat
 
 </details>
 
-Screenshots captured from the public website on 23 September 2026. Operational records and park figures are illustrative. Images are stored in `docs/images/` for GitHub documentation, outside the application's public assets.
+Screenshots captured from a production build on 1 November 2026. Operational records and park figures are illustrative. Images are stored in `docs/images/` for GitHub documentation, outside the application's public assets.
 
 ## What you can explore
 

@@ -1,6 +1,7 @@
 import { ProcessExplorer } from "@/features/open-kiln/ProcessExplorer";
 
 // A process schematic, not a depiction of a named facility or its operating conditions.
+// Flows follow a dry-process kiln: material moves downhill towards the burner while gases rise through the preheater.
 export function KilnIllustration() {
   return (
     <ProcessExplorer>
@@ -8,155 +9,345 @@ export function KilnIllustration() {
         className="ok-process-drawing"
         viewBox="0 0 640 300"
         role="img"
-        aria-label="Co-processing schematic showing receiving equipment, a rotary kiln, a preheater tower and monitoring equipment"
+        aria-label="Co-processing schematic: received waste is stored and fed as fuel through the main burner of a rotary kiln; raw meal descends through a cyclone preheater while kiln gases rise through it; clinker leaves through a cooler; the exhaust is filtered and monitored at the stack, and the results are documented"
       >
         <defs>
-          <linearGradient id="kiln-steel" x1="0" y1="0" x2="0" y2="1">
-            <stop stopColor="#dce8de" />
-            <stop offset=".28" stopColor="#fafbf5" />
-            <stop offset=".58" stopColor="#c0d4c5" />
-            <stop offset="1" stopColor="#658875" />
+          <pattern id="kiln-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M20 0H0V20" fill="none" stroke="#c8df96" strokeOpacity=".07" strokeWidth=".6" />
+          </pattern>
+          <radialGradient id="kiln-fade-gradient" cx=".5" cy=".55" r=".6">
+            <stop stopColor="#fff" />
+            <stop offset="1" stopColor="#fff" stopOpacity="0" />
+          </radialGradient>
+          <mask id="kiln-fade">
+            <rect width="640" height="300" fill="url(#kiln-fade-gradient)" />
+          </mask>
+          <linearGradient id="kiln-floor" x1="0" y1="0" x2="0" y2="1">
+            <stop stopColor="#c8df96" stopOpacity=".08" />
+            <stop offset="1" stopColor="#c8df96" stopOpacity="0" />
           </linearGradient>
-          <linearGradient id="kiln-tower" x1="0" x2="1">
-            <stop stopColor="#b6cbbc" />
-            <stop offset=".48" stopColor="#eaf0e5" />
-            <stop offset="1" stopColor="#95b4a0" />
+          <linearGradient id="kiln-shell" x1="0" y1="0" x2="0" y2="1">
+            <stop stopColor="#3f735a" />
+            <stop offset=".22" stopColor="#93c4a5" />
+            <stop offset=".5" stopColor="#3b6b55" />
+            <stop offset="1" stopColor="#0f2219" />
+          </linearGradient>
+          <linearGradient id="kiln-hot" x1="0" x2="1">
+            <stop stopColor="#ff6a1a" stopOpacity=".7" />
+            <stop offset=".3" stopColor="#ff7a1f" stopOpacity=".28" />
+            <stop offset=".6" stopColor="#ff7a1f" stopOpacity="0" />
           </linearGradient>
           <linearGradient id="kiln-heat" x1="0" x2="1">
-            <stop stopColor="#c88337" />
-            <stop offset=".45" stopColor="#f4d9a1" />
-            <stop offset="1" stopColor="#dbe5c9" stopOpacity=".1" />
+            <stop stopColor="#ff5a14" />
+            <stop offset=".45" stopColor="#ffc46b" />
+            <stop offset="1" stopColor="#ffe3b0" stopOpacity="0" />
           </linearGradient>
-          <pattern id="kiln-hatch" width="6" height="6" patternUnits="userSpaceOnUse">
-            <path d="M0 6L6 0" stroke="#96afa1" strokeWidth=".6" />
-          </pattern>
-          <filter id="kiln-shadow" x="-20%" y="-40%" width="140%" height="180%">
-            <feGaussianBlur stdDeviation="6" />
+          <linearGradient id="kiln-steel" x1="0" y1="0" x2="0" y2="1">
+            <stop stopColor="#3d6c57" />
+            <stop offset=".5" stopColor="#24483a" />
+            <stop offset="1" stopColor="#152f23" />
+          </linearGradient>
+          <linearGradient id="kiln-tower" x1="0" x2="1">
+            <stop stopColor="#1f3d30" />
+            <stop offset=".42" stopColor="#5a8d72" />
+            <stop offset="1" stopColor="#1a3529" />
+          </linearGradient>
+          <radialGradient id="kiln-glow">
+            <stop stopColor="#ff6a1a" stopOpacity=".5" />
+            <stop offset="1" stopColor="#ff6a1a" stopOpacity="0" />
+          </radialGradient>
+          <filter id="kiln-haze" x="-50%" y="-20%" width="200%" height="140%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.09 0.02" numOctaves="2" seed="3" />
+            <feDisplacementMap in="SourceGraphic" scale="5" />
+          </filter>
+          <filter id="kiln-shadow" x="-20%" y="-200%" width="140%" height="500%">
+            <feGaussianBlur stdDeviation="5" />
           </filter>
         </defs>
-        <ellipse cx="332" cy="261" rx="258" ry="10" fill="#203c2d" opacity=".1" filter="url(#kiln-shadow)" />
-        <path d="M32 254H608M46 270H594" stroke="#bdcbbf" strokeWidth="1" />
-        <g stroke="#557c66" strokeWidth="1.3" strokeLinejoin="round">
+
+        <rect width="640" height="258" fill="url(#kiln-grid)" mask="url(#kiln-fade)" />
+        <rect y="258" width="640" height="42" fill="url(#kiln-floor)" />
+        <ellipse cx="330" cy="259" rx="300" ry="6" fill="#000" opacity=".5" filter="url(#kiln-shadow)" />
+        <g className="ok-drawing-treat">
+          <ellipse className="ok-kiln-glow" cx="262" cy="208" rx="170" ry="70" fill="url(#kiln-glow)" />
+        </g>
+
+        <g stroke="#6f9e85" strokeWidth="1" strokeLinejoin="round">
           <g className="ok-drawing-receive">
-            <path d="M51 146h55v35l-16 21H68l-17-21Z" fill="url(#kiln-tower)" />
-            <path d="M47 146h63v9H47Z" fill="#f0f4e8" />
-            <path d="M62 202v48m34-48v48M59 240h40M78 203v16h48" fill="none" strokeWidth="3" />
-            <rect x="39" y="248" width="74" height="6" rx="2" fill="#c2d3c5" />
-            <path d="M99 228l64-34 5 9-64 34Z" fill="#9db8a7" />
+            {[8, 26].map((x) => (
+              <g key={x}>
+                <rect x={x} y="228" width="14" height="30" rx="2.5" fill="url(#kiln-steel)" />
+                <path d={`M${x} 235h14M${x} 251h14`} fill="none" strokeOpacity=".7" />
+                <rect x={x + 3} y="240" width="8" height="6" rx="1" fill="#e0b44c" stroke="none" opacity=".85" />
+              </g>
+            ))}
+            <path d="M54 184v74m38-74v74M54 230l38-20M54 210l38 20" fill="none" strokeWidth="1.6" />
+            <path d="M48 156h50v28l-16 22H64l-16-22Z" fill="url(#kiln-tower)" />
+            <rect x="44" y="148" width="58" height="8" rx="2" fill="#2f5545" />
+            <rect x="68" y="162" width="10" height="20" rx="2" fill="#0a1912" />
+            <rect x="69.5" y="171" width="7" height="9.5" rx="1" fill="#c8df96" stroke="none" />
+            <path d="M66 206h14v10H66Z" fill="#24483a" />
+            <rect x="62" y="216" width="22" height="12" rx="2" fill="url(#kiln-steel)" />
+            <path d="M84 222h28v-10h44" fill="none" stroke="#5f8f76" strokeWidth="4" />
+            <path d="M84 222h28v-10h44" fill="none" stroke="#a9d4b8" strokeOpacity=".4" />
+            <circle cx="100" cy="222" r="4.5" fill="#24483a" />
             <path
               className="ok-kiln-conveyor"
-              d="M102 232.5L165 199"
+              d="M86 222h26v-10h42"
               fill="none"
-              stroke="#f4f7ec"
+              stroke="#e0b44c"
               strokeWidth="2"
               strokeLinecap="round"
               strokeDasharray="0.1 8"
             />
-            <path d="M113 231v19m29-35v35" fill="none" />
-            <path d="M63 138v-11h22v11" fill="none" />
-            <path d="M56 164h44m-40 7h36m-30 8h24" fill="none" opacity=".5" />
           </g>
+
           <g className="ok-drawing-treat">
-            <path d="M368 53h84v194h-84Z" fill="url(#kiln-hatch)" opacity=".35" />
+            <path d="M100 258c3-9 9-13 13-13s10 4 13 13Z" fill="#33463c" />
+            <rect x="124" y="240" width="80" height="18" rx="2" fill="url(#kiln-steel)" />
+            <path d="M128 246h72m-72 5h72" strokeOpacity=".5" strokeDasharray="3 2" />
             <path
-              d="M369 51v201m80-201v201M367 84h86m-86 41h86m-86 42h86m-86 43h86M369 84l80 41m-80 0 80 42m-80 0 80 43"
+              className="ok-kiln-conveyor"
+              d="M134 251h-24"
               fill="none"
-              stroke="#8ba894"
+              stroke="#b7cbb9"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeDasharray="0.1 8"
             />
-            <path
-              d="M357 47h105v6H357Zm0 36h105v5H357Zm0 41h105v5H357Zm0 41h105v5H357Zm0 41h105v5H357Z"
-              fill="#d2ded0"
-            />
-            <path
-              d="M378 57h22v19l-11 16-11-16Zm42 0h22v19l-11 16-11-16ZM389 103h34v27l-17 21-17-21Zm0 61h34v23l-17 26-17-26Z"
-              fill="url(#kiln-tower)"
-            />
-            <path d="M389 92v10m42-10v10h-25m0 48v14m0 49v13h-23" fill="none" strokeWidth="7" />
-            <path
-              d="M363 59h-12v174h12m-12-162h12m-12 12h12m-12 12h12m-12 12h12m-12 12h12m-12 12h12m-12 12h12m-12 12h12m-12 12h12m-12 12h12m-12 12h12m-12 12h12"
-              fill="none"
-              strokeWidth=".8"
-            />
-            <path d="M368 43v-9h84v9" fill="none" />
-            <g transform="rotate(-7 250 209)">
-              <rect x="142" y="180" width="241" height="54" rx="7" fill="url(#kiln-steel)" />
-              <ellipse cx="145" cy="207" rx="12" ry="27" fill="#5d816b" />
-              <ellipse cx="145" cy="207" rx="7" ry="19" fill="#273f32" />
-              <ellipse className="ok-kiln-ember" cx="145" cy="207" rx="4.5" ry="13" fill="#f0a64b" stroke="none" />
-              <path
-                className="ok-kiln-flame"
-                d="M145 202c27-14 62-10 96 1-28 12-60 14-96 12Z"
-                fill="url(#kiln-heat)"
+            <path d="M228 258 234 240h16l6 18ZM348 258l6-30h16l6 30Z" fill="#203f31" />
+            <circle cx="242" cy="240" r="4" fill="#2f5545" />
+            <circle cx="362" cy="228" r="4" fill="#2f5545" />
+            <rect x="284" y="244" width="24" height="14" rx="2" fill="url(#kiln-steel)" />
+            <path d="M298 244v-10" strokeWidth="2" />
+
+            <g transform="rotate(-6 300 205)">
+              <rect x="196" y="182" width="226" height="46" rx="6" fill="url(#kiln-shell)" />
+              <rect
+                className="ok-kiln-hot"
+                x="196"
+                y="182"
+                width="226"
+                height="46"
+                rx="6"
+                fill="url(#kiln-hot)"
                 stroke="none"
               />
               <path
+                d="M224 183v44m28-44v44m28-44v44m56-44v44m28-44v44m28-44v44"
+                stroke="#07130d"
+                strokeOpacity=".45"
+                strokeWidth=".8"
+              />
+              <rect
+                x="206"
+                y="196"
+                width="150"
+                height="18"
+                rx="9"
+                fill="#06110b"
+                stroke="#c8df96"
+                strokeOpacity=".35"
+              />
+              <path d="M210 211c30 3 70 3 120 0l20 1v2H210Z" fill="#b4521d" stroke="none" opacity=".75" />
+              <path
+                className="ok-kiln-flame"
+                d="M208 205c30-11 90-9 144 0-54 9-114 11-144 0Z"
+                fill="url(#kiln-heat)"
+                stroke="none"
+              />
+              <path className="ok-kiln-core" d="M208 205c18-5 52-5 80 0-28 5-62 5-80 0Z" fill="#fff1c4" stroke="none" />
+              <g className="ok-kiln-sparks" fill="#ffb066" stroke="none">
+                <circle cx="232" cy="202" r="1.1" />
+                <circle cx="254" cy="208" r="1" />
+                <circle cx="276" cy="201" r="1.2" />
+                <circle cx="300" cy="207" r="1" />
+                <circle cx="322" cy="203" r="1.1" />
+              </g>
+              <path
                 className="ok-kiln-flow"
-                d="M368 225H160"
+                d="M346 212H216"
                 fill="none"
-                stroke="#a8692e"
-                strokeWidth="2.4"
+                stroke="#ff8a3d"
+                strokeWidth="1.6"
                 strokeLinecap="round"
                 strokeDasharray="0.1 10"
-                strokeOpacity=".6"
+                strokeOpacity=".8"
               />
-              <rect x="191" y="176" width="12" height="62" rx="3" fill="#709880" />
-              <rect x="299" y="176" width="12" height="62" rx="3" fill="#709880" />
+              <rect x="232" y="177" width="14" height="56" rx="3" fill="url(#kiln-steel)" />
+              <rect x="352" y="177" width="14" height="56" rx="3" fill="url(#kiln-steel)" />
+              <path d="M235 179v52m120-52v52" stroke="#a9d4b8" strokeOpacity=".45" />
+              <rect x="296" y="175" width="9" height="60" rx="2" fill="#24483a" />
               <path
-                d="M160 186h216m-216 5h216M215 181v52m25-52v52m25-52v52m25-52v52m39-52v52m25-52v52"
-                fill="none"
-                stroke="#52755c"
-                strokeOpacity=".27"
-                strokeWidth=".7"
+                className="ok-kiln-gear"
+                d="M296 177v56m9-56v56"
+                stroke="#a9d4b8"
+                strokeWidth="1.6"
+                strokeDasharray="1.5 1.5"
               />
-              <path d="M372 180v54" strokeWidth="3" />
             </g>
-            <path d="M192 235v17m22-17v17m88-31v31m22-31v31" fill="none" strokeWidth="6" />
-            <rect x="181" y="248" width="47" height="6" rx="2" fill="#a3bca9" />
-            <rect x="292" y="248" width="46" height="6" rx="2" fill="#a3bca9" />
-            <circle cx="197" cy="237" r="7" fill="#d7e1d1" />
-            <circle cx="306" cy="224" r="7" fill="#d7e1d1" />
-            <path d="M117 233h22v16h-22Z" fill="#a3bca9" />
-            <path d="M112 232h31v4h-31Z" fill="#d7e1d1" />
+
+            <rect x="166" y="174" width="38" height="68" rx="3" fill="url(#kiln-steel)" />
+            <path d="M170 180h30M170 236h30" strokeOpacity=".6" />
+            <rect
+              className="ok-kiln-ember"
+              x="176"
+              y="196"
+              width="10"
+              height="16"
+              rx="2"
+              fill="#ff7a1f"
+              stroke="none"
+            />
+            <rect x="156" y="205" width="10" height="14" rx="2" fill="url(#kiln-steel)" />
+
+            <path d="M400 26v232m92-232v232" fill="none" strokeWidth="2.2" />
+            <path d="M400 72l92 42m0-42-92 42m0 4 92 42m0-42-92 42" fill="none" strokeOpacity=".15" />
+            <path d="M398 26v-8m24 8v-8m24 8v-8m24 8v-8m24 8v-8M396 18h100" fill="none" strokeOpacity=".7" />
+            <path d="M394 26h104v4H394Zm0 42h104v4H394Zm0 46h104v4H394Zm0 46h104v4H394Z" fill="#2c5242" />
+            <path
+              d="M419 166v-36h35m15-6V84h-35m-15-6V40h35"
+              fill="none"
+              stroke="#2b4b3c"
+              strokeWidth="8"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M419 166v-36h35m15-6V84h-35m-15-6V40h35"
+              fill="none"
+              stroke="#1b3328"
+              strokeWidth="5"
+              strokeLinejoin="round"
+            />
+            <path d="M380 56h39m50 8v20m-50 24v22m50 24v18h-29" fill="none" stroke="#5f8f76" strokeWidth="3" />
+            <path
+              className="ok-kiln-flow"
+              d="M419 164v-34h33m17-8V84h-33m-17-8V40h33"
+              fill="none"
+              stroke="#ff8a3d"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeDasharray="0.1 10"
+              strokeOpacity=".8"
+            />
+            <path
+              className="ok-kiln-conveyor"
+              d="M382 56h35m52 10v16m-50 28v18m50 28v16h-27"
+              fill="none"
+              stroke="#e8efd9"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeDasharray="0.1 8"
+            />
+            <path d="M454 34h30v14l-11 16h-8l-11-16Z" fill="url(#kiln-tower)" />
+            <path d="M404 78h30v14l-11 16h-8l-11-16Z" fill="url(#kiln-tower)" />
+            <path d="M454 124h30v14l-11 16h-8l-11-16Z" fill="url(#kiln-tower)" />
+            <path d="M465 30h8v4h-8Zm-50 44h8v4h-8Zm50 46h8v4h-8Z" fill="#24483a" />
+            <rect x="404" y="166" width="36" height="58" rx="3" fill="url(#kiln-steel)" />
+            <path d="M410 172h24" strokeOpacity=".6" />
+            <g className="ok-kiln-notes" stroke="none" fontFamily="monospace" fontSize="7.5" letterSpacing="1">
+              <text x="376" y="59" textAnchor="end">
+                RAW MEAL
+              </text>
+              <text x="113" y="237" textAnchor="middle">
+                CLINKER
+              </text>
+            </g>
           </g>
+
           <g className="ok-drawing-document">
-            <path d="M443 62h40v95h13" fill="none" stroke="#96b29c" strokeWidth="8" />
-            <path d="M493 147h53v66l-11 19h-31l-11-19Z" fill="url(#kiln-tower)" />
-            <path d="M490 145h59v8h-59Z" fill="#e7ede0" />
-            <path d="M502 158v54m9-54v54m9-54v54m9-54v54m9-54v54" fill="none" strokeWidth=".8" />
-            <path d="M501 230v22m36-22v22m9-81h30v-90" fill="none" strokeWidth="5" />
-            <rect x="569" y="65" width="14" height="11" fill="#edf1e8" />
-            <path d="M572 82h9v168" fill="none" strokeWidth="1" />
-            <rect x="560" y="249" width="34" height="5" rx="2" fill="#a3bca9" />
-            <rect x="466" y="224" width="22" height="28" rx="2" fill="#e8eee0" />
-            <rect x="470" y="229" width="14" height="8" rx="1" fill="#547f67" />
+            <path d="M469 34V12h61v100" fill="none" stroke="#2b4b3c" strokeWidth="10" strokeLinejoin="round" />
+            <path d="M469 34V12h61v100" fill="none" stroke="#1b3328" strokeWidth="6" strokeLinejoin="round" />
+            <path
+              className="ok-kiln-flow"
+              d="M469 32V12h61v98"
+              fill="none"
+              stroke="#ff8a3d"
+              strokeWidth="1.4"
+              strokeLinecap="round"
+              strokeDasharray="0.1 10"
+              strokeOpacity=".55"
+            />
+            <path d="M552 146h20v52m8 8h20" fill="none" stroke="#2b4b3c" strokeWidth="7" />
+            <path
+              className="ok-kiln-flow"
+              d="M554 146h18v50m10 10h16"
+              fill="none"
+              stroke="#b7cbb9"
+              strokeWidth="1.4"
+              strokeLinecap="round"
+              strokeDasharray="0.1 10"
+              strokeOpacity=".7"
+            />
+            <path d="M508 182v76m42-76v76" fill="none" strokeWidth="1.6" />
+            <path d="M504 112h48v70h-48Z" fill="url(#kiln-tower)" />
+            <path d="M512 120v56m8-56v56m8-56v56m8-56v56m8-56v56" strokeDasharray="2 2" strokeOpacity=".6" />
+            <path d="M504 182h48l-14 22h-20Z" fill="#24483a" />
+            <path
+              className="ok-kiln-data"
+              d="M596 106v126h-6M560 240h-26"
+              fill="none"
+              stroke="#c8df96"
+              strokeWidth="1.2"
+              strokeLinecap="round"
+              strokeDasharray="0.1 5"
+            />
+            <path d="M600 258 603 30h8l3 228Z" fill="url(#kiln-tower)" />
+            <path d="M602 60h10M601 150h12" strokeOpacity=".6" />
+            <path d="M590 102h30v4h-30Zm2 0v-7m26 7v-7m-26 0h26" fill="#2c5242" />
+            <g className="ok-kiln-fan">
+              <circle cx="572" cy="206" r="8" fill="#24483a" />
+              <path d="M572 199v14m-7-7h14m-12-5 10 10m0-10-10 10" stroke="#a9d4b8" strokeOpacity=".7" />
+            </g>
+            <rect x="560" y="224" width="30" height="34" rx="3" fill="url(#kiln-steel)" />
+            <rect x="564" y="229" width="22" height="13" rx="1.5" fill="#06110b" />
             <path
               className="ok-kiln-signal"
-              d="M471 233.5h2.5l1.5-2.5 2 4.5 2-3.5 1.5 1.5h2"
+              d="M566 236h3l2-4 3 7 3-5 2 2h3"
               fill="none"
-              stroke="#d9ebb0"
-              strokeWidth=".8"
+              stroke="#c8df96"
+              strokeWidth=".9"
             />
-            <path d="M470 242h6m3 0h5m-14 4h14" strokeWidth=".8" />
+            <path d="M565 248h8m3 0h9m-20 4h20" strokeOpacity=".6" />
+            <path d="M518 230h12l4 4v20h-16Z" fill="#e8efd9" stroke="none" />
+            <path d="M521 238h10m-10 4h10m-10 4h7" stroke="#2b4b3c" />
+            <g className="ok-kiln-smoke" fill="none" stroke="#b7cbb9" strokeWidth="1.5" strokeLinecap="round">
+              <path d="M607 24c-4-5 4-9 0-14" />
+              <path d="M601 22c-4-5 4-9 0-14" />
+              <path d="M613 22c-4-5 4-9 0-14" />
+            </g>
           </g>
         </g>
-        <g fill="none" stroke="#a6b6a5" strokeWidth=".8">
-          <path d="M45 117v-14h83m0 0-4-3m4 3-4 3M167 155h129m0 0-4-3m4 3-4 3M499 111h78m0 0-4-3m4 3-4 3" />
-          <path d="M27 281h586m-586-4v8m586-8v8" />
+
+        <g className="ok-drawing-treat">
+          <g className="ok-kiln-haze" fill="none" stroke="#ffb066" strokeWidth="1" strokeLinecap="round" opacity=".28">
+            <path d="M236 176c-3-5 3-9 0-14s3-9 0-14" />
+            <path d="M262 172c-3-5 3-9 0-14s3-9 0-14" />
+            <path d="M288 168c-3-5 3-9 0-14s3-9 0-14" />
+          </g>
         </g>
-        <g className="ok-kiln-smoke" fill="none" stroke="#a9bcae" strokeWidth="1.5" strokeLinecap="round">
-          <path d="M396 29c-4-5 4-9 0-14" />
-          <path d="M424 29c-4-5 4-9 0-14" />
-          <path d="M576 61c-4-5 4-9 0-14" />
+        <path d="M12 258h616" stroke="#6f9e85" strokeOpacity=".6" />
+
+        <g className="ok-kiln-labels" fontFamily="monospace" fontSize="11" letterSpacing="1.2">
+          <text data-stage="receive" x="50" y="283">
+            01 RECEIVE
+          </text>
+          <text data-stage="treat" x="250" y="283">
+            02 CO-PROCESS
+          </text>
+          <text data-stage="document" x="510" y="283">
+            03 DOCUMENT
+          </text>
         </g>
-        <g className="ok-kiln-pings" fill="none" stroke="#176341" strokeWidth="1.2">
-          <circle data-stage="receive" cx="80" cy="118" r="5" />
-          <circle data-stage="treat" cx="271" cy="154" r="5" />
-          <circle data-stage="document" cx="577" cy="112" r="5" />
+        <g className="ok-kiln-pings" fill="none" stroke="#c8df96" strokeWidth="1.2">
+          <circle data-stage="receive" cx="40" cy="279" r="4.5" />
+          <circle data-stage="treat" cx="240" cy="279" r="4.5" />
+          <circle data-stage="document" cx="500" cy="279" r="4.5" />
         </g>
-        <g className="ok-kiln-nodes" fill="#f7f9ef" stroke="#176341" strokeWidth="1.4">
-          <circle data-stage="receive" cx="80" cy="118" r="5" />
-          <circle data-stage="treat" cx="271" cy="154" r="5" />
-          <circle data-stage="document" cx="577" cy="112" r="5" />
+        <g className="ok-kiln-nodes" fill="#132b20" stroke="#c8df96" strokeWidth="1.4">
+          <circle data-stage="receive" cx="40" cy="279" r="4.5" />
+          <circle data-stage="treat" cx="240" cy="279" r="4.5" />
+          <circle data-stage="document" cx="500" cy="279" r="4.5" />
         </g>
       </svg>
     </ProcessExplorer>
