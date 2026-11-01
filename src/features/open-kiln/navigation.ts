@@ -3,4 +3,5 @@ export const navigation = [
   { id: "pathways", label: "Verification Pathways" },
   { id: "library", label: "Evidence Library" },
   { id: "transparency", label: "Transparency" },
+  { id: "recognition", label: "Recognition" },
 ];

@@ -1,6 +1,6 @@
 "use client";
 import { ArrowUpRight, Check, FileText, ScanLine } from "lucide-react";
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { FeaturedRecordButton } from "@/features/open-kiln/Experience";
 import { featuredRecord } from "@/features/open-kiln/data";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -30,6 +30,7 @@ const stages = [
 ];
 
 export function ProcessExplorer({ children }: { children: ReactNode }) {
+  const [stage, setStage] = useState("treat");
   return (
     <div className="ok-process-explorer">
       <div className="ok-process-masthead">
@@ -38,7 +39,7 @@ export function ProcessExplorer({ children }: { children: ReactNode }) {
         </span>
         <span>01—03</span>
       </div>
-      <Tabs defaultValue="treat" className="ok-process-tabs">
+      <Tabs value={stage} onValueChange={setStage} className="ok-process-tabs">
         <TabsList aria-label="Explore the co-processing stages" className="ok-process-tablist">
           {stages.map((stage, index) => (
             <TabsTrigger value={stage.id} key={stage.id}>
@@ -47,7 +48,7 @@ export function ProcessExplorer({ children }: { children: ReactNode }) {
             </TabsTrigger>
           ))}
         </TabsList>
-        <div className="ok-process-canvas">
+        <div className="ok-process-canvas" data-stage={stage}>
           {children}
           <span className="ok-process-caption">CO-PROCESSING / PROCESS SCHEMATIC</span>
         </div>

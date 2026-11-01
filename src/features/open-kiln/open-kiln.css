@@ -1,3 +1,6 @@
+:root {
+  --ok-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
 .ok-site {
   color: var(--foreground);
   font-size: 16px;
@@ -128,6 +131,7 @@
   margin-left: auto;
 }
 .ok-nav a {
+  position: relative;
   display: inline-flex;
   align-items: center;
   min-height: 44px;
@@ -135,8 +139,26 @@
   font-weight: 600;
   white-space: nowrap;
 }
-.ok-nav a:hover {
+.ok-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 9px;
+  height: 2px;
+  border-radius: 2px;
+  background: #176341;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s var(--ok-ease);
+}
+.ok-nav a:hover,
+.ok-nav a[aria-current] {
   color: #176341;
+}
+.ok-nav a:hover::after,
+.ok-nav a[aria-current]::after {
+  transform: scaleX(1);
 }
 .ok-header-cta {
   display: flex;
@@ -293,7 +315,11 @@
   border-left: 1px solid #d6dfd6;
 }
 .ok-trust-strip svg {
+  box-sizing: content-box;
   margin-left: auto;
+  padding: 5px;
+  border-radius: 50%;
+  background: #e3edcf;
   color: #176341;
 }
 .ok-trust-number {
@@ -1048,25 +1074,29 @@
   font-size: 12px;
 }
 .ok-engagement {
-  border-top: 1px solid #d6dfd6;
+  background: #edf1e7;
+  border-top: 1px solid #dfe5d9;
 }
 .ok-engagement-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
+  gap: 20px;
   margin-top: 38px;
 }
 .ok-engagement-card {
-  border-left: 1px solid #d6dfd6;
-  padding-left: 29px;
+  position: relative;
+  padding: 30px 28px 24px;
+  border: 1px solid #d6dfd6;
+  border-radius: 16px;
+  background: #fff;
   display: flex;
   flex-direction: column;
 }
-.ok-engagement-card:first-child {
-  border-left: 0;
-  padding-left: 0;
-}
 .ok-engagement-card > svg {
+  box-sizing: content-box;
+  padding: 12px;
+  border-radius: 12px;
+  background: #eef3e5;
   margin-bottom: 22px;
   color: #176341;
 }
@@ -1149,28 +1179,79 @@
   margin: 22px 0;
   color: #91af7b;
 }
+.ok-recognition {
+  background: #f5f2e7;
+  border-top: 1px solid #e6dfc8;
+}
 .ok-recognition .ok-container {
   display: grid;
   grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-  gap: 56px;
+  gap: 64px;
   align-items: center;
+}
+.ok-recognition-photo {
+  position: relative;
+  padding: 10px;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 34px 60px -38px #3d3418a0;
+  rotate: -1.2deg;
+  transition:
+    rotate 0.6s var(--ok-ease),
+    scale 0.6s var(--ok-ease);
+}
+.ok-recognition-photo:hover {
+  rotate: 0deg;
+  scale: 1.01;
 }
 .ok-recognition img {
   display: block;
   width: 100%;
   height: auto;
-  border: 1px solid #d6dfd6;
-  border-radius: 12px;
+  border-radius: 10px;
+}
+.ok-award-seal {
+  position: absolute;
+  top: -38px;
+  right: -30px;
+  width: 116px;
+  height: 116px;
+  color: #152d24;
+  filter: drop-shadow(0 10px 14px #5a461640);
+}
+.ok-award-seal text {
+  fill: currentColor;
+  font-weight: 700;
+}
+.ok-award-seal .ok-award-seal-rank {
+  fill: #f4dc8f;
 }
 .ok-recognition figcaption {
-  margin-top: 12px;
+  margin-top: 18px;
   font-size: 14px;
   line-height: 1.6;
-  color: #52645b;
+  color: #5c5a48;
 }
 .ok-footer {
-  background: #f6f7f2;
-  padding-top: 49px;
+  background: #152d24;
+  color: #dce7d6;
+  padding-top: 64px;
+}
+.ok-footer .ok-wordmark i {
+  color: #c8df96;
+}
+.ok-footer > .ok-container > div:nth-child(3) {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.ok-footer .ok-text-action {
+  color: #e6eedf;
+}
+.ok-footer .ok-text-action:hover,
+.ok-footer > .ok-container > div:nth-child(2) a:hover,
+.ok-footer-bottom a:hover {
+  color: #c8df96;
 }
 .ok-footer > .ok-container:first-child {
   display: grid;
@@ -1181,10 +1262,12 @@
   font-size: 12px;
   line-height: 1.9;
   margin-top: 14px;
+  color: #b9cbb4;
 }
 .ok-footer .ok-small-label {
   display: block;
   margin-bottom: 14px;
+  color: #a9c19f;
 }
 .ok-footer > .ok-container > div:nth-child(2) a {
   display: block;
@@ -1196,12 +1279,12 @@
 .ok-footer-bottom {
   margin-top: 45px;
   padding-block: 22px;
-  border-top: 1px solid #d6dfd6;
+  border-top: 1px solid #2d4b3d;
   display: flex;
   justify-content: space-between;
   gap: 20px;
   font-size: 12px;
-  color: #52645b;
+  color: #a9bfa4;
 }
 .ok-footer-bottom a {
   min-height: 44px;
@@ -1620,10 +1703,10 @@
     grid-template-columns: 1fr;
   }
   .ok-engagement-grid {
-    gap: 20px;
+    gap: 14px;
   }
   .ok-engagement-card {
-    padding-left: 20px;
+    padding: 24px 20px 20px;
   }
   .ok-engagement-card h3 {
     font-size: 23px;
@@ -1637,7 +1720,13 @@
   }
   .ok-recognition .ok-container {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 44px;
+  }
+  .ok-award-seal {
+    top: -28px;
+    right: -8px;
+    width: 88px;
+    height: 88px;
   }
   .ok-footer > .ok-container:first-child {
     gap: 25px;
@@ -1948,16 +2037,7 @@
   }
   .ok-engagement-grid {
     grid-template-columns: 1fr;
-    gap: 28px;
-  }
-  .ok-engagement-card {
-    padding: 28px 0 0;
-    border-left: 0;
-    border-top: 1px solid #d6dfd6;
-  }
-  .ok-engagement-card:first-child {
-    padding-top: 0;
-    border-top: 0;
+    gap: 16px;
   }
   .ok-engagement-card h3 {
     font-size: 28px;

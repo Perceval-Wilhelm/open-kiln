@@ -7,8 +7,27 @@ import { navigation } from "@/features/open-kiln/navigation";
 
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeId, setActiveId] = useState<string | null>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const { focusSearch } = useExperience();
+  useEffect(() => {
+    if (typeof IntersectionObserver === "undefined") return;
+    // A section is current while it crosses the middle band of the viewport.
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const id = entry.target.id;
+          setActiveId((current) => (entry.isIntersecting ? id : current === id ? null : current));
+        }
+      },
+      { rootMargin: "-45% 0px -50% 0px" },
+    );
+    for (const item of navigation) {
+      const section = document.getElementById(item.id);
+      if (section) observer.observe(section);
+    }
+    return () => observer.disconnect();
+  }, []);
   useEffect(() => {
     if (!menuOpen) return;
     function closeOnEscape(event: KeyboardEvent) {
@@ -35,6 +54,7 @@ export function SiteHeader() {
             <a
               key={item.id}
               href={`#${item.id}`}
+              aria-current={activeId === item.id ? "location" : undefined}
               onClick={() => {
                 setMenuOpen(false);
                 requestAnimationFrame(() => document.getElementById(item.id)?.focus({ preventScroll: true }));

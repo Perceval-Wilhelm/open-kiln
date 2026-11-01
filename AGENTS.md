@@ -11,7 +11,8 @@ Open Kiln is an English-language CSR campaign concept for INSEE Ecocycle. Public
 - `EvidenceOverlay.tsx` owns the always-available Radix dialog shell, focus restoration and loading/error boundaries. It lazily loads content from `Dialogs.tsx`; a rejected import requires a page reload. Preserve the close action in both fallback states.
 - `ExperienceSections.tsx` connects record search, audience pathways and the library to that state.
 - `treatment-records.ts` defines 24 varied operational examples; `data.ts` holds editorial resources and governance snapshots; `references.ts` holds independently attributed public sources. `types.ts` and `logic.ts` define contracts and pure functions.
-- `KilnIllustration.tsx` renders the process SVG on the server, passed as children into the interactive `ProcessExplorer.tsx`. Keep the SVG out of the client import graph.
+- `KilnIllustration.tsx` renders the process SVG on the server, passed as children into the interactive `ProcessExplorer.tsx`. Keep the SVG out of the client import graph. `ProcessExplorer` exposes the selected stage as `data-stage` so CSS can highlight that part of the drawing.
+- `motion.css` holds atmosphere, interaction states and all animation. Keep every animation inside `prefers-reduced-motion: no-preference`: the global reduced-motion rule only shortens timed animations, and scroll-linked or looping ones bypass it. Put decorative backgrounds on pseudo-elements so section backgrounds stay solid for the contrast test.
 - `src/components/ui/` contains the shadcn/Radix primitives actually used. Prefer composition; update them when compatibility or accessibility requires it.
 - Use `@/*` for imports from `src/`. Keep unrelated template infrastructure out of the project.
 
