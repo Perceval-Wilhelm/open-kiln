@@ -255,7 +255,11 @@ test("social share card points to a published 1200 × 630 image", async ({ page 
   await expect(image).toHaveAttribute("content", /^https:\/\/open-kiln\.vercel\.app\/opengraph-image\.png/);
   await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute("content", "1200");
   await expect(page.locator('meta[property="og:image:height"]')).toHaveAttribute("content", "630");
-  await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute("content", /Verify, not just trust/);
+  // Next.js copies opengraph-image.alt.txt verbatim, so the file must not end with a newline.
+  await expect(page.locator('meta[property="og:image:alt"]')).toHaveAttribute(
+    "content",
+    /^Open Kiln: Verify, not just trust\..*schematic\.$/,
+  );
   await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute("content", "summary_large_image");
   // The absolute URL targets production; fetch the same path from the server under test.
   const { pathname, search } = new URL((await image.getAttribute("content"))!);
