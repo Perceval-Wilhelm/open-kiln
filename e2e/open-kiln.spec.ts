@@ -52,6 +52,11 @@ test("search, evidence, library and both audience journeys", async ({ page }) =>
   await expect(dashboard.getByRole("table")).toContainText("Jan30Feb32Mar38");
   await page.getByRole("tab", { name: /EHS & Plant Managers/ }).click();
   await expect(page.getByRole("list", { name: "EHS treatment journey" })).toBeVisible();
+  const teamPhoto = page.getByRole("img", { name: /certificate of recognition/ });
+  await teamPhoto.scrollIntoViewIfNeeded();
+  await expect
+    .poll(() => teamPhoto.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0))
+    .toBe(true);
   expect(errors).toEqual([]);
 });
 
@@ -280,6 +285,7 @@ test("reduced motion and server-rendered content", async ({ page, browser }) => 
   await expect(noScript.getByRole("heading", { name: "Real research. Read in context.", exact: true })).toBeVisible();
   await expect(noScript.locator(".ok-register-card")).toHaveCount(6);
   await expect(noScript.locator("#transparency")).toContainText("illustrative");
+  await expect(noScript.getByRole("heading", { name: "Winner of the final pitch.", exact: true })).toBeVisible();
   await context.close();
   const missingPage = await page.goto("/missing-record-page");
   expect(missingPage?.status()).toBe(404);

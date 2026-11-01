@@ -92,7 +92,7 @@ src/
   lib/                     # Shared class-name utility
   styles/                  # Theme tokens and base styles
   test/                    # Vitest browser-environment setup
-public/open-kiln.svg        # Project favicon
+public/                    # Favicon and final-pitch team photo
 scripts/                   # Runtime guard and lint regression tests
 e2e/                       # Production browser regression tests
 .github/                   # Quality workflows and dependency updates
