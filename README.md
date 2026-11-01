@@ -37,25 +37,26 @@ The public research is real and cited. Customer-level records, organisations, re
 
 ## Run locally
 
-Recommended: **Node.js 24.21.0** from `.nvmrc` (supported range: **24.19.0 or newer within 24.x**), and [Corepack](https://github.com/nodejs/corepack). The exact Yarn version is pinned in `package.json`. Dependencies use the `node-modules` linker.
+Recommended: **Node.js 26.13.0** from `.nvmrc` (supported range: **26.13.0 or newer within 26.x**), and [Corepack](https://github.com/nodejs/corepack) **0.36.0**. Node 25 and newer no longer bundle Corepack, so install it once with npm. The exact Yarn version is pinned in `package.json`. Dependencies use the `node-modules` linker.
 
 ```sh
 git clone https://github.com/Perceval-Wilhelm/open-kiln.git
 cd open-kiln
 nvm install
 nvm use
+npm install --global corepack@0.36.0
 corepack yarn install --immutable
 corepack yarn dev
 ```
 
-`.nvmrc` pins the verified Node release. If you use Homebrew instead of nvm, select its Node 24 installation in the current shell before running Yarn:
+`.nvmrc` pins the verified Node release. If you use Homebrew instead of nvm, select its Node 26 installation in the current shell before running Yarn. Node 26 is the `node` formula until Node 27 ships, then `node@26`:
 
 ```sh
-export PATH="$(brew --prefix node@24)/bin:$PATH"
+export PATH="$(brew --prefix node)/bin:$PATH"
 node --version
 ```
 
-This requires an existing `node@24` installation. `dev`, `build`, `start` and the combined checks fail early with a clear message when the selected runtime is unsupported. Node 26 is the newer Current line, but local development uses the latest verified Node 24 LTS patch. Vercel manages its own patch rollout and currently builds with 24.19.0; both patches are covered by validation. See the compatibility notes below.
+This requires an existing Node 26 installation and Corepack. `dev`, `build`, `start` and the combined checks fail early with a clear message when the selected runtime is unsupported. Node 26 is the active LTS line and Vercel's default runtime; Vercel currently builds with 26.13.0, the same patch as `.nvmrc`. See the compatibility notes below.
 
 Open [localhost:3000](http://localhost:3000). To use another port, run `corepack yarn dev --port 3001`.
 
@@ -122,7 +123,7 @@ See the [review guide](docs/open-kiln-demo.md) for manual checks and the [delive
 
 ## Deploy on Vercel
 
-The personal GitHub repository is connected to the Vercel project **open-kiln**. Its production domain is [open-kiln.vercel.app](https://open-kiln.vercel.app). Project settings use **Next.js**, repository root, Node.js **24.x**, and no legacy output or command overrides.
+The personal GitHub repository is connected to the Vercel project **open-kiln**. Its production domain is [open-kiln.vercel.app](https://open-kiln.vercel.app). Project settings use **Next.js**, repository root and no legacy output or command overrides. `engines` in `package.json` selects Node.js **26.x**, which takes precedence over the dashboard's Node.js setting.
 
 `vercel.json` declares the framework, immutable Corepack install and build command. It resets the output directory to the framework default. No application secrets or environment variables are needed. Preview deployments retain Vercel Authentication; the production domain is public.
 

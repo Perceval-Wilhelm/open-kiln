@@ -1,6 +1,6 @@
 # Toolchain verification
 
-Verified on **23 September 2026** against npm package metadata, official documentation and local execution; dependency versions updated on **1 November 2026** (see [security update](#security-update--1-november-2026)). This is a dated snapshot, not a promise that package versions will remain the newest.
+Verified on **23 September 2026** against npm package metadata, official documentation and local execution; dependency versions updated on **1 November 2026** (see [security update](#security-update--1-november-2026) and [runtime update](#runtime-update--1-november-2026)). This is a dated snapshot, not a promise that package versions will remain the newest.
 
 ## Version policy
 
@@ -17,7 +17,7 @@ Use the newest stable releases that work together, pin direct dependency version
 | `@radix-ui/react-tabs`          | 1.2.1            | Latest stable                      |
 | `class-variance-authority`      | 0.7.1            | Latest stable                      |
 | `clsx`                          | 2.1.1            | Latest stable                      |
-| `lucide-react`                  | 1.65.0           | Newest past the 24-hour age gate   |
+| `lucide-react`                  | 1.66.0           | Latest stable                      |
 | `next`                          | 16.4.3           | Latest stable                      |
 | `react`                         | 19.3.1           | Latest stable                      |
 | `react-dom`                     | 19.3.1           | Latest stable                      |
@@ -31,7 +31,7 @@ Use the newest stable releases that work together, pin direct dependency version
 | `@testing-library/dom`          | 10.4.2           | Latest stable                      |
 | `@testing-library/jest-dom`     | 7.0.1            | Latest stable                      |
 | `@testing-library/react`        | 16.3.3           | Latest stable                      |
-| `@types/node`                   | 24.19.2          | Compatibility exception; see below |
+| `@types/node`                   | 26.6.6           | Latest stable; matches Node 26     |
 | `@types/react`                  | 19.3.0           | Latest stable                      |
 | `@types/react-dom`              | 19.3.0           | Latest stable                      |
 | `@vitejs/plugin-react`          | 6.1.2            | Latest stable                      |
@@ -50,7 +50,7 @@ Use the newest stable releases that work together, pin direct dependency version
 | `vite`                          | 8.3.5            | Latest stable                      |
 | `vitest`                        | 5.0.5            | Latest stable                      |
 
-Yarn is pinned to **4.18.0** via `packageManager`. Transitive packages were refreshed within their declared ranges. Yarn's default 24-hour age gate initially selected five older releases; the reviewed upgrade used `YARN_NPM_MINIMAL_AGE_GATE=0` for that resolution only. The normal project configuration retains the default age gate. Immutable installs reproduce the verified lockfile; transitive packages can still legitimately use an older major required by their parent.
+Yarn is pinned to **4.18.1** via `packageManager` (4.18.0 at the original baseline). Transitive packages were refreshed within their declared ranges. Yarn's default 24-hour age gate initially selected five older releases; the reviewed upgrade used `YARN_NPM_MINIMAL_AGE_GATE=0` for that resolution only. The normal project configuration retains the default age gate. Immutable installs reproduce the verified lockfile; transitive packages can still legitimately use an older major required by their parent.
 
 ## Hobby monitoring SDKs
 
@@ -69,6 +69,22 @@ Every open Dependabot PR failed **Open Kiln quality**: its high/critical audit c
 
 Local results on Node 24.21.0: `corepack yarn npm audit --all --recursive --severity high` reported no advisories; immutable install and peer inspection were clean; `corepack yarn verify` passed formatting, zero-warning ESLint, route types, TypeScript, 25 application tests, 14 lint regression tests, the production build and 30 Playwright tests at three viewport sizes. Remote CI and the Vercel preview remain separate checks.
 
+## Runtime update — 1 November 2026
+
+Node 26 became the active LTS line in October 2026 and is Vercel's default runtime; Node 24 moved to maintenance (supported until April 2028). The project now targets **Node 26.13.0**, the newest 26.x release.
+
+- `.nvmrc`, `engines` (`>=26.13.0 <27`), the runtime guard and the CI browser job all use 26.13.0. The first Node 26 Vercel preview passed the guard at that floor, so Vercel currently supplies 26.13.0.
+- Node 25 and newer no longer bundle Corepack. `vercel.json` runs `npx --yes corepack@0.36.0 yarn …` and both CI jobs install `corepack@0.36.0` with npm before using it. Corepack 0.36.0 declares support for `^22.22.2 || ^24.15.0 || >=26.0.0`. Dependabot does not update this pin; change it in `vercel.json`, the workflow and the README together.
+- Yarn moves to **4.18.1**. `lucide-react` **1.66.0** is now past the 24-hour age gate. `@types/node` **26.6.6** matches the runtime and brings `undici-types` 8.9.0; Dependabot still ignores major type updates beyond the runtime.
+- All 235 installed packages that declare `engines.node` accept 26.13.0. Peer inspection reports no unmet requirements.
+- `corepack yarn npm audit --all --recursive` reports one moderate advisory: `minimatch` 10.2.6, used only by the lint plugin `eslint-plugin-import-x` 4.17.1, its newest release. No high or critical advisories.
+- TypeScript 7 remains excluded: `typescript-eslint` 8.72.1, its newest stable release, still declares `typescript >=4.8.4 <6.1.0`.
+- GitHub Actions were already on their newest releases (`actions/checkout` v7.0.1, `actions/setup-node` v7.1.0, `actions/upload-artifact` v7.0.2). Node 27 exists only as an alpha.
+
+Results on Node 26.13.0: immutable install, `corepack yarn verify` with formatting, zero-warning ESLint, route types, TypeScript, 25 application tests, 14 lint regression tests, the production build and 34 Playwright tests at three viewport sizes (2 duplicate width sweeps skipped by design). The runtime guard rejects Node 24.22.2 with a setup message. The Vercel preview built with Next.js 16.4.3 on Node 26.x and Yarn 4.18.1.
+
+Sources: [Node.js releases](https://nodejs.org/en/about/previous-releases), [Node release index](https://nodejs.org/dist/index.json), [Vercel supported Node versions](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions) and [Corepack](https://github.com/nodejs/corepack).
+
 ## Compatibility exceptions
 
 ### TypeScript 6.0.3
@@ -78,14 +94,6 @@ The newest stable TypeScript is **7.0.2**. An isolated upgrade established that 
 This is a lint-toolchain limitation, not a claim that Next.js cannot use TypeScript 7. Do not suppress the peer warning or remove type-aware checks merely to satisfy a version label. Retry when the parser and its compiler-API dependencies support TypeScript 7, then run the full checks.
 
 Sources: [typescript-eslint dependency support](https://typescript-eslint.io/users/dependency-versions/) and [Next.js TypeScript CLI checker](https://nextjs.org/docs/app/api-reference/config/next-config-js/useTypeScriptCli).
-
-### Node.js 24.21.0 and @types/node 24.19.2
-
-On 23 September 2026, **26.10.0** was the latest Node Current release and **24.21.0** the latest Node 24 LTS release. Vercel currently lists Node 24, 22 and 20, with 24 as its newest supported runtime. Open Kiln recommends Node **24.21.0** for local development and uses `@types/node` **24.19.2**, the newest types in the matching major. Installing the globally newest types (26.6.6) would advertise APIs outside the deployment runtime.
-
-`.nvmrc` pins the recommended local release. A real Vercel preview confirmed that its Node 24 build image currently supplies **24.19.0**, so `engines` and the runtime guard support `>=24.19.0 <25`. The quality CI job uses 24.21.0 and the browser job uses 24.19.0. The guard permits newer 24.x patches. Select 24.x in Vercel and verify its actual patch in build logs; managed runtimes can lag the upstream release. Both Vercel commands use `corepack yarn` because a bare `yarn build` selected Yarn 1 on the first preview. No global Node installation is changed by this repository.
-
-Sources: [Node.js releases](https://nodejs.org/en/about/previous-releases), [Node release index](https://nodejs.org/dist/index.json) and [Vercel supported Node versions](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions).
 
 ## ESLint 10 migration
 

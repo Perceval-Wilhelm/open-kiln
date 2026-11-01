@@ -49,9 +49,9 @@ Each job has a 15-minute limit. Browser failure reports, screenshots and traces 
 | --------------------------------- | -------------------------------------------------------------------- |
 | Framework                         | Next.js                                                              |
 | Root directory                    | Repository root                                                      |
-| Node.js                           | 24.x; CI/local `.nvmrc` pins the verified patch                      |
-| Install command                   | `corepack yarn install --immutable`, from `vercel.json`              |
-| Build command                     | `corepack yarn build`, from `vercel.json`                            |
+| Node.js                           | 26.x from `engines`; CI/local `.nvmrc` pins the verified patch       |
+| Install command                   | `npx --yes corepack@0.36.0 yarn install --immutable`, `vercel.json`  |
+| Build command                     | `npx --yes corepack@0.36.0 yarn build`, from `vercel.json`           |
 | Output directory                  | Framework default; `outputDirectory: null`; no `dist` override       |
 | Dashboard command overrides       | Disabled                                                             |
 | Production branch / domain        | `main` / `open-kiln.vercel.app`                                      |
@@ -65,7 +65,9 @@ The existing basic build machine and disabled on-demand concurrent builds are su
 
 Avoid duplicating source-controlled build settings in the dashboard. When changing runtime versions, update `.nvmrc`, `engines`, the runtime guard and compatible Node type declarations together; verify that Vercel supports the target major first.
 
-Vercel's first migration preview exposed two platform differences: Node 24.x currently resolves to **24.19.0**, and bare `yarn build` selected Yarn 1. The supported runtime floor is therefore 24.19.0, while `.nvmrc` retains the newer local release 24.21.0. Both install and build explicitly invoke Corepack. The quality CI job uses `.nvmrc`; the browser job uses the observed Vercel patch.
+Vercel's first migration preview exposed two platform differences: its Node patch can lag the upstream release, and bare `yarn build` selected Yarn 1. Both install and build therefore invoke Corepack explicitly. The quality CI job uses `.nvmrc`; the browser job uses the observed Vercel patch.
+
+On 1 November 2026 the runtime moved from Node 24 to Node 26, the active LTS line and Vercel's default. Node 25 and newer no longer bundle Corepack, so `vercel.json` and both CI jobs fetch a pinned `corepack@0.36.0` through npm. The first Node 26 preview installed with Yarn 4.18.1 and passed the runtime guard at its 26.13.0 floor, which is the newest 26.x release, so `engines`, `.nvmrc` and the browser job all use 26.13.0. `engines` overrides the dashboard's earlier 24.x selection; Vercel reports this as a build warning. Switch the dashboard to 26.x to silence it.
 
 ## Routine release
 
@@ -74,7 +76,7 @@ Vercel's first migration preview exposed two platform differences: Node 24.x cur
 3. Run `corepack yarn verify`. Choose a free `PLAYWRIGHT_PORT` if the default test port is occupied.
 4. Review the complete diff, including deletions, new files and the lockfile. Keep original assessment attachments and local generated artifacts out of the release.
 5. Commit and push the feature branch, then open a PR. Check the two named GitHub jobs and the Vercel preview build.
-6. Review the preview while signed into the owning Vercel account: search, evidence, both audience journeys, forms, mobile layout and keyboard focus. Confirm the build identifies Next.js and Node 24.x.
+6. Review the preview while signed into the owning Vercel account: search, evidence, both audience journeys, forms, mobile layout and keyboard focus. Confirm the build identifies Next.js and Node 26.x.
 7. Confirm that both deployment checks remain configured as Production Blocking. Confirm the production deployment passes those checks before its alias is promoted.
 8. Merge only after release approval. Vercel builds `main` and assigns the production domain after its deployment checks pass. Confirm the deployment is Ready and that the public domain serves the expected commit.
 9. Check build/runtime logs and repeat the normal-flow smoke test on production. Do not send real personal data through the demo forms.
