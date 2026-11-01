@@ -194,6 +194,9 @@
   fill: #8fab95;
   transition: fill 0.3s;
 }
+.ok-kiln-notes text {
+  fill: #8fab95;
+}
 .ok-process-canvas[data-stage="receive"] .ok-kiln-labels [data-stage="receive"],
 .ok-process-canvas[data-stage="treat"] .ok-kiln-labels [data-stage="treat"],
 .ok-process-canvas[data-stage="document"] .ok-kiln-labels [data-stage="document"] {
@@ -213,7 +216,8 @@
 }
 /* Labels shrink below legibility on phones, where the stage tabs already name each part. */
 @media (max-width: 540px) {
-  .ok-kiln-labels {
+  .ok-kiln-labels,
+  .ok-kiln-notes {
     display: none;
   }
 }
@@ -340,8 +344,6 @@
     animation: ok-data 1.2s linear infinite;
   }
   .ok-award-seal-ring {
-    transform-box: view-box;
-    transform-origin: 50% 50%;
     animation: ok-spin 36s linear infinite;
   }
 }
@@ -551,4 +553,10 @@
   to {
     rotate: 360deg;
   }
+}
+
+/* Off-screen loops stop repainting; shorthands above would otherwise restart them. */
+[data-offscreen],
+[data-offscreen] * {
+  animation-play-state: paused !important;
 }

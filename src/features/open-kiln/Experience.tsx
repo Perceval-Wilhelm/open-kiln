@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { createContext, use, useRef, useState, type ReactNode } from "react";
+import { createContext, use, useEffect, useRef, useState, type ReactNode } from "react";
 import { EvidenceOverlay } from "@/features/open-kiln/EvidenceOverlay";
 import { featuredRecord, resources } from "@/features/open-kiln/data";
 import { Action } from "@/features/open-kiln/Primitives";
@@ -67,6 +67,15 @@ const ExperienceContext = createContext<ReturnType<typeof useExperienceState> | 
 
 export function ExperienceProvider({ children }: { children: ReactNode }) {
   const experience = useExperienceState();
+  useEffect(() => {
+    if (typeof IntersectionObserver === "undefined") return;
+    // A looping decoration repaints its whole drawing every frame, so it pauses while off screen.
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) entry.target.toggleAttribute("data-offscreen", !entry.isIntersecting);
+    });
+    for (const element of document.querySelectorAll("[data-motion]")) observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
   return (
     <ExperienceContext value={experience}>
       {children}

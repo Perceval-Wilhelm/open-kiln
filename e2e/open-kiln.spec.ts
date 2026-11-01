@@ -248,6 +248,18 @@ test("process stages and evidence-issue follow-up keep their context", async ({ 
   await expect(dashboard.locator(".ok-issue-item").first()).toContainText("6");
 });
 
+test("looping decoration pauses while off screen", async ({ page }) => {
+  await page.goto("/");
+  const canvas = page.locator(".ok-process-canvas");
+  await canvas.scrollIntoViewIfNeeded();
+  await expect(canvas).not.toHaveAttribute("data-offscreen");
+  await page.locator("#connect").scrollIntoViewIfNeeded();
+  await expect(canvas).toHaveAttribute("data-offscreen", "");
+  await expect(page.locator(".ok-kiln-fan")).toHaveCSS("animation-play-state", "paused");
+  await canvas.scrollIntoViewIfNeeded();
+  await expect(canvas).not.toHaveAttribute("data-offscreen");
+});
+
 test("all engagement requests stay local and expose an honest review state", async ({ page }) => {
   const writes: string[] = [];
   page.on("request", (request) => {

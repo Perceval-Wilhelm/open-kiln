@@ -48,7 +48,7 @@ export function ProcessExplorer({ children }: { children: ReactNode }) {
             </TabsTrigger>
           ))}
         </TabsList>
-        <div className="ok-process-canvas" data-stage={stage}>
+        <div className="ok-process-canvas" data-stage={stage} data-motion>
           {children}
           <span className="ok-process-caption">CO-PROCESSING / PROCESS SCHEMATIC</span>
         </div>
