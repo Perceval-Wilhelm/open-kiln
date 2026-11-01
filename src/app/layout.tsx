@@ -15,6 +15,8 @@ const urbanist = localFont({
 });
 
 export const metadata: Metadata = {
+  // Social cards need absolute image URLs; previews also point at the production image.
+  metadataBase: new URL("https://open-kiln.vercel.app"),
   title: "Open Kiln — Verify, not just trust",
   description:
     "Explore the evidence behind waste treatment: a searchable record register, published research and transparent verification pathways.",
@@ -26,6 +28,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_GB",
   },
+  twitter: { card: "summary_large_image" },
 };
 export const viewport: Viewport = { themeColor: "#0e1e16" };
 
